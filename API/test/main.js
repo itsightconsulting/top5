@@ -35,6 +35,3 @@ async function getOneUsuario(id) {
         return err;
     }
 }
-
-
-SincronizarModelo();
