@@ -7,28 +7,23 @@ const someOtherPlaintextPassword = 'not_bacon';
 
 
 async function login(req, res) {
+    const { id, data, token } = req.body;
+    const { CorreoElectronico, Contrasenia, FechaCreacion } = data;
     try {
-        const { username, contrasenia } = req.body;
+
         const usuario = await UsuarioDTO.findOne({
             where: {
-                username: username.toLowerCase()
+                CorreoElectronico: CorreoElectronico.toLowerCase()
             }
         });
         if (usuario == null) {
-            res.send({
-                ok: false
-                , message: "Nombre de usuario incorrecto."
-                , data: []
-            });
+            res.send(buildContainer(false, 'Nombre de usuario incorrecto.', null, null));
             return
         }
 
         bcrypt.compare(contrasenia, usuario.contrasenia, function (err, valid) {
             if (!valid) {
-                return res.send({
-                    ok: false
-                    , message: 'Contraseña incorrecto.'
-                });
+                return res.send();
             }
 
             let objToken = {
@@ -45,10 +40,7 @@ async function login(req, res) {
             });
         });
     } catch (err) {
-        res.status(500).json({
-            message: 'Sucedio un error inesperado vuelva a intentar.',
-            data: {}
-        });
+        res.status(500).json(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
 
@@ -68,26 +60,21 @@ async function relogin(req, res) {
             res.send({ ok: true, data: rpta, token: newToken });
 
     } catch (err) {
-        res.status(500).json({
-            message: 'Sucedio un error inesperado vuelva a intentar.',
-            data: {}
-        });
+        res.status(500).json(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
 
 async function crearUsuario(req, res) {
-    // const { id, data, token } = req.body;
-    // console.log(id, data, token);
-    const { NombreCompleto, CorreoElectronico, Username, Contrasenia, FlagActivo, FlagEliminado, FechaCreacion } = req.body;
+    const { id, data, token } = req.body;
+    const { NombreCompleto, CorreoElectronico, Username, Contrasenia, FlagActivo, FlagEliminado, FechaCreacion } = data;
     try {
         const salt = await bcrypt.genSalt(saltRounds);
-        Contrasenia = await bcrypt.hash(Contrasenia, salt);
-
+        let ContraseniaEncrypt = await bcrypt.hash(Contrasenia, salt);
         let newUsuario = await UsuarioDTO.create({
             NombreCompleto
             , CorreoElectronico
             , Username
-            , Contrasenia
+            , Contrasenia: ContraseniaEncrypt
             , FlagActivo
             , FlagEliminado
             , FechaCreacion
@@ -95,18 +82,24 @@ async function crearUsuario(req, res) {
                 fields: ['NombreCompleto', 'CorreoElectronico', 'Username', 'Contrasenia', 'FlagActivo', 'FlagEliminado', 'FechaCreacion']
             });
         if (newUsuario) {
-            return res.json({
-                message: 'Usuario creado correctamente.',
-                data: newUsuario
-            });
+
+            let token = authService.generateToken({ CorreoElectronico: newUsuario.CorreoElectronico, Contrasenia: newUsuario.Contrasenia });
+
+            return res.json(buildContainer(true, 'Usuario creado correctamente.', newUsuario, token));
         }
     } catch (err) {
         console.log(err);
-        res.status(500).json({
-            message: 'Sucedio un error inesperado vuelva a intentar.',
-            data: {}
-        });
+        res.status(500).json(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
+}
+function buildContainer(ok, message, data, token) {
+    let dataJSON = {
+        ok,
+        message,
+        data,
+        token
+    }
+    return dataJSON;
 }
 
 async function getOneUsuario(req, res) {
@@ -123,10 +116,7 @@ async function getOneUsuario(req, res) {
         });
     } catch (err) {
         console.log("error: ", err);
-        res.status(500).json({
-            message: 'Sucedio un error inesperado vuelva a intentar.',
-            data: {}
-        });
+        res.status(500).json(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
 
