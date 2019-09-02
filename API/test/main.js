@@ -12,6 +12,14 @@ function Init() {
     }
 }
 
+function SincronizarModelo() {
+    // Note: using `force: true` will drop the table if it already exists
+    sequelize.sync({ force: true })
+        .then(() => { console.log("SincronizarModelo", "ok"); })
+        .catch(err => { console.error('ERROR SincronizarModelo:', err); });
+}
+
+
 async function getOneUsuario(id) {
     try {
         console.log("id", id);
@@ -29,4 +37,4 @@ async function getOneUsuario(id) {
 }
 
 
-getOneUsuario(1);
+SincronizarModelo();

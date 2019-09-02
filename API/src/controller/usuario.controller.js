@@ -78,18 +78,21 @@ async function relogin(req, res) {
 async function crearUsuario(req, res) {
     // const { id, data, token } = req.body;
     // console.log(id, data, token);
-    const { Nombres, Apellidos, CorreoElectronico, Username, Contrasenia, FlagActivo, FlagEliminado } = req.body;
+    const { NombreCompleto, CorreoElectronico, Username, Contrasenia, FlagActivo, FlagEliminado, FechaCreacion } = req.body;
     try {
+        const salt = await bcrypt.genSalt(saltRounds);
+        Contrasenia = await bcrypt.hash(Contrasenia, salt);
+
         let newUsuario = await UsuarioDTO.create({
-            Nombres
-            , Apellidos
+            NombreCompleto
             , CorreoElectronico
             , Username
             , Contrasenia
             , FlagActivo
             , FlagEliminado
+            , FechaCreacion
         }, {
-                fields: ['Nombres', 'Apellidos', 'CorreoElectronico', 'Username', 'Contrasenia', 'FlagActivo', 'FlagEliminado']
+                fields: ['NombreCompleto', 'CorreoElectronico', 'Username', 'Contrasenia', 'FlagActivo', 'FlagEliminado', 'FechaCreacion']
             });
         if (newUsuario) {
             return res.json({
@@ -109,7 +112,7 @@ async function crearUsuario(req, res) {
 async function getOneUsuario(req, res) {
     try {
         const { id } = req.params;
-        
+
         const usuario = await UsuarioDTO.findOne({
             where: {
                 UsuarioId: id
@@ -119,7 +122,7 @@ async function getOneUsuario(req, res) {
             data: usuario
         });
     } catch (err) {
-        console.log("error: ",err);
+        console.log("error: ", err);
         res.status(500).json({
             message: 'Sucedio un error inesperado vuelva a intentar.',
             data: {}

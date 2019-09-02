@@ -11,11 +11,7 @@ function FieldTableDeclare(_Sequelize) {
             primaryKey: true,
             comment: 'Identificador de la tabla usuario'
         },
-        Nombres: {
-            type: _Sequelize.STRING(200),
-            allowNull: false,
-        },
-        Apellidos: {
+        NombreCompleto: {
             type: _Sequelize.STRING(200),
             allowNull: false,
         },
@@ -42,11 +38,11 @@ function FieldTableDeclare(_Sequelize) {
             defaultValue: false
         },
         FechaCreacion: {
-            type: Sequelize.BOOLEAN,
+            type: Sequelize.DATE,
             allowNull: false,
         },
         FechaModificacion: {
-            type: Sequelize.STRING(100),
+            type: Sequelize.DATE,
             allowNull: true,
         }
     };
@@ -57,11 +53,6 @@ const Usuario = sequelize.define('Usuario'
     , FieldTableDeclare(Sequelize)
     , { /*options*/
         timestamps: false
-        , getterMethods: {
-            fullName() {
-                return this.Apellidos + ', ' + this.Nombres;
-            }
-        }
     });
 
 export default Usuario;
