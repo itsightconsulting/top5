@@ -2,48 +2,49 @@ import authService from "../security/AuthService";
 import UsuarioDTO from "../models/usuario";
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const myPlaintextPassword = 's0/\/\P4$$w0rD';
-const someOtherPlaintextPassword = 'not_bacon';
-
 
 async function login(req, res) {
     const { id, data, token } = req.body;
-    const { CorreoElectronico, Contrasenia, FechaCreacion } = data;
     try {
+        if (data == null || data == undefined) { return res.status(500).send(buildContainer(false, 'Cuerpo JSON "data" no esta definido.', null, null)); }
 
+        const { CorreoElectronico, Contrasenia, FechaCreacion } = data;
         const usuario = await UsuarioDTO.findOne({
             where: {
                 CorreoElectronico: CorreoElectronico.toLowerCase()
             }
-        });
-        if (usuario == null) {
-            res.send(buildContainer(false, 'Nombre de usuario incorrecto.', null, null));
-            return
-        }
-
-        bcrypt.compare(contrasenia, usuario.contrasenia, function (err, valid) {
-            if (!valid) {
-                return res.send();
-            }
-
-            let objToken = {
-                username: usuario.Username
-                , id: usuario.UsuarioId
-            }
-
-            let token = authService.generateToken(objToken);
-
-            res.send({
-                ok: true
-                , data: user
-                , token: token
+        }, {
+                fields: ['NombreCompleto', 'CorreoElectronico', 'Username', 'FechaCreacion']
             });
+        if (usuario == null) {
+            return res.status(401).send(buildContainer(false, 'Email incorrecto.', null, null));
+        }
+        var passwordIsValid = bcrypt.compareSync(Contrasenia, usuario.Contrasenia);
+        if (!passwordIsValid) return res.status(401).send(buildContainer(false, 'Contraseña incorrecto.', null, null));
+
+        let objToken = ObjectToken(usuario);
+        let token = authService.generateToken(objToken);
+
+        res.send({
+            ok: true
+            , data: usuario
+            , token: token
         });
     } catch (err) {
+        console.log(err);
         res.status(500).json(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
+function cerrarSession() {
+    res.status(200).json(buildContainer(true, 'Correcto.', null, null));
+}
 
+function ObjectToken(usuario) {
+    return {
+        username: usuario.Username
+        , id: usuario.UsuarioId
+    }
+}
 async function relogin(req, res) {
     try {
         const { username, id } = req.body;
@@ -60,14 +61,17 @@ async function relogin(req, res) {
             res.send({ ok: true, data: rpta, token: newToken });
 
     } catch (err) {
+        console.log(err);
         res.status(500).json(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
 
 async function crearUsuario(req, res) {
     const { id, data, token } = req.body;
-    const { NombreCompleto, CorreoElectronico, Username, Contrasenia, FlagActivo, FlagEliminado, FechaCreacion } = data;
     try {
+        if (data == null || data == undefined) { return res.status(500).send(buildContainer(false, 'Cuerpo JSON "data" no esta definido.', null, null)); }
+        const { NombreCompleto, CorreoElectronico, Username, Contrasenia, FlagActivo, FlagEliminado, FechaCreacion } = data;
+
         const salt = await bcrypt.genSalt(saltRounds);
         let ContraseniaEncrypt = await bcrypt.hash(Contrasenia, salt);
         let newUsuario = await UsuarioDTO.create({
@@ -83,7 +87,7 @@ async function crearUsuario(req, res) {
             });
         if (newUsuario) {
 
-            let token = authService.generateToken({ CorreoElectronico: newUsuario.CorreoElectronico, Contrasenia: newUsuario.Contrasenia });
+            let token = await authService.generateToken({ CorreoElectronico: newUsuario.CorreoElectronico, Contrasenia: newUsuario.Contrasenia });
 
             return res.json(buildContainer(true, 'Usuario creado correctamente.', newUsuario, token));
         }
@@ -151,5 +155,6 @@ module.exports = {
     relogin,
     crearUsuario,
     getOneUsuario,
-    updateUsuario
+    updateUsuario,
+    cerrarSession
 }
