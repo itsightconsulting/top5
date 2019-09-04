@@ -23,7 +23,7 @@ async function login(req, res) {
         if (!passwordIsValid) return res.status(401).send(buildContainer(false, 'Contraseña incorrecto.', null, null));
 
         let objToken = ObjectToken(usuario);
-        let token = authService.generateToken(objToken);
+        let token = await authService.generateToken(objToken);
 
         res.send({
             ok: true
@@ -52,7 +52,7 @@ async function relogin(req, res) {
             username: username,
             id: id
         }
-        let newToken = authService.generateToken(objToken);
+        let newToken = await authService.generateToken(objToken);
 
         var rpta = await UsuarioDTO.findOne({ where: { usuarioId: id } });
         if (rpta === null)
