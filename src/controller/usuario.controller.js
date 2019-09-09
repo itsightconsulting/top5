@@ -39,7 +39,7 @@ async function login(req, res) {
         const usuario = await UsuarioDTO.findOne({
             where: {
                 CorreoElectronico: CorreoElectronico.toLowerCase()
-            }, attributes: ['NombreCompleto', 'CorreoElectronico', 'Username', 'FechaCreacion', 'Contrasenia']
+            }, attributes: ['UsuarioId', 'NombreCompleto', 'CorreoElectronico', 'Username', 'FechaCreacion', 'Contrasenia']
         });
         if (usuario === null) {
             return res.status(401).send(buildContainer(false, 'Email incorrecto.', null, null));
@@ -67,15 +67,12 @@ function ObjectToken(usuario) {
     }
 }
 async function relogin(req, res) {
+    const { id, data, token } = req.body;
     try {
-        const { username, id } = req.body;
-        let objToken = {
-            username: username,
-            id: id
-        }
-        let newToken = await authService.generateToken(objToken);
+        let oldToken = await authService.obtenerTokenDecoded(token);
+        let newToken = await authService.generateToken(oldToken);
 
-        var rpta = await UsuarioDTO.findOne({ where: { usuarioId: id } });
+        var rpta = await UsuarioDTO.findOne({ where: { usuarioId: oldToken.UsuarioId, FlagActivo: true } });
         if (rpta === null)
             res.send({ ok: false, message: "No existe el usuario" });
         else
@@ -104,11 +101,11 @@ async function crearUsuario(req, res) {
             , FlagEliminado
             , FechaCreacion
         }, {
-                fields: ['NombreCompleto', 'CorreoElectronico', 'Username', 'Contrasenia', 'FlagActivo', 'FlagEliminado', 'FechaCreacion']
+                fields: ['UsuarioId', 'NombreCompleto', 'CorreoElectronico', 'Username', 'FlagActivo', 'FlagEliminado', 'FechaCreacion']
             });
         if (newUsuario) {
 
-            let token = await authService.generateToken({ CorreoElectronico: newUsuario.CorreoElectronico, Contrasenia: newUsuario.Contrasenia });
+            let token = await authService.generateToken({ CorreoElectronico: newUsuario.CorreoElectronico, UsuarioId: newUsuario.UsuarioId });
 
             return res.send(buildContainer(true, 'Usuario creado correctamente.', newUsuario, token));
         }

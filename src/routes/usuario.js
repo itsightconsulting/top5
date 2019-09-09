@@ -8,7 +8,7 @@ import { login, relogin, crearUsuario, getOneUsuario, updateUsuario, validarEmai
 router.post('/', crearUsuario);
 router.post('/login', login);
 router.post('/validarEmail', validarEmail);
-router.post('/relogin', existeToken, relogin);
+router.post('/relogin', relogin);
 router.get('/:id', existeToken, getOneUsuario);
 router.put('/:id', existeToken, updateUsuario);
 
