@@ -6,7 +6,7 @@ const saltRounds = 10;
 async function login(req, res) {
     const { id, data, token } = req.body;
     try {
-        if (data == null || data == undefined) { return res.status(500).send(buildContainer(false, 'Cuerpo JSON "data" no esta definido.', null, null)); }
+        if (data === null || data === undefined) { return res.status(500).send(buildContainer(false, 'Cuerpo JSON "data" no esta definido.', null, null)); }
 
         const { CorreoElectronico, Contrasenia, FechaCreacion } = data;
         const usuario = await UsuarioDTO.findOne({
@@ -16,7 +16,7 @@ async function login(req, res) {
         }, {
                 fields: ['NombreCompleto', 'CorreoElectronico', 'Username', 'FechaCreacion']
             });
-        if (usuario == null) {
+        if (usuario === null) {
             return res.status(401).send(buildContainer(false, 'Email incorrecto.', null, null));
         }
         var passwordIsValid = bcrypt.compareSync(Contrasenia, usuario.Contrasenia);
@@ -69,7 +69,7 @@ async function relogin(req, res) {
 async function crearUsuario(req, res) {
     const { id, data, token } = req.body;
     try {
-        if (data == null || data == undefined) { return res.status(500).send(buildContainer(false, 'Cuerpo JSON "data" no esta definido.', null, null)); }
+        if (data === null || data === undefined) { return res.status(500).send(buildContainer(false, "Cuerpo JSON 'data' no esta definido.", null, null)); }
         const { NombreCompleto, CorreoElectronico, Username, Contrasenia, FlagActivo, FlagEliminado, FechaCreacion } = data;
 
         const salt = await bcrypt.genSalt(saltRounds);

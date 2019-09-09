@@ -1,5 +1,4 @@
 import express, { json } from 'express';
-// exportar modulos
 import morgan from 'morgan';
 // importing routes
 import usuarioRoutes from './routes/usuario';
