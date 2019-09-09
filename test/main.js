@@ -42,4 +42,4 @@ async function getOneUsuario(id) {
     }
 }
 
-SincronizarModelo();
+// SincronizarModelo();

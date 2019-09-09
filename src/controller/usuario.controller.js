@@ -1,7 +1,34 @@
 import authService from "../security/AuthService";
-import UsuarioDTO from "../models/usuario";
+import models from '../database/database';
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const UsuarioDTO = models.Usuario;
+
+async function validarEmail(req, res) {
+    const { id, data, token } = req.body;
+    try {
+        if (data === null || data === undefined) {
+            return res.status(500).send(buildContainer(false, 'Cuerpo JSON "data" no esta definido.', null, null));
+        }
+
+        const { CorreoElectronico, FechaCreacion } = data;
+        const usuario = await UsuarioDTO.findOne({
+            where: {
+                CorreoElectronico: CorreoElectronico.toLowerCase(),
+                FlagActivo: true
+            }, attributes: ['CorreoElectronico']
+        });
+        // console.log(usuario.dataValues);
+        let msj = '';
+        if (usuario !== null) {
+            msj = 'Email existe';
+        }
+        res.status(200).send(buildContainer(true, msj, null, null));
+    } catch (err) {
+        console.log("validarEmail error: ", err);
+        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+    }
+}
 
 async function login(req, res) {
     const { id, data, token } = req.body;
@@ -12,10 +39,8 @@ async function login(req, res) {
         const usuario = await UsuarioDTO.findOne({
             where: {
                 CorreoElectronico: CorreoElectronico.toLowerCase()
-            }
-        }, {
-                fields: ['NombreCompleto', 'CorreoElectronico', 'Username', 'FechaCreacion']
-            });
+            }, attributes: ['NombreCompleto', 'CorreoElectronico', 'Username', 'FechaCreacion', 'Contrasenia']
+        });
         if (usuario === null) {
             return res.status(401).send(buildContainer(false, 'Email incorrecto.', null, null));
         }
@@ -25,18 +50,14 @@ async function login(req, res) {
         let objToken = ObjectToken(usuario);
         let token = await authService.generateToken(objToken);
 
-        res.send({
-            ok: true
-            , data: usuario
-            , token: token
-        });
+        res.status(200).send(buildContainer(true, '', data, token));
     } catch (err) {
         console.log(err);
-        res.status(500).json(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
 function cerrarSession() {
-    res.status(200).json(buildContainer(true, 'Correcto.', null, null));
+    res.status(200).send(buildContainer(true, 'Correcto.', null, null));
 }
 
 function ObjectToken(usuario) {
@@ -62,7 +83,7 @@ async function relogin(req, res) {
 
     } catch (err) {
         console.log(err);
-        res.status(500).json(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
 
@@ -89,11 +110,11 @@ async function crearUsuario(req, res) {
 
             let token = await authService.generateToken({ CorreoElectronico: newUsuario.CorreoElectronico, Contrasenia: newUsuario.Contrasenia });
 
-            return res.json(buildContainer(true, 'Usuario creado correctamente.', newUsuario, token));
+            return res.send(buildContainer(true, 'Usuario creado correctamente.', newUsuario, token));
         }
     } catch (err) {
         console.log(err);
-        res.status(500).json(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
 function buildContainer(ok, message, data, token) {
@@ -115,12 +136,12 @@ async function getOneUsuario(req, res) {
                 UsuarioId: id
             }
         });
-        res.status(200).json({
+        res.status(200).send({
             data: usuario
         });
     } catch (err) {
         console.log("error: ", err);
-        res.status(500).json(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
 
@@ -130,7 +151,7 @@ async function updateUsuario(req, res) {
     const { Nombres, Apellidos, CorreoElectronico, Username, Contrasenia } = req.body;
 
     const usuario = await UsuarioDTO.findOne({
-        attributter: ['Nombres', 'Apellidos', 'CorreoElectronico', 'Username', 'Contrasenia']
+        attributes: ['Nombres', 'Apellidos', 'CorreoElectronico', 'Username', 'Contrasenia']
         , where: {
             UsuarioId: id
         }
@@ -144,7 +165,7 @@ async function updateUsuario(req, res) {
             Nombres, Apellidos, CorreoElectronico, Username, Contrasenia
         });
     }
-    return res.json({
+    return res.send({
         message: 'Actualizado correctamente.',
         data: usuario
     })
@@ -156,5 +177,6 @@ module.exports = {
     crearUsuario,
     getOneUsuario,
     updateUsuario,
-    cerrarSession
+    cerrarSession,
+    validarEmail
 }
