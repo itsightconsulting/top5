@@ -1,58 +1,56 @@
-import Sequelize from 'sequelize';
-import { sequelize } from '../database/database';
-
-
-function FieldTableDeclare(_Sequelize) {
+function FieldTableDeclare(_dataTypes) {
     let FIELD_TABLE = {
         UsuarioId: {
-            type: _Sequelize.INTEGER,
+            type: _dataTypes.INTEGER,
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
             comment: 'Identificador de la tabla usuario'
         },
         NombreCompleto: {
-            type: _Sequelize.STRING(200),
+            type: _dataTypes.STRING(200),
             allowNull: false,
         },
         CorreoElectronico: {
-            type: _Sequelize.STRING(200),
+            type: _dataTypes.STRING(200),
             allowNull: false,
         },
         Username: {
-            type: _Sequelize.STRING(60),
+            type: _dataTypes.STRING(60),
             allowNull: false,
         },
         Contrasenia: {
-            type: _Sequelize.STRING(60),
+            type: _dataTypes.STRING(60),
             allowNull: false,
         },
         FlagActivo: {
-            type: _Sequelize.BOOLEAN,
+            type: _dataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: true
         },
         FlagEliminado: {
-            type: _Sequelize.BOOLEAN,
+            type: _dataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false
         },
         FechaCreacion: {
-            type: Sequelize.DATE,
+            type: _dataTypes.DATE,
             allowNull: false,
         },
         FechaModificacion: {
-            type: Sequelize.DATE,
+            type: _dataTypes.DATE,
             allowNull: true,
         }
     };
     return FIELD_TABLE;
 }
 
-const Usuario = sequelize.define('Usuario'
-    , FieldTableDeclare(Sequelize)
-    , { /*options*/
-        timestamps: false
-    });
-
-export default Usuario;
+export default (sequelize, DataTypes) => {
+    const Usuario = sequelize.define(
+        'Usuario'
+        , FieldTableDeclare(DataTypes)
+        , { /*options*/
+            timestamps: false
+        });
+    return Usuario;
+};

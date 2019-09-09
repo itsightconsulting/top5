@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import { database } from './config';
 
-export const sequelize = new Sequelize(
+const sequelize = new Sequelize(
     database.databaseName
     , database.user
     , database.password
@@ -19,7 +19,7 @@ export const sequelize = new Sequelize(
     }
 )
 
-export function AgregarCamposBase(_FIELD_TABLE) {
+function AgregarCamposBase(_FIELD_TABLE) {
 
     _FIELD_TABLE.FlagActivo = {
         type: Sequelize.BOOLEAN,
@@ -50,4 +50,17 @@ export function AgregarCamposBase(_FIELD_TABLE) {
     return _FIELD_TABLE;
 }
 
+const models = {
+    Usuario: sequelize.import('../models/usuario'),
+};
 
+Object.keys(models).forEach((modelName) => {
+    if ('associate' in models[modelName]) {
+        models[modelName].associate(models);
+    }
+});
+
+models.sequelize = sequelize;
+models.Sequelize = Sequelize;
+
+export default models;
