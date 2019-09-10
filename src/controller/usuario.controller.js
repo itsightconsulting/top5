@@ -39,7 +39,7 @@ async function login(req, res) {
         const usuario = await UsuarioDTO.findOne({
             where: {
                 CorreoElectronico: CorreoElectronico.toLowerCase()
-            }, attributes: ['UsuarioId', 'NombreCompleto', 'CorreoElectronico', 'Username', 'FechaCreacion', 'Contrasenia']
+            }, attributes: ['UsuarioId', 'NombreCompleto', 'Username', 'FechaCreacion']
         });
         if (usuario === null) {
             return res.status(401).send(buildContainer(false, 'Email incorrecto.', null, null));
@@ -50,7 +50,7 @@ async function login(req, res) {
         let objToken = ObjectToken(usuario);
         let token = await authService.generateToken(objToken);
 
-        res.status(200).send(buildContainer(true, '', data, token));
+        res.status(200).send(buildContainer(true, '', usuario, token));
     } catch (err) {
         console.log(err);
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
@@ -62,7 +62,7 @@ function cerrarSession() {
 
 function ObjectToken(usuario) {
     return {
-        username: usuario.Username
+        email: usuario.CorreoElectronico
         , id: usuario.UsuarioId
     }
 }
@@ -101,11 +101,11 @@ async function crearUsuario(req, res) {
             , FlagEliminado
             , FechaCreacion
         }, {
-                fields: ['UsuarioId', 'NombreCompleto', 'CorreoElectronico', 'Username', 'FlagActivo', 'FlagEliminado', 'FechaCreacion']
+                fields: ['NombreCompleto', 'CorreoElectronico', 'Username', 'Contrasenia', 'FlagActivo', 'FlagEliminado', 'FechaCreacion']
             });
         if (newUsuario) {
-
-            let token = await authService.generateToken({ CorreoElectronico: newUsuario.CorreoElectronico, UsuarioId: newUsuario.UsuarioId });
+            let objToken = ObjectToken({ CorreoElectronico: newUsuario.CorreoElectronico, UsuarioId: newUsuario.UsuarioId });
+            let token = await authService.generateToken(objToken);
 
             return res.send(buildContainer(true, 'Usuario creado correctamente.', newUsuario, token));
         }
