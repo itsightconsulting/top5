@@ -42,7 +42,7 @@ async function login(req, res) {
             }, attributes: ['UsuarioId', 'NombreCompleto', 'Username', 'FechaCreacion']
         });
         if (usuario === null) {
-            return res.status(401).send(buildContainer(false, 'Email incorrecto.', null, null));
+            return res.status(401).send(buildContainer(false, 'Email no existe.', null, null));
         }
         var passwordIsValid = bcrypt.compareSync(Contrasenia, usuario.Contrasenia);
         if (!passwordIsValid) return res.status(401).send(buildContainer(false, 'Contraseña incorrecto.', null, null));
