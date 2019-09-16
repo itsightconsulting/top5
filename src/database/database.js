@@ -19,39 +19,9 @@ const sequelize = new Sequelize(
     }
 )
 
-function AgregarCamposBase(_FIELD_TABLE) {
-
-    _FIELD_TABLE.FlagActivo = {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: true
-    };
-    _FIELD_TABLE.FlagEliminado = {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
-    };
-    _FIELD_TABLE.CreadoPor = {
-        type: Sequelize.STRING(100),
-        allowNull: false,
-    };
-    _FIELD_TABLE.FechaCreacion = {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-    };
-    _FIELD_TABLE.ModificadoPor = {
-        type: Sequelize.STRING(100),
-        allowNull: true,
-    };
-    _FIELD_TABLE.FechaModificacion = {
-        type: Sequelize.STRING(100),
-        allowNull: true,
-    };
-    return _FIELD_TABLE;
-}
-
 const models = {
-    Usuario: sequelize.import('../models/usuario'),
+    Usuario: sequelize.import('../models/Usuario'),
+    TipoUsuario: sequelize.import('../models/TipoUsuario')
 };
 
 Object.keys(models).forEach((modelName) => {
