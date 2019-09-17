@@ -23,6 +23,10 @@ function CreateFieldObj(_dataTypes) {
             type: _dataTypes.STRING(60),
             allowNull: true,
         },
+        TipoUsuarioId:{
+            type: _dataTypes.INTEGER,
+            allowNull: true,
+        },
         FlagActivo: {
             type: _dataTypes.BOOLEAN,
             allowNull: false,
@@ -54,12 +58,8 @@ export default (sequelize, DataTypes) => {
         });
 
     Usuario.associate = (models) => {
-        /*Usuario.belongsToMany(models.TipoUsuario, {
-            through: 'member',
-            foreignKey: 'UsuarioId',
-        });*/
         Usuario.belongsTo(models.TipoUsuario, {
-            foreignKey: 'UsuarioId',
+            foreignKey: 'TipoUsuarioId',
         });
     };
 
