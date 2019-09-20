@@ -8,6 +8,15 @@ const dev = {
     dialect: 'postgres'
 };
 
+const home = {
+    host: 'localhost',
+    port: '5432',
+    user: 'postgres',
+    password: 'postgresql',
+    databaseName: 'top5_desa',
+    dialect: 'postgres'
+};
+
 const local = {
     host: 'localhost',
     port: '5432',

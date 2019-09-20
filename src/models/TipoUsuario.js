@@ -25,13 +25,13 @@ export default (sequelize, DataTypes) => {
         , { /*options*/
             timestamps: false
         });
-
-    TipoUsuario.associate = (models) => {
-        TipoUsuario.belongsToMany(models.Usuario, {
-            through: 'member',
-            foreignKey: 'TipoUsuarioId',
-        });
-    };
-
+    /*
+        TipoUsuario.associate = (models) => {
+            TipoUsuario.belongsToMany(models.Usuario, {
+                through: 'member',
+                foreignKey: 'TipoUsuarioId',
+            });
+        };
+    */
     return TipoUsuario;
 };

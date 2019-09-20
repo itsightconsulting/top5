@@ -15,7 +15,7 @@ function agregarCamposBase(object, DataTypes) {
         allowNull: false,
     };
     object.FechaCreacion = {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.DATE,
         allowNull: false,
     };
     object.ModificadoPor = {
@@ -23,12 +23,17 @@ function agregarCamposBase(object, DataTypes) {
         allowNull: true,
     };
     object.FechaModificacion = {
-        type: DataTypes.STRING(100),
+        type: DataTypes.DATE,
         allowNull: true,
     };
     return object;
 }
-
+function get_Date() {
+    let today = new Date();
+    let date = parseInt(today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear();
+    return date;
+}
 module.exports = {
-    agregarCamposBase
+    agregarCamposBase,
+    get_Date
 }

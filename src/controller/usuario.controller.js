@@ -1,29 +1,30 @@
 import authService from "../security/AuthService";
 import models from '../database/database';
+import util from '../utilitarios/utilitarios';
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const UsuarioDTO = models.Usuario;
 
-async function validarEmail(req, res) {
-    const { id, data, token } = req.body;
-    try {
-        if (data === null || data === undefined) {
-            return res.status(500).send(buildContainer(false, 'Cuerpo JSON "data" no esta definido.', null, null));
-        }
+function existeJsonData(req, res) {
+    let { data } = req.body;
+    if (!data) { return res.status(500).send(buildContainer(false, 'Cuerpo JSON "data" no esta definido.', null, null)); }
+    // else return data;
+}
 
-        const { CorreoElectronico, FechaCreacion } = data;
+async function validarEmail(req, res) {
+    try {
+        existeJsonData(req, res);
+        let { data } = req.body;
+        console.log("data", req.body.data);
+        let { CorreoElectronico } = data;
         const usuario = await UsuarioDTO.findOne({
             where: {
                 CorreoElectronico: CorreoElectronico.toLowerCase(),
                 FlagActivo: true
             }, attributes: ['CorreoElectronico']
         });
-        // console.log(usuario.dataValues);
-        let msj = '';
-        if (usuario !== null) {
-            msj = 'Email existe';
-        }
-        res.status(200).send(buildContainer(true, msj, null, null));
+        let estadoExiste = usuario != null;
+        res.status(200).send(buildContainer(true, null, estadoExiste, null));
     } catch (err) {
         console.log("validarEmail error: ", err);
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
@@ -31,15 +32,15 @@ async function validarEmail(req, res) {
 }
 
 async function login(req, res) {
-    const { id, data, token } = req.body;
     try {
-        if (data === null || data === undefined) { return res.status(500).send(buildContainer(false, 'Cuerpo JSON "data" no esta definido.', null, null)); }
-
-        const { CorreoElectronico, Contrasenia, FechaCreacion } = data;
-        const usuario = await UsuarioDTO.findOne({
+        existeJsonData(req, res);
+        let { data } = req.body;
+        let { CorreoElectronico, Contrasenia, FechaCreacion, TipoUsuarioId } = data;
+        let usuario = await UsuarioDTO.findOne({
             where: {
-                CorreoElectronico: CorreoElectronico.toLowerCase()
-            }, attributes: ['UsuarioId', 'NombreCompleto', 'Username', 'FechaCreacion']
+                CorreoElectronico: CorreoElectronico.toLowerCase(),
+                TipoUsuarioId: TipoUsuarioId
+            }, attributes: ['UsuarioId', 'Contrasenia', 'NombreCompleto', 'FechaCreacion']
         });
         if (usuario === null) {
             return res.status(401).send(buildContainer(false, 'Email no existe.', null, null));
@@ -49,10 +50,10 @@ async function login(req, res) {
 
         let objToken = ObjectToken(usuario);
         let token = await authService.generateToken(objToken);
-
-        res.status(200).send(buildContainer(true, '', usuario, token));
+        objToken.NombreCompleto = usuario.NombreCompleto;
+        res.status(200).send(buildContainer(true, '', objToken, token));
     } catch (err) {
-        console.log(err);
+        console.log("login error:", err);
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
@@ -67,8 +68,8 @@ function ObjectToken(usuario) {
     }
 }
 async function relogin(req, res) {
-    const { id, data, token } = req.body;
     try {
+        const { id, data, token } = req.body;
         let oldToken = await authService.obtenerTokenDecoded(token);
         let newToken = await authService.generateToken(oldToken);
 
@@ -79,41 +80,77 @@ async function relogin(req, res) {
             res.send({ ok: true, data: rpta, token: newToken });
 
     } catch (err) {
-        console.log(err);
+        console.log("relogin error:", err);
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
 
 async function crearUsuario(req, res) {
-    const { id, data, token } = req.body;
     try {
-        if (data === null || data === undefined) { return res.status(500).send(buildContainer(false, "Cuerpo JSON 'data' no esta definido.", null, null)); }
-        const { NombreCompleto, CorreoElectronico, Username, Contrasenia, FlagActivo, FlagEliminado, FechaCreacion } = data;
+        existeJsonData(req, res);
+        let { data } = req.body;
+        let { NombreCompleto, CorreoElectronico, Contrasenia, TipoUsuarioId } = data;
 
-        const salt = await bcrypt.genSalt(saltRounds);
+        let salt = await bcrypt.genSalt(saltRounds);
         let ContraseniaEncrypt = await bcrypt.hash(Contrasenia, salt);
         let newUsuario = await UsuarioDTO.create({
             NombreCompleto
             , CorreoElectronico
-            , Username
             , Contrasenia: ContraseniaEncrypt
-            , FlagActivo
-            , FlagEliminado
-            , FechaCreacion
+            , TipoUsuarioId
+            , FlagActivo: true
+            , FlagEliminado: false
+            , FechaCreacion: util.get_Date()
         }, {
-                fields: ['NombreCompleto', 'CorreoElectronico', 'Username', 'Contrasenia', 'FlagActivo', 'FlagEliminado', 'FechaCreacion']
+                fields: ['NombreCompleto', 'CorreoElectronico', 'Contrasenia', 'TipoUsuarioId', 'FlagActivo', 'FlagEliminado', 'FechaCreacion']
             });
         if (newUsuario) {
             let objToken = ObjectToken({ CorreoElectronico: newUsuario.CorreoElectronico, UsuarioId: newUsuario.UsuarioId });
             let token = await authService.generateToken(objToken);
-
-            return res.send(buildContainer(true, 'Usuario creado correctamente.', newUsuario, token));
+            res.send(buildContainer(true, 'Usuario creado correctamente.', null, token));
         }
     } catch (err) {
-        console.log(err);
+        console.log("crearUsuario error:", err);
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
+
+async function loginFacebook(req, res) {
+    try {
+        existeJsonData(req, res);
+        let { data } = req.body;
+        let { CorreoElectronico, TipoUsuarioId } = data;
+
+        const usuario = await UsuarioDTO.findOne({
+            where: {
+                CorreoElectronico: CorreoElectronico.toLowerCase(),
+                FlagActivo: true
+            }, attributes: ['CorreoElectronico', 'UsuarioId']
+        });
+        let estadoExiste = usuario != null;
+        let objToken = {};
+        if (!estadoExiste) {
+            objToken = ObjectToken({ CorreoElectronico: usuario.CorreoElectronico, UsuarioId: usuario.UsuarioId });
+        } else {
+            let newUsuario = await UsuarioDTO.create({
+                CorreoElectronico
+                , TipoUsuarioId
+                , FlagActivo: true
+                , FlagEliminado: false
+                , FechaCreacion: util.get_Date()
+            }, { fields: ['CorreoElectronico', 'TipoUsuarioId', 'FlagActivo', 'FlagEliminado', 'FechaCreacion'] });
+            if (newUsuario) {
+                objToken = ObjectToken({ CorreoElectronico: newUsuario.CorreoElectronico, UsuarioId: newUsuario.UsuarioId });
+            }
+        }
+        let token = await authService.generateToken(objToken);
+        res.status(200).send(buildContainer(true, '', objToken, token));
+    } catch (err) {
+        console.log("crearUsuario error:", err);
+        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+    }
+}
+
 function buildContainer(ok, message, data, token) {
     let dataJSON = {
         ok,
@@ -133,22 +170,19 @@ async function getOneUsuario(req, res) {
                 UsuarioId: id
             }
         });
-        res.status(200).send({
-            data: usuario
-        });
+        res.send(buildContainer(true, '', usuario, null));
     } catch (err) {
-        console.log("error: ", err);
+        console.log("getOneUsuario error: ", err);
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
 
-
 async function updateUsuario(req, res) {
     const { id } = req.params;
-    const { Nombres, Apellidos, CorreoElectronico, Username, Contrasenia } = req.body;
+    const { CorreoElectronico, Contrasenia } = req.body;
 
     const usuario = await UsuarioDTO.findOne({
-        attributes: ['Nombres', 'Apellidos', 'CorreoElectronico', 'Username', 'Contrasenia']
+        attributes: ['CorreoElectronico', 'Contrasenia']
         , where: {
             UsuarioId: id
         }
@@ -169,11 +203,12 @@ async function updateUsuario(req, res) {
 }
 
 module.exports = {
-    login,
-    relogin,
-    crearUsuario,
-    getOneUsuario,
-    updateUsuario,
-    cerrarSession,
-    validarEmail
+    login
+    , relogin
+    , crearUsuario
+    , getOneUsuario
+    , updateUsuario
+    , cerrarSession
+    , validarEmail
+    , loginFacebook
 }

@@ -15,10 +15,6 @@ function CreateFieldObj(_dataTypes) {
             type: _dataTypes.STRING(200),
             allowNull: true,
         },
-        Username: {
-            type: _dataTypes.STRING(60),
-            allowNull: trueF,
-        },
         Contrasenia: {
             type: _dataTypes.STRING(60),
             allowNull: true,
