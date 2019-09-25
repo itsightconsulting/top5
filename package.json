@@ -14,8 +14,10 @@
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
+    "aws-sdk": "^2.535.0",
     "bcrypt": "^3.0.6",
     "express": "^4.17.1",
+    "express-fileupload": "^1.1.6-alpha.5",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.9.1",
     "pg": "^7.12.1",

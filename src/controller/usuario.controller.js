@@ -1,6 +1,7 @@
 import authService from "../security/AuthService";
 import models from '../database/database';
 import util from '../utilitarios/utilitarios';
+import { uploadToS3, downloadFromS3 } from './common.controller';
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const UsuarioDTO = models.Usuario;
@@ -102,8 +103,8 @@ async function crearUsuario(req, res) {
             , FlagEliminado: false
             , FechaCreacion: util.get_Date()
         }, {
-                fields: ['NombreCompleto', 'CorreoElectronico', 'Contrasenia', 'TipoUsuarioId', 'FlagActivo', 'FlagEliminado', 'FechaCreacion']
-            });
+            fields: ['NombreCompleto', 'CorreoElectronico', 'Contrasenia', 'TipoUsuarioId', 'FlagActivo', 'FlagEliminado', 'FechaCreacion']
+        });
         if (newUsuario) {
             let objToken = ObjectToken({ CorreoElectronico: newUsuario.CorreoElectronico, UsuarioId: newUsuario.UsuarioId });
             let token = await authService.generateToken(objToken);
@@ -125,12 +126,17 @@ async function loginFacebook(req, res) {
             where: {
                 CorreoElectronico: CorreoElectronico.toLowerCase(),
                 FlagActivo: true
-            }, attributes: ['CorreoElectronico', 'UsuarioId']
+            }, attributes: ['CorreoElectronico', 'UsuarioId', 'TipoUsuarioId']
         });
-        let estadoExiste = usuario != null;
+        usuario = usuario || null;
         let objToken = {};
-        if (!estadoExiste) {
-            objToken = ObjectToken({ CorreoElectronico: usuario.CorreoElectronico, UsuarioId: usuario.UsuarioId });
+        if (usuario != null) {
+            let flagExisteTipoUsuario = TipoUsuarioId == usuario.TipoUsuarioId;
+            if (flagExisteTipoUsuario) {
+                objToken = ObjectToken({ CorreoElectronico: usuario.CorreoElectronico, UsuarioId: usuario.UsuarioId });
+            } else {
+                return res.status(401).send(buildContainer(false, 'Email ya existe', null, null));
+            }
         } else {
             let newUsuario = await UsuarioDTO.create({
                 CorreoElectronico
@@ -202,6 +208,42 @@ async function updateUsuario(req, res) {
     })
 }
 
+async function uploadFile(req, res) {
+    try {
+        const { id } = req.params;
+        let bucketName = "itsight-top5-bucket-user";
+        let files = req.files.image;
+        let { path } = req.body;
+        console.log(path);
+        files.forEach(async file => {
+            const { name, size, mimetype } = file;
+            let key = `user/${id}/${path}/${name}`;
+            await uploadToS3(file, bucketName, key);
+        });
+        res.status(200).send(buildContainer(true, 'Carga de archivo concluido', null, null));
+    } catch (err) {
+        console.log("uploadFile error:", err);
+        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+    }
+}
+
+async function downloadFile(req, res) {
+    try {
+        existeJsonData(req, res);
+        const { id } = req.params;
+        let { filePath } = req.body.data;
+        // https://itsight-top5-bucket-user.s3.us-east-2.amazonaws.com/user/1/photo-profile/material_foto.jpg
+        let bucketName = "itsight-top5-bucket-user";
+        let key = `user/${id}/${filePath}`;
+        console.log(key);
+        let data = await downloadFromS3(bucketName, key);
+        res.status(200).send(buildContainer(true, 'Carga de archivo concluido', data, null));
+    } catch (err) {
+        console.log("uploadFile error:", err);
+        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+    }
+}
+
 module.exports = {
     login
     , relogin
@@ -211,4 +253,6 @@ module.exports = {
     , cerrarSession
     , validarEmail
     , loginFacebook
+    , uploadFile
+    , downloadFile
 }
