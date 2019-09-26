@@ -19,10 +19,6 @@ async function existeToken(req, res, next) {
         return res.status(401).send({ ok: false, message: "Es necesario el token de autenticación", data: null, token: null })
     }
 
-
-
-
-    
     let token = authorization.split(' ')[1];//Because Authorization is equals to a string like 'Bearer [jwt]'
     const decoded = await jwt.verify(token, secret);
     if (!decoded) {
