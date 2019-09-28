@@ -16,11 +16,15 @@ function CreateFieldObj(_dataTypes) {
             allowNull: true,
         },
         Contrasenia: {
-            type: _dataTypes.STRING(60),
+            type: _dataTypes.STRING(100),
             allowNull: true,
         },
         TipoUsuarioId:{
             type: _dataTypes.INTEGER,
+            allowNull: true,
+        },
+        RutaImagenPerfil: {
+            type: _dataTypes.STRING(180),
             allowNull: true,
         },
         FlagActivo: {

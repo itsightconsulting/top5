@@ -2,5 +2,7 @@
 node_modules/
 dist/
 src/utilitarios/constants.js
+src/database/config.js
+test/
 *.env
 *.rar

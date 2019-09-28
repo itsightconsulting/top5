@@ -20,8 +20,9 @@ const sequelize = new Sequelize(
 )
 
 const models = {
-    Usuario: sequelize.import('../models/Usuario'),
-    TipoUsuario: sequelize.import('../models/TipoUsuario')
+    Usuario: sequelize.import('./models/Usuario'),
+    TipoUsuario: sequelize.import('./models/TipoUsuario'),
+    Parametro: sequelize.import('./models/Parametro')
 };
 
 Object.keys(models).forEach((modelName) => {
