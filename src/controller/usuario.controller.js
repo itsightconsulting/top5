@@ -212,10 +212,12 @@ async function uploadFile(req, res) {
     try {
         const { id } = req.params;
         let bucketName = "itsight-top5-bucket-user";
+        // console.log(req.files);
         let files = req.files.image;
         let { path } = req.body;
-        console.log(path);
+        console.log('files', files);
         files.forEach(async file => {
+            console.log("file", file);
             const { name, size, mimetype } = file;
             let key = `user/${id}/${path}/${name}`;
             await uploadToS3(file, bucketName, key);

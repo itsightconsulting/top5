@@ -4,7 +4,7 @@ async function obtenerParametro(codigo) {
     try {
         const parametro = await ParametroDTO.findOne({
             where: {
-                Codigo: codigo.toLowerCase(),
+                Codigo: codigo,
                 FlagActivo: true
             }, attributes: ['Valor']
         });

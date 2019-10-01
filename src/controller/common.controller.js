@@ -6,11 +6,36 @@ import { obtenerParametro } from '../controller/parametro.controller';
 //Para que cuando el archivo sea subido al bucket este pueda ser accedido publicamente
 const FILE_PERMISSION = 'public-read'
 
+async function emptyS3Directory(bucket, dir) {
+    const listParams = {
+        Bucket: bucket,
+        Prefix: dir
+    };
+
+    const listedObjects = await s3.listObjectsV2(listParams).promise();
+
+    if (listedObjects.Contents.length === 0) return;
+
+    const deleteParams = {
+        Bucket: bucket,
+        Delete: { Objects: [] }
+    };
+
+    listedObjects.Contents.forEach(({ Key }) => {
+        deleteParams.Delete.Objects.push({ Key });
+    });
+
+    await s3.deleteObjects(deleteParams).promise();
+
+    if (listedObjects.IsTruncated) await emptyS3Directory(bucket, dir);
+}
+
 async function uploadToS3(filePath, bucketName, key) {
     try {
-        let paramKeyId = obtenerParametro(aws_config_s3.ACCESS_KEY_ID);
+        let paramKeyId = await obtenerParametro(aws_config_s3.ACCESS_KEY_ID);
+        let paramACCESS_KEY = await obtenerParametro(aws_config_s3.SECRET_ACCESS_KEY)
+        if (!paramKeyId || !paramACCESS_KEY) throw new Error(`${aws_config_s3.ACCESS_KEY_ID} ó ${aws_config_s3.SECRET_ACCESS_KEY} no existen`);
         let accessKeyId = await decryptedAES256ctr(paramKeyId.Valor);
-        let paramACCESS_KEY = obtenerParametro(aws_config_s3.SECRET_ACCESS_KEY)
         let secretAccessKey = await decryptedAES256ctr(paramACCESS_KEY.Valor);
         let s3bucket = new AWS.S3({
             accessKeyId,

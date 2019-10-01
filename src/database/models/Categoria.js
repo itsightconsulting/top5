@@ -1,25 +1,13 @@
-import { agregarCamposBase } from '../utilitarios/utilitarios';
+import { agregarCamposBase } from '../../utilitarios/utilitarios';
 function CreateFieldObj(_dataTypes) {
     let objEntidad = {
-        LugarId: {
+        CategoriaId: {
             type: _dataTypes.INTEGER,
             allowNull: false,
             autoIncrement: true,
             primaryKey: true
         },
         Nombre: {
-            type: _dataTypes.STRING(200),
-            allowNull: false,
-        },
-        Latitud: {
-            type: _dataTypes.STRING(200),
-            allowNull: false,
-        },
-        Longitud: {
-            type: _dataTypes.STRING(200),
-            allowNull: false,
-        },
-        Tipo: {
             type: _dataTypes.STRING(200),
             allowNull: false,
         }

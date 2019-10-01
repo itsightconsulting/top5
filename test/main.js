@@ -25,27 +25,27 @@ async function SincronizarModelo() {
 }
 async function createInitParametro() {
     try {
-        let arrayParametro = [
-            {
-                Codigo: 'AWS_ACCESS_KEY_ID',
-                Valor: AWS_ACCESS_KEY_IDEncrypt
-            }
-            , {
-                Codigo: 'AWS_SECRET_ACCESS_KEY',
-                Valor: AWS_SECRET_ACCESS_KEYEncrypt
-            }];
-        arrayParametro.forEach(async element => {
-            let newParametro = await ParametroDTO.create({
-                Codigo: element.Codigo
-                , Valor: element.Valor
-                , FlagActivo: true
-                , FlagEliminado: false
-                , FechaCreacion: get_Date()
-                , CreadoPor: 'AUTO'
-            }, {
-                fields: ['Codigo', 'Valor', 'FlagActivo', 'FlagEliminado', 'FechaCreacion', 'CreadoPor']
-            });
-        });
+        // let arrayParametro = [
+        //     {
+        //         Codigo: 'AWS_ACCESS_KEY_ID',
+        //         Valor: AWS_ACCESS_KEY_IDEncrypt
+        //     }
+        //     , {
+        //         Codigo: 'AWS_SECRET_ACCESS_KEY',
+        //         Valor: AWS_SECRET_ACCESS_KEYEncrypt
+        //     }];
+        // arrayParametro.forEach(async element => {
+        //     let newParametro = await ParametroDTO.create({
+        //         Codigo: element.Codigo
+        //         , Valor: element.Valor
+        //         , FlagActivo: true
+        //         , FlagEliminado: false
+        //         , FechaCreacion: get_Date()
+        //         , CreadoPor: 'AUTO'
+        //     }, {
+        //         fields: ['Codigo', 'Valor', 'FlagActivo', 'FlagEliminado', 'FechaCreacion', 'CreadoPor']
+        //     });
+        // });
     } catch (error) {
         throw error;
     }

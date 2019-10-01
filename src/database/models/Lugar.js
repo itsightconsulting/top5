@@ -1,14 +1,25 @@
-import { agregarCamposBase } from '../utilitarios/utilitarios';
-
+import { agregarCamposBase } from '../../utilitarios/utilitarios';
 function CreateFieldObj(_dataTypes) {
     let objEntidad = {
-        TipoUsuarioId: {
+        LugarId: {
             type: _dataTypes.INTEGER,
             allowNull: false,
             autoIncrement: true,
             primaryKey: true
         },
         Nombre: {
+            type: _dataTypes.STRING(200),
+            allowNull: false,
+        },
+        Latitud: {
+            type: _dataTypes.STRING(200),
+            allowNull: false,
+        },
+        Longitud: {
+            type: _dataTypes.STRING(200),
+            allowNull: false,
+        },
+        Tipo: {
             type: _dataTypes.STRING(200),
             allowNull: false,
         }
@@ -19,19 +30,12 @@ function CreateFieldObj(_dataTypes) {
 }
 
 export default (sequelize, DataTypes) => {
-    const TipoUsuario = sequelize.define(
-        'TipoUsuario'
+    const Categoria = sequelize.define(
+        'Categoria'
         , CreateFieldObj(DataTypes)
         , { /*options*/
             timestamps: false
         });
-    /*
-        TipoUsuario.associate = (models) => {
-            TipoUsuario.belongsToMany(models.Usuario, {
-                through: 'member',
-                foreignKey: 'TipoUsuarioId',
-            });
-        };
-    */
-    return TipoUsuario;
+
+    return Categoria;
 };

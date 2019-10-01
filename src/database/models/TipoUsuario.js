@@ -1,7 +1,7 @@
-import { agregarCamposBase } from '../utilitarios/utilitarios';
+import { agregarCamposBase } from '../../utilitarios/utilitarios';
 function CreateFieldObj(_dataTypes) {
     let objEntidad = {
-        CategoriaId: {
+        TipoUsuarioId: {
             type: _dataTypes.INTEGER,
             allowNull: false,
             autoIncrement: true,
@@ -18,12 +18,19 @@ function CreateFieldObj(_dataTypes) {
 }
 
 export default (sequelize, DataTypes) => {
-    const Categoria = sequelize.define(
-        'Categoria'
+    const TipoUsuario = sequelize.define(
+        'TipoUsuario'
         , CreateFieldObj(DataTypes)
         , { /*options*/
             timestamps: false
         });
-
-    return Categoria;
+    /*
+        TipoUsuario.associate = (models) => {
+            TipoUsuario.belongsToMany(models.Usuario, {
+                through: 'member',
+                foreignKey: 'TipoUsuarioId',
+            });
+        };
+    */
+    return TipoUsuario;
 };

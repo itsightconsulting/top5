@@ -1,4 +1,4 @@
-import { agregarCamposBase } from '../utilitarios/utilitarios';
+import { agregarCamposBase } from '../../utilitarios/utilitarios';
 function CreateFieldObj(_dataTypes) {
     let objEntidad = {
         ParametroId: {
