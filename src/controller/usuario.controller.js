@@ -1,7 +1,7 @@
 import authService from "../security/AuthService";
 import models from '../database/database';
 import util from '../utilitarios/utilitarios';
-import { uploadToS3, downloadFromS3 } from './common.controller';
+import { buildContainer, uploadToS3, downloadFromS3 } from './common.controller';
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const UsuarioDTO = models.Usuario;
@@ -12,12 +12,8 @@ function existeJsonData(req, res) {
     // else return data;
 }
 
-async function validarEmail(req, res) {
+async function validarEmail(CorreoElectronico) {
     try {
-        existeJsonData(req, res);
-        let { data } = req.body;
-        console.log("data", req.body.data);
-        let { CorreoElectronico } = data;
         const usuario = await UsuarioDTO.findOne({
             where: {
                 CorreoElectronico: CorreoElectronico.toLowerCase(),
@@ -25,37 +21,34 @@ async function validarEmail(req, res) {
             }, attributes: ['CorreoElectronico']
         });
         let estadoExiste = usuario != null;
-        res.status(200).send(buildContainer(true, null, estadoExiste, null));
-    } catch (err) {
-        console.log("validarEmail error: ", err);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+        return buildContainer(true, null, estadoExiste, null);
+    } catch (error) {
+        console.log("validarEmail (error): ", error);
+        throw new Exception("controller validarEmail(error): " + error);
     }
 }
 
-async function login(req, res) {
+async function login(data) {
     try {
-        existeJsonData(req, res);
-        let { data } = req.body;
-        let { CorreoElectronico, Contrasenia, FechaCreacion, TipoUsuarioId } = data;
         let usuario = await UsuarioDTO.findOne({
             where: {
-                CorreoElectronico: CorreoElectronico.toLowerCase(),
-                TipoUsuarioId: TipoUsuarioId
+                CorreoElectronico: data.CorreoElectronico.toLowerCase(),
+                TipoUsuarioId: data.TipoUsuarioId
             }, attributes: ['UsuarioId', 'Contrasenia', 'NombreCompleto', 'FechaCreacion']
         });
         if (usuario === null) {
-            return res.status(401).send(buildContainer(false, 'Email no existe.', null, null));
+            return buildContainer(false, 'Email no existe.', null, null);
         }
-        var passwordIsValid = bcrypt.compareSync(Contrasenia, usuario.Contrasenia);
-        if (!passwordIsValid) return res.status(401).send(buildContainer(false, 'Contraseña incorrecto.', null, null));
+        var passwordIsValid = bcrypt.compareSync(data.Contrasenia, usuario.Contrasenia);
+        if (!passwordIsValid) return buildContainer(false, 'Contraseña incorrecto.', null, null);
 
         let objToken = ObjectToken(usuario);
         let token = await authService.generateToken(objToken);
         objToken.NombreCompleto = usuario.NombreCompleto;
-        res.status(200).send(buildContainer(true, '', objToken, token));
-    } catch (err) {
-        console.log("login error:", err);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+        return buildContainer(true, '', objToken, token);
+    } catch (error) {
+        console.log("login error:", error);
+        throw error;
     }
 }
 function cerrarSession() {
@@ -86,10 +79,8 @@ async function relogin(req, res) {
     }
 }
 
-async function crearUsuario(req, res) {
+async function crearUsuario(data) {
     try {
-        existeJsonData(req, res);
-        let { data } = req.body;
         let { NombreCompleto, CorreoElectronico, Contrasenia, TipoUsuarioId } = data;
 
         let salt = await bcrypt.genSalt(saltRounds);
@@ -108,19 +99,19 @@ async function crearUsuario(req, res) {
         if (newUsuario) {
             let objToken = ObjectToken({ CorreoElectronico: newUsuario.CorreoElectronico, UsuarioId: newUsuario.UsuarioId });
             let token = await authService.generateToken(objToken);
-            res.send(buildContainer(true, 'Usuario creado correctamente.', null, token));
+            return buildContainer(true, 'Usuario creado correctamente.', null, token);
+        } else {
+            throw new Exception('No se pudo crear usuario');
         }
-    } catch (err) {
-        console.log("crearUsuario error:", err);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+    } catch (error) {
+        console.log("controller crearUsuario(error):", error);
+        throw error;
     }
 }
 
-async function loginFacebook(req, res) {
+async function loginFacebook(data) {
     try {
-        existeJsonData(req, res);
-        let { data } = req.body;
-        let { CorreoElectronico, TipoUsuarioId } = data;
+        let { CorreoElectronico, TipoUsuarioId, RutaImagenPerfil } = data;
 
         const usuario = await UsuarioDTO.findOne({
             where: {
@@ -135,7 +126,7 @@ async function loginFacebook(req, res) {
             if (flagExisteTipoUsuario) {
                 objToken = ObjectToken({ CorreoElectronico: usuario.CorreoElectronico, UsuarioId: usuario.UsuarioId });
             } else {
-                return res.status(401).send(buildContainer(false, 'Email ya existe', null, null));
+                return buildContainer(false, 'Email ya existe', null, null);
             }
         } else {
             let newUsuario = await UsuarioDTO.create({
@@ -144,45 +135,34 @@ async function loginFacebook(req, res) {
                 , FlagActivo: true
                 , FlagEliminado: false
                 , FechaCreacion: util.get_Date()
-            }, { fields: ['CorreoElectronico', 'TipoUsuarioId', 'FlagActivo', 'FlagEliminado', 'FechaCreacion'] });
+                , RutaImagenPerfil
+            }, { fields: ['CorreoElectronico', 'TipoUsuarioId', 'FlagActivo', 'FlagEliminado', 'FechaCreacion', 'RutaImagenPerfil'] });
             if (newUsuario) {
                 objToken = ObjectToken({ CorreoElectronico: newUsuario.CorreoElectronico, UsuarioId: newUsuario.UsuarioId });
             }
         }
+
+        if (!objToken) throw new Exception('objToken no se ha creado correctamente');
         let token = await authService.generateToken(objToken);
-        res.status(200).send(buildContainer(true, '', objToken, token));
-    } catch (err) {
-        console.log("crearUsuario error:", err);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+        return buildContainer(true, '', objToken, token);
+    } catch (error) {
+        console.log("controller loginFacebook(error):", error);
+        throw error;
     }
 }
-
-function buildContainer(ok, message, data, token) {
-    let dataJSON = {
-        ok,
-        message,
-        data,
-        token
-    }
-    return dataJSON;
-}
-
-async function getOneUsuario(req, res) {
+async function getOneUsuario(id) {
     try {
-        const { id } = req.params;
-
         const usuario = await UsuarioDTO.findOne({
             where: {
                 UsuarioId: id
             }
         });
-        res.send(buildContainer(true, '', usuario, null));
+        return buildContainer(true, '', usuario, null);
     } catch (err) {
         console.log("getOneUsuario error: ", err);
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
-
 async function updateUsuario(req, res) {
     const { id } = req.params;
     const { CorreoElectronico, Contrasenia } = req.body;
@@ -207,52 +187,63 @@ async function updateUsuario(req, res) {
         data: usuario
     })
 }
-
-async function uploadFile(req, res) {
+async function updateRutaImagenPerfil(id, ruta) {
     try {
-        const { id } = req.params;
+        const usuario = await UsuarioDTO.findOne({
+            attributes: ['UsuarioId', 'RutaImagenPerfil']
+            , where: {
+                UsuarioId: id
+            }
+        });
+
+        if (usuario === null) throw new Exception('Usuario no existe');
+
+        await usuario.update({
+            RutaImagenPerfil: ruta
+        });
+
+        return usuario;
+    } catch (error) {
+        console.log('updateRutaImagenPerfil (error): ', error);
+        throw error
+    }
+
+}
+async function uploadFile(id, path, files) {
+    try {
         let bucketName = "itsight-top5-bucket-user";
-        // console.log(req.files);
-        let files = req.files.image;
-        let { path } = req.body;
-        console.log('files', files);
+        console.log('files cant', files.length);
+        let rutaImagenPerfil = '';
         files.forEach(async file => {
-            console.log("file", file);
             const { name, size, mimetype } = file;
             let key = `user/${id}/${path}/${name}`;
-            await uploadToS3(file, bucketName, key);
+            const { Location } = await uploadToS3(file, bucketName, key);
+            rutaImagenPerfil = await updateRutaImagenPerfil(id, Location);
         });
-        res.status(200).send(buildContainer(true, 'Carga de archivo concluido', null, null));
-    } catch (err) {
-        console.log("uploadFile error:", err);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+        return buildContainer(true, '', rutaImagenPerfil, null)
+    } catch (error) {
+        console.log("uploadFile error:", error);
+        throw error;
     }
 }
 
-async function downloadFile(req, res) {
+async function downloadFile(id, filePath) {
     try {
-        existeJsonData(req, res);
-        const { id } = req.params;
-        let { filePath } = req.body.data;
-        // https://itsight-top5-bucket-user.s3.us-east-2.amazonaws.com/user/1/photo-profile/material_foto.jpg
         let bucketName = "itsight-top5-bucket-user";
         let key = `user/${id}/${filePath}`;
-        console.log(key);
+        console.log("key", key);
         let data = await downloadFromS3(bucketName, key);
-        res.status(200).send(buildContainer(true, 'Carga de archivo concluido', data, null));
-    } catch (err) {
-        console.log("uploadFile error:", err);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+        return buildContainer(true, 'Descarga de archivo concluido', data, null);
+    } catch (error) {
+        console.log("uploadFile error:", error);
+        throw error;
     }
 }
 
 module.exports = {
     login
-    , relogin
     , crearUsuario
     , getOneUsuario
-    , updateUsuario
-    , cerrarSession
     , validarEmail
     , loginFacebook
     , uploadFile

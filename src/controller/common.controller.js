@@ -44,7 +44,10 @@ async function uploadToS3(filePath, bucketName, key) {
             ACL: FILE_PERMISSION
         });
 
-        var params = { Bucket: bucketName, Key: key, Body: filePath.data };
+        var params = {
+            Bucket: bucketName, Key: key, Body: filePath.data,
+            ACL: FILE_PERMISSION
+        };
 
         s3bucket.upload(params, function (err, data) {
             if (err) throw err;
@@ -99,9 +102,20 @@ async function decryptedAES256ctr(texto) {
     throw new Error(`decryptedAES256ctr(error): param no cumple condiciones. valor = ${texto}`);
 }
 
+function buildContainer(ok, message, data, token) {
+    let dataJSON = {
+        ok,
+        message,
+        data,
+        token
+    }
+    return dataJSON;
+}
+
 module.exports = {
     uploadToS3,
     downloadFromS3,
     encryptAES256ctr,
-    decryptedAES256ctr
+    decryptedAES256ctr,
+    buildContainer
 }
