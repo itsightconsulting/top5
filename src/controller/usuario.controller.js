@@ -34,7 +34,7 @@ async function login(data) {
             where: {
                 CorreoElectronico: data.CorreoElectronico.toLowerCase(),
                 TipoUsuarioId: data.TipoUsuarioId
-            }, attributes: ['UsuarioId', 'Contrasenia', 'NombreCompleto', 'FechaCreacion']
+            }, attributes: ['UsuarioId', 'Contrasenia', 'NombreCompleto', 'FechaCreacion', 'RutaImagenPerfil']
         });
         if (usuario === null) {
             return buildContainer(false, 'Email no existe.', null, null);
