@@ -117,13 +117,18 @@ async function loginFacebook(data) {
             where: {
                 CorreoElectronico: CorreoElectronico.toLowerCase(),
                 FlagActivo: true
-            }, attributes: ['CorreoElectronico', 'UsuarioId', 'TipoUsuarioId']
+            }, attributes: ['CorreoElectronico', 'UsuarioId', 'TipoUsuarioId', 'RutaImagenPerfil']
         });
         usuario = usuario || null;
         let objToken = {};
         if (usuario != null) {
-            let flagExisteTipoUsuario = TipoUsuarioId == usuario.TipoUsuarioId;
+            let flagExisteTipoUsuario = TipoUsuarioId === usuario.TipoUsuarioId;
             if (flagExisteTipoUsuario) {
+                // updateRutaImagen
+                let flagCambiarRuta = usuario.RutaImagenPerfil !== RutaImagenPerfil;
+                if (flagCambiarRuta) {
+                    await updateRutaImagenPerfil(usuario.UsuarioId, RutaImagenPerfil);
+                }
                 objToken = ObjectToken({ CorreoElectronico: usuario.CorreoElectronico, UsuarioId: usuario.UsuarioId });
             } else {
                 return buildContainer(false, 'Email ya existe', null, null);
