@@ -6,12 +6,6 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const UsuarioDTO = models.Usuario;
 
-function existeJsonData(req, res) {
-    let { data } = req.body;
-    if (!data) { return res.status(500).send(buildContainer(false, 'Cuerpo JSON "data" no esta definido.', null, null)); }
-    // else return data;
-}
-
 async function validarEmail(CorreoElectronico) {
     try {
         const usuario = await UsuarioDTO.findOne({
@@ -24,7 +18,7 @@ async function validarEmail(CorreoElectronico) {
         return buildContainer(true, null, estadoExiste, null);
     } catch (error) {
         console.log("validarEmail (error): ", error);
-        throw new Exception("controller validarEmail(error): " + error);
+        throw new Error("controller validarEmail(error): " + error);
     }
 }
 
@@ -44,8 +38,8 @@ async function login(data) {
 
         let objToken = ObjectToken(usuario);
         let token = await authService.generateToken(objToken);
-        objToken.NombreCompleto = usuario.NombreCompleto;
-        return buildContainer(true, '', objToken, token);
+        usuario.Contrasenia = '';
+        return buildContainer(true, '', usuario, token);
     } catch (error) {
         console.log("login error:", error);
         throw error;
@@ -101,7 +95,7 @@ async function crearUsuario(data) {
             let token = await authService.generateToken(objToken);
             return buildContainer(true, 'Usuario creado correctamente.', null, token);
         } else {
-            throw new Exception('No se pudo crear usuario');
+            throw new Error('No se pudo crear usuario');
         }
     } catch (error) {
         console.log("controller crearUsuario(error):", error);
@@ -113,13 +107,13 @@ async function loginFacebook(data) {
     try {
         let { CorreoElectronico, TipoUsuarioId, RutaImagenPerfil } = data;
 
-        const usuario = await UsuarioDTO.findOne({
+        let usuario = await UsuarioDTO.findOne({
             where: {
                 CorreoElectronico: CorreoElectronico.toLowerCase(),
                 FlagActivo: true
             }, attributes: ['CorreoElectronico', 'UsuarioId', 'TipoUsuarioId', 'RutaImagenPerfil']
         });
-        usuario = usuario || null;
+        // usuario = usuario || null;
         let objToken = {};
         if (usuario != null) {
             let flagExisteTipoUsuario = TipoUsuarioId === usuario.TipoUsuarioId;
@@ -131,7 +125,7 @@ async function loginFacebook(data) {
                 }
                 objToken = ObjectToken({ CorreoElectronico: usuario.CorreoElectronico, UsuarioId: usuario.UsuarioId });
             } else {
-                return buildContainer(false, 'Email ya existe', null, null);
+                return buildContainer(false, 'Email ya se encuentra registrado', null, null);
             }
         } else {
             let newUsuario = await UsuarioDTO.create({
@@ -145,11 +139,12 @@ async function loginFacebook(data) {
             if (newUsuario) {
                 objToken = ObjectToken({ CorreoElectronico: newUsuario.CorreoElectronico, UsuarioId: newUsuario.UsuarioId });
             }
+            usuario = newUsuario;
         }
 
-        if (!objToken) throw new Exception('objToken no se ha creado correctamente');
+        if (!objToken) throw new Error('objToken no se ha creado correctamente');
         let token = await authService.generateToken(objToken);
-        return buildContainer(true, '', objToken, token);
+        return buildContainer(true, '', usuario, token);
     } catch (error) {
         console.log("controller loginFacebook(error):", error);
         throw error;
@@ -162,6 +157,7 @@ async function getOneUsuario(id) {
                 UsuarioId: id
             }
         });
+        usuario.Contrasenia = '';
         return buildContainer(true, '', usuario, null);
     } catch (err) {
         console.log("getOneUsuario error: ", err);
@@ -201,7 +197,7 @@ async function updateRutaImagenPerfil(id, ruta) {
             }
         });
 
-        if (usuario === null) throw new Exception('Usuario no existe');
+        if (usuario === null) throw new Error('Usuario no existe');
 
         await usuario.update({
             RutaImagenPerfil: ruta

@@ -48,12 +48,14 @@ async function uploadToS3(filePath, bucketName, key) {
             Bucket: bucketName, Key: key, Body: filePath.data,
             ACL: FILE_PERMISSION
         };
-
-        s3bucket.upload(params, function (err, data) {
-            if (err) throw err;
-            console.log(data);
-            return data;
-        });
+        // s3bucket.upload(params, function (err, data) {
+        //     if (err) throw err;
+        //     console.log(data);
+        //     return data;
+        // });
+        const s3Response = await s3bucket.upload(params).promise();
+        // console.log(s3Response);
+        return s3Response;
     } catch (error) {
         console.log('uploadToS3 error:', error);
         throw error;

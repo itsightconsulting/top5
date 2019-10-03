@@ -4,3 +4,4 @@ dist/
 src/database/config.js
 *.env
 *.rar
+resumen.txt
