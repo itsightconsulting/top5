@@ -30,9 +30,22 @@ function agregarCamposBase(object, DataTypes) {
 }
 function get_Date() {
     let today = new Date();
+    let milliseconds = today.getMilliseconds()
+    let seconds = today.getSeconds();
+    let minutes = today.getMinutes();
+    let hour = today.getHours();
+
+    let month = parseInt(today.getMonth() + 1);
+    let day = today.getDate();
+    let year = today.getFullYear();
+
+    let dateFormat = [month, day, year].join("/");
+    let timeFormat = [hour, minutes, seconds, milliseconds].join(":");
+    console.log(dateFormat, timeFormat);
     let date = parseInt(today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear();
     return date;
 }
+
 module.exports = {
     agregarCamposBase,
     get_Date

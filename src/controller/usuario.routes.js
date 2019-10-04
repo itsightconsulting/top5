@@ -1,5 +1,5 @@
 import usuarioController from '../controller/usuario.controller';
-import { buildContainer } from '../controller/common.controller';
+import { buildContainer, existeJsonData } from '../controller/common.controller';
 
 async function crearUsuario(req, res) {
     try {
@@ -84,12 +84,6 @@ async function downloadFile(req, res) {
     } catch (error) {
         console.log("downloadFile (error): ", error);
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', error, null));
-    }
-}
-function existeJsonData(req, res) {
-    let { data } = req.body;
-    if (!data) {
-        throw new Error('Cuerpo JSON "data" no esta definido.');
     }
 }
 module.exports = {

@@ -1,7 +1,6 @@
-import { Router } from 'express';
+var router = require('express').Router();
 // AuthController.js
 const { existeToken } = require('../security/AuthService');
-const router = Router();
 
 import {
     crearUsuario,
@@ -23,4 +22,4 @@ router.get('/:id', existeToken, getOneUsuario);
 router.post('/upload/:id', existeToken, uploadFile);
 router.post('/download/:id', existeToken, downloadFile);
 
-export default router;
+module.exports = router;

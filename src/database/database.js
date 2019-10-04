@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import { database } from './config';
+const Op = Sequelize.Op;
 
 const sequelize = new Sequelize(
     database.databaseName

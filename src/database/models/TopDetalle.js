@@ -16,7 +16,7 @@ function CreateFieldObj(_dataTypes) {
             allowNull: true,
         },
         FlagImagenDefaultTop: {
-            type: DataTypes.BOOLEAN,
+            type: _dataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false
         }

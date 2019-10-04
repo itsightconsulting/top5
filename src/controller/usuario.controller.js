@@ -10,7 +10,7 @@ async function validarEmail(CorreoElectronico) {
     try {
         const usuario = await UsuarioDTO.findOne({
             where: {
-                CorreoElectronico: CorreoElectronico,
+                CorreoElectronico: CorreoElectronico.toLowerCase(),
                 FlagActivo: true
             }, attributes: ['CorreoElectronico']
         });
@@ -26,7 +26,7 @@ async function login(data) {
     try {
         let usuario = await UsuarioDTO.findOne({
             where: {
-                CorreoElectronico: data.CorreoElectronico,
+                CorreoElectronico: data.CorreoElectronico.toLowerCase(),
                 TipoUsuarioId: data.TipoUsuarioId
             }, attributes: ['UsuarioId', 'Contrasenia', 'NombreCompleto', 'FechaCreacion', 'RutaImagenPerfil']
         });
@@ -58,6 +58,7 @@ async function crearUsuario(data) {
 
         let salt = await bcrypt.genSalt(saltRounds);
         let ContraseniaEncrypt = await bcrypt.hash(Contrasenia, salt);
+        CorreoElectronico = CorreoElectronico.toLowerCase();
         let newUsuario = await UsuarioDTO.create({
             NombreCompleto
             , CorreoElectronico
@@ -107,6 +108,7 @@ async function loginFacebook(data) {
                 return buildContainer(false, 'Email ya se encuentra registrado', null, null);
             }
         } else {
+            CorreoElectronico = CorreoElectronico.toLower();
             let newUsuario = await UsuarioDTO.create({
                 CorreoElectronico
                 , TipoUsuarioId
