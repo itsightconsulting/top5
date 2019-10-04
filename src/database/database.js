@@ -20,9 +20,14 @@ const sequelize = new Sequelize(
 )
 
 const models = {
-    Usuario: sequelize.import('./models/Usuario'),
+    Categoria: sequelize.import('./models/Categoria'),
+    Lugar: sequelize.import('./models/Lugar'),
+    Parametro: sequelize.import('./models/Parametro'),
     TipoUsuario: sequelize.import('./models/TipoUsuario'),
-    Parametro: sequelize.import('./models/Parametro')
+    Top: sequelize.import('./models/Top'),
+    TopDetalle: sequelize.import('./models/TopDetalle'),
+    Usuario: sequelize.import('./models/Usuario'),
+    UsuarioSeguidor: sequelize.import('./models/UsuarioSeguidor'),
 };
 
 Object.keys(models).forEach((modelName) => {

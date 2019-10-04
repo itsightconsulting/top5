@@ -10,7 +10,7 @@ async function validarEmail(CorreoElectronico) {
     try {
         const usuario = await UsuarioDTO.findOne({
             where: {
-                CorreoElectronico: CorreoElectronico.toLowerCase(),
+                CorreoElectronico: CorreoElectronico,
                 FlagActivo: true
             }, attributes: ['CorreoElectronico']
         });
@@ -26,7 +26,7 @@ async function login(data) {
     try {
         let usuario = await UsuarioDTO.findOne({
             where: {
-                CorreoElectronico: data.CorreoElectronico.toLowerCase(),
+                CorreoElectronico: data.CorreoElectronico,
                 TipoUsuarioId: data.TipoUsuarioId
             }, attributes: ['UsuarioId', 'Contrasenia', 'NombreCompleto', 'FechaCreacion', 'RutaImagenPerfil']
         });
@@ -45,31 +45,10 @@ async function login(data) {
         throw error;
     }
 }
-function cerrarSession() {
-    res.status(200).send(buildContainer(true, 'Correcto.', null, null));
-}
-
 function ObjectToken(usuario) {
     return {
         email: usuario.CorreoElectronico
         , id: usuario.UsuarioId
-    }
-}
-async function relogin(req, res) {
-    try {
-        const { id, data, token } = req.body;
-        let oldToken = await authService.obtenerTokenDecoded(token);
-        let newToken = await authService.generateToken(oldToken);
-
-        var rpta = await UsuarioDTO.findOne({ where: { usuarioId: oldToken.UsuarioId, FlagActivo: true } });
-        if (rpta === null)
-            res.send({ ok: false, message: "No existe el usuario" });
-        else
-            res.send({ ok: true, data: rpta, token: newToken });
-
-    } catch (err) {
-        console.log("relogin error:", err);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
 
@@ -109,7 +88,7 @@ async function loginFacebook(data) {
 
         let usuario = await UsuarioDTO.findOne({
             where: {
-                CorreoElectronico: CorreoElectronico.toLowerCase(),
+                CorreoElectronico: CorreoElectronico,
                 FlagActivo: true
             }, attributes: ['CorreoElectronico', 'UsuarioId', 'TipoUsuarioId', 'RutaImagenPerfil']
         });
@@ -180,7 +159,7 @@ async function updateUsuario(req, res) {
 
     if (usuario != null && usuario != undefined) {
         await usuario.update({
-            Nombres, Apellidos, CorreoElectronico, Username, Contrasenia
+            CorreoElectronico, Contrasenia
         });
     }
     return res.send({

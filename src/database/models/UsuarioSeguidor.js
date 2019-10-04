@@ -1,21 +1,20 @@
 import { agregarCamposBase } from '../../utilitarios/utilitarios';
 function CreateFieldObj(_dataTypes) {
     let objEntidad = {
-        CategoriaId: {
+        UsuarioSeguidorId: {
             type: _dataTypes.INTEGER,
             allowNull: false,
             autoIncrement: true,
             primaryKey: true
         },
-        Nombre: {
+        UsuarioId: {
             type: _dataTypes.STRING(200),
             allowNull: false,
         },
-        RutaImagenPrincipal: {
-            type: _dataTypes.STRING(180),
-            allowNull: true,
+        UsuarioAsociadoId: {
+            type: _dataTypes.STRING(200),
+            allowNull: false,
         },
-
     };
 
     objEntidad = agregarCamposBase(objEntidad, _dataTypes);
@@ -23,12 +22,12 @@ function CreateFieldObj(_dataTypes) {
 }
 
 export default (sequelize, DataTypes) => {
-    const Categoria = sequelize.define(
-        'Categoria'
+    const UsuarioSeguidor = sequelize.define(
+        'UsuarioSeguidor'
         , CreateFieldObj(DataTypes)
         , { /*options*/
             timestamps: false
         });
 
-    return Categoria;
+    return UsuarioSeguidor;
 };

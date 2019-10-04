@@ -22,6 +22,11 @@ function CreateFieldObj(_dataTypes) {
         Tipo: {
             type: _dataTypes.STRING(200),
             allowNull: false,
+        },
+        FlagProcedenciaGoogleMaps: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
         }
     };
 

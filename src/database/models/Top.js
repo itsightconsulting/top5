@@ -13,11 +13,28 @@ function CreateFieldObj(_dataTypes) {
         },
         Descripcion: {
             type: _dataTypes.STRING(500),
+            allowNull: true,
+        },
+        CategoriaId: {
+            type: _dataTypes.INTEGER,
             allowNull: false,
         },
         Valoracion: {
             type: _dataTypes.INTEGER,
+            allowNull: true,
+        },
+        FlagPublicado: {
+            type: DataTypes.BOOLEAN,
             allowNull: false,
+            defaultValue: false
+        },
+        CantLike: {
+            type: _dataTypes.INTEGER,
+            allowNull: false,
+        },
+        LugarId: {
+            type: _dataTypes.INTEGER,
+            allowNull: true,
         }
     };
 
