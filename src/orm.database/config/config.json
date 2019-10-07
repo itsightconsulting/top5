@@ -1,0 +1,29 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "postgresql",
+    "database": "top5_desa",
+    "host": "localhost",
+    "port": "5432",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "test": {
+    "username": "postgres",
+    "password": "postgresql",
+    "database": "top5_desa",
+    "host": "localhost",
+    "port": "5432",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "production": {
+    "username": "postgres",
+    "password": "postgressql",
+    "database": "top5_desa",
+    "host": "52.186.67.112",
+    "port": "5432",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  }
+}
