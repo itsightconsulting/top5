@@ -19,10 +19,10 @@ function CreateFieldObj(_dataTypes) {
             type: _dataTypes.STRING(200),
             allowNull: false,
         },
-        Tipo: {
-            type: _dataTypes.STRING(200),
-            allowNull: false,
-        },
+        // Tipo: {
+        //     type: _dataTypes.STRING(200),
+        //     allowNull: false,
+        // },
         FlagProcedenciaGoogleMaps: {
             type: _dataTypes.BOOLEAN,
             allowNull: false,

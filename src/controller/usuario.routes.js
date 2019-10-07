@@ -73,7 +73,22 @@ async function uploadFile(req, res) {
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', err, null));
     }
 }
-
+async function updateUsuario(req, res) {
+    try {
+        const { id } = req.params;
+        let data = { UsuarioId: id, CorreoElectronico: req.body.CorreoElectronico, NombreCompleto: req.body.NombreCompleto }
+        let files = null;
+        if (req.files) {
+            let files = req.files.image;
+            files = [].concat(files);
+        }
+        let response = await usuarioController.updateUsuario(data, req.body.path, files);
+        res.status(200).send(response);
+    } catch (err) {
+        console.log("updateUsuario error:", err);
+        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', err, null));
+    }
+}
 async function downloadFile(req, res) {
     try {
         existeJsonData(req, res);
@@ -86,6 +101,17 @@ async function downloadFile(req, res) {
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', error, null));
     }
 }
+async function getTerminoyCondiciones(req, res) {
+    try {
+        existeJsonData(req, res);
+        console.log("getTerminoyCondiciones");
+        let response = await usuarioController.getTerminoyCondiciones();
+        res.status(200).send(response);
+    } catch (error) {
+        console.log("getTerminoyCondiciones (error): ", error);
+        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', error, null));
+    }
+}
 module.exports = {
     crearUsuario,
     loginFacebook,
@@ -93,5 +119,7 @@ module.exports = {
     validarEmail,
     getOneUsuario,
     uploadFile,
-    downloadFile
+    downloadFile,
+    updateUsuario,
+    getTerminoyCondiciones
 }

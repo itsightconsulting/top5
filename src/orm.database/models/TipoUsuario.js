@@ -27,7 +27,7 @@ export default (sequelize, DataTypes) => {
 
     TipoUsuario.associate = function (models) {
         // associations can be defined here
-        TipoUsuario.hasMany(models.Usuario);
+        // TipoUsuario.hasMany(models.Usuario);
     };
     return TipoUsuario;
 };

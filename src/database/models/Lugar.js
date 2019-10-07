@@ -19,15 +19,21 @@ function CreateFieldObj(_dataTypes) {
             type: _dataTypes.STRING(200),
             allowNull: false,
         },
-        Tipo: {
-            type: _dataTypes.STRING(200),
-            allowNull: false,
-        },
+        // Tipo: {
+        //     type: _dataTypes.STRING(200),
+        //     allowNull: false,
+        // },
         FlagProcedenciaGoogleMaps: {
             type: _dataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false
-        }
+        },
+        // name: {
+        //     type: DataTypes.VIRTUAL,
+        //     get() {
+        //         return this.getDataValue('Nombre');
+        //     }
+        // }
     };
 
     objEntidad = agregarCamposBase(objEntidad, _dataTypes);
@@ -35,12 +41,12 @@ function CreateFieldObj(_dataTypes) {
 }
 
 export default (sequelize, DataTypes) => {
-    const Categoria = sequelize.define(
-        'Categoria'
+    const Lugar = sequelize.define(
+        'Lugar'
         , CreateFieldObj(DataTypes)
         , { /*options*/
             timestamps: false
         });
 
-    return Categoria;
+    return Lugar;
 };

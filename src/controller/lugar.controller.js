@@ -1,4 +1,4 @@
-import models from '../database/database';
+import models from '../orm.database/models/index';
 import util from '../utilitarios/utilitarios';
 import { buildContainer } from './common.controller';
 const LugarDTO = models.Lugar;
@@ -109,10 +109,26 @@ async function obtenerLugarPorUbicacion(Latitud, Longitud) {
         throw error;
     }
 }
+async function listarLugares(pagina, cantidad) {
+    try {
+        let response = null;
+        let lugarBDList = await LugarDTO.findAll({
+            where: { FlagActivo: true, FlagEliminado: false },
+            attributes: ['Nombre', 'Latitud', 'Longitud'],
+            order: [['FechaCreacion', 'DESC']]
+        });
+        let data = { total: lugarBDList.length, datos: lugarBDList };
+        response = buildContainer(true, null, data, null);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
 
 module.exports = {
     crearLugar,
     obtenerLugar,
     eliminarLugar,
-    obtenerLugarPorUbicacion
+    obtenerLugarPorUbicacion,
+    listarLugares
 }

@@ -6,24 +6,24 @@
     "host": "localhost",
     "port": "5432",
     "dialect": "postgres",
-    "operatorsAliases": false
+    "logging": false
   },
   "test": {
     "username": "postgres",
-    "password": "postgresql",
-    "database": "top5_desa",
-    "host": "localhost",
+    "password": "sql",
+    "database": "top5_qa",
+    "host": "52.186.67.112",
     "port": "5432",
     "dialect": "postgres",
-    "operatorsAliases": false
+    "logging": false
   },
   "production": {
     "username": "postgres",
-    "password": "postgressql",
+    "password": "sql",
     "database": "top5_desa",
     "host": "52.186.67.112",
     "port": "5432",
     "dialect": "postgres",
-    "operatorsAliases": false
+    "logging": false
   }
 }

@@ -1,7 +1,10 @@
+import models from '../orm.database/models/index';
 import authService from "../security/AuthService";
-import models from '../database/database';
+
 import util from '../utilitarios/utilitarios';
+import { TERMINOS_Y_CONDICIONES, AVISO_POLITICA_Y_PRIVACIDAD } from '../utilitarios/constants';
 import { buildContainer, uploadToS3, downloadFromS3 } from './common.controller';
+import { obtenerParametro } from '../controller/parametro.controller';
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const UsuarioDTO = models.Usuario;
@@ -145,29 +148,43 @@ async function getOneUsuario(id) {
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
-async function updateUsuario(req, res) {
-    const { id } = req.params;
-    const { CorreoElectronico, Contrasenia } = req.body;
-
-    const usuario = await UsuarioDTO.findOne({
-        attributes: ['CorreoElectronico', 'Contrasenia']
-        , where: {
-            UsuarioId: id
+async function updateUsuario(data, path, files) {
+    try {
+        console.log("contoller updateUsuario");
+        const { UsuarioId, CorreoElectronico, NombreCompleto } = data;
+        if (files) {
+            console.log("files", files.length);
+            await uploadFile(UsuarioId, path, files);
         }
-    });
 
-    const salt = await bcrypt.genSalt(saltRounds);
-    Contrasenia = await bcrypt.hash(Contrasenia, salt);
-
-    if (usuario != null && usuario != undefined) {
-        await usuario.update({
-            CorreoElectronico, Contrasenia
+        await UsuarioDTO.update({
+            NombreCompleto
+            , CorreoElectronico
+            , FechaModificacion: util.get_Date()
+        }, {
+            where: {
+                UsuarioId
+            }
         });
+
+        return buildContainer(true, 'Actualizado correctamente.', null, null);
+    } catch (error) {
+        console.log("updateUsuario error:", error);
+        throw error;
     }
-    return res.send({
-        message: 'Actualizado correctamente.',
-        data: usuario
-    })
+}
+async function getTerminoyCondiciones() {
+    try {
+        console.log("controller getTerminoyCondiciones");
+        let terminosyC = await obtenerParametro(TERMINOS_Y_CONDICIONES);
+        let avisoPyP = await obtenerParametro(AVISO_POLITICA_Y_PRIVACIDAD);
+        if (!terminosyC || !avisoPyP) throw new Error(`parámetro ${TERMINOS_Y_CONDICIONES} y/ó ${AVISO_POLITICA_Y_PRIVACIDAD} no existen`);
+        let data = { terminosyC: terminosyC.Valor, avisoPyP: avisoPyP.Valor };
+        return buildContainer(true, '', data, null);
+    } catch (error) {
+        console.log("getTerminoyCondiciones error:", error);
+        throw error;
+    }
 }
 async function updateRutaImagenPerfil(id, ruta) {
     try {
@@ -194,15 +211,17 @@ async function updateRutaImagenPerfil(id, ruta) {
 async function uploadFile(id, path, files) {
     try {
         let bucketName = "itsight-top5-bucket-user";
-        console.log('files cant', files.length);
-        let rutaImagenPerfil = '';
-        files.forEach(async file => {
-            const { name, size, mimetype } = file;
-            let key = `user/${id}/${path}/${name}`;
-            const { Location } = await uploadToS3(file, bucketName, key);
-            rutaImagenPerfil = await updateRutaImagenPerfil(id, Location);
-        });
-        return buildContainer(true, '', rutaImagenPerfil, null)
+        if (files) {
+            console.log('files cant', files.length);
+            let rutaImagenPerfil = '';
+            files.forEach(async file => {
+                const { name, size, mimetype } = file;
+                let key = `user/${id}/${path}/${name}`;
+                const { Location } = await uploadToS3(file, bucketName, key);
+                rutaImagenPerfil = await updateRutaImagenPerfil(id, Location);
+            });
+            return buildContainer(true, '', rutaImagenPerfil, null)
+        }
     } catch (error) {
         console.log("uploadFile error:", error);
         throw error;
@@ -230,4 +249,6 @@ module.exports = {
     , loginFacebook
     , uploadFile
     , downloadFile
+    , updateUsuario
+    , getTerminoyCondiciones
 }

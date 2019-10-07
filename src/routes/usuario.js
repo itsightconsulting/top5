@@ -9,7 +9,9 @@ import {
     validarEmail,
     getOneUsuario,
     uploadFile,
-    downloadFile
+    downloadFile,
+    updateUsuario,
+    getTerminoyCondiciones
 } from '../controller/usuario.routes';
 
 router.post('/', crearUsuario);
@@ -17,9 +19,11 @@ router.post('/login/facebook', loginFacebook);
 router.post('/login', login);
 router.post('/validarEmail', validarEmail);
 // router.post('/relogin', relogin);
-router.get('/:id', existeToken, getOneUsuario);
-// router.put('/:id', existeToken, updateUsuario);
+router.get('/getbyId/:id', existeToken, getOneUsuario);
 router.post('/upload/:id', existeToken, uploadFile);
 router.post('/download/:id', existeToken, downloadFile);
+router.post('/rules', existeToken, getTerminoyCondiciones);
 
+
+router.post('/:id', existeToken, updateUsuario);
 module.exports = router;

@@ -1,13 +1,12 @@
-import models from '../src/database/database';
+import models from '../src/orm.database/models/index';
 import { get_Date } from '../src/utilitarios/utilitarios';
 import { encryptAES256ctr, decryptedAES256ctr } from '../src/controller/common.controller';
-import Usuario from '../src/database/models/Usuario';
 const TipoUsuarioDTO = models.TipoUsuario;
 const ParametroDTO = models.Parametro;
 const UsuarioDTO = models.Usuario;
 async function Init() {
     try {
-        await SincronizarModelo();
+        // await SincronizarModelo();
         // await createInitTipoUsuario();
         // await createInitUsuario();
         // await createInitParametro();
@@ -19,6 +18,7 @@ async function SincronizarModelo() {
     try {
         // Note: using `force: true` will drop the table if it already exists
         const rpta = await models.sequelize.sync({ alter: true });
+        console.log("SincronizarModelo ok");
     } catch (err) {
         console.error('ERROR ObtenerUsuario:', err);
     }

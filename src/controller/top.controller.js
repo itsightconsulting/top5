@@ -1,4 +1,4 @@
-import models from '../database/database';
+import models from '../orm.database/models/index';
 import util from '../utilitarios/utilitarios';
 import { buildContainer, uploadToS3 } from './common.controller';
 const TopDTO = models.Top;

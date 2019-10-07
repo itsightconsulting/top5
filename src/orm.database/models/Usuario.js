@@ -19,10 +19,10 @@ function CreateFieldObj(_dataTypes) {
             type: _dataTypes.STRING(100),
             allowNull: true,
         },
-        // TipoUsuarioId: {
-        //     type: _dataTypes.INTEGER,
-        //     allowNull: true,
-        // },
+        TipoUsuarioId: {
+            type: _dataTypes.INTEGER,
+            allowNull: true,
+        },
         RutaImagenPerfil: {
             type: _dataTypes.STRING(180),
             allowNull: true,
@@ -57,8 +57,10 @@ export default (sequelize, DataTypes) => {
             timestamps: false
         });
     Usuario.associate = (models) => {
-        Usuario.belongsTo(models.TipoUsuario)
-        // Usuario.belongsTo(models.TipoUsuario, { foreignKey: 'TipoUsuarioId', });
+        // Usuario.belongsTo(models.TipoUsuario)
+        // Usuario.belongsTo(models.TipoUsuario, {
+        //     as: 'Current', foreignKey: 'TipoUsuarioId', constraints: false
+        // });
     };
 
     return Usuario;
