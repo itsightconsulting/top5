@@ -7,7 +7,7 @@ const ParametroDTO = models.Parametro;
 const UsuarioDTO = models.Usuario;
 async function Init() {
     try {
-        // await SincronizarModelo();
+        await SincronizarModelo();
         // await createInitTipoUsuario();
         // await createInitUsuario();
         // await createInitParametro();
@@ -18,7 +18,7 @@ async function Init() {
 async function SincronizarModelo() {
     try {
         // Note: using `force: true` will drop the table if it already exists
-        const rpta = await models.sequelize.sync({ force: true });
+        const rpta = await models.sequelize.sync({ alter: true });
     } catch (err) {
         console.error('ERROR ObtenerUsuario:', err);
     }

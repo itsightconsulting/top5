@@ -25,4 +25,4 @@ const local = {
     databaseName: 'top5_desa',
     dialect: 'postgres'
 };
-export const database = dev;
+export const database = home;
