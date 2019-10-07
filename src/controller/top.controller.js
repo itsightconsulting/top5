@@ -30,21 +30,56 @@ async function obtenerTop(id) {
         throw error;
     }
 }
-
-async function obtenerTopPorUsuario(correoElectronico) {
+async function listarTopPorUsuario(correoElectronico, cantidad) {
     try {
-        let topBD = await TopDTO.findAll({
-            where: {
-                CreadoPor: correoElectronico,
-                FlagActivo: true
-            }, order: [['FechaCreacion', 'DESC']]
-        });
+        let topBD = null;
+        if (cantidad) {
+
+        } else {
+            // sequelize.query("UPDATE users SET y = 42 WHERE x = 12")
+            topBD = await TopDTO.findAll({
+                where: {
+                    CreadoPor: correoElectronico,
+                    FlagActivo: true
+                }, order: [['FechaCreacion', 'DESC']]
+            });
+        }
         return topBD;
     } catch (error) {
         throw error;
     }
 }
-async function obtenerTopDetallePorTop(id) {
+async function listarTopPorUsuarioPorCategoria(categoriaId, correoElectronico) {
+    try {
+        let topBDListado = await TopDTO.findAll({
+            where: {
+                CreadoPor: correoElectronico,
+                CategoriaId: categoriaId,
+                FlagActivo: true
+            }, order: [['FechaCreacion', 'DESC']]
+        });
+        // TODO obtener foto default
+        return topBDListado;
+    } catch (error) {
+        throw error;
+    }
+}
+async function listarTopPorUsuarioPorFiltro(filtro, correoElectronico) {
+    try {
+        let topBDListado = await TopDTO.findAll({
+            where: {
+                CreadoPor: correoElectronico,
+                FlagActivo: true,
+                // [Op.or]: [{Titulo: [Op.like]: filtro}, {Descripcion: [Op.like]: filtro}] 
+            }, order: [['FechaCreacion', 'DESC']]
+        });
+        // TODO obtener foto default
+        return topBDListado;
+    } catch (error) {
+        throw error;
+    }
+}
+async function listarTopDetallePorTop(id) {
     try {
         let topDetalleBD = await TopDetalleDTO.findAll({
             where: {
@@ -57,12 +92,11 @@ async function obtenerTopDetallePorTop(id) {
         throw error;
     }
 }
-
-async function crearTop(data) {
+async function crearTop(objTop, objTopDetalle) {
     try {
         let response = null;
-        let objTop = data.Top;
-        let objTopDetalle = data.TopDetalle;
+        // let objTop = data.Top;
+        // let objTopDetalle = data.TopDetalle;
         let topBD = null;
         if (objTop.TopId) {
             topBD = await obtenerTop(objTop.TopId);
@@ -79,8 +113,6 @@ async function crearTop(data) {
                     , FlagEliminado: false
                     , ModificadoPor: objTop.ModificadoPor
                     , FechaModificacion: util.get_Date()
-                }, {
-                    fields: ['Titulo', 'Descripcion', 'CategoriaId', 'Valoracion', 'FlagPublicado', 'CantLike', 'LugarId', 'FlagActivo', 'FlagEliminado', 'ModificadoPor', 'FechaModificacion']
                 });
             }
 
@@ -120,7 +152,6 @@ async function crearTop(data) {
         throw error;
     }
 }
-
 async function crearTopDetalle(data) {
     try {
         let response = null;
@@ -135,8 +166,6 @@ async function crearTopDetalle(data) {
                     , FlagEliminado: false
                     , ModificadoPor: data.ModificadoPor
                     , FechaModificacion: util.get_Date()
-                }, {
-                    fields: ['RutaImagen', 'FlagImagenDefaultTop', 'FlagActivo', 'FlagEliminado', 'ModificadoPor', 'FechaModificacion']
                 });
             }
         } else {
@@ -177,8 +206,6 @@ async function eliminarTopDetalle(id, modificadoPor) {
                     , FlagEliminado: true
                     , ModificadoPor: modificadoPor
                     , FechaModificacion: util.get_Date()
-                }, {
-                    fields: ['FlagActivo', 'FlagEliminado', 'ModificadoPor', 'FechaModificacion']
                 });
             }
             response = buildContainer(true, 'Eliminado correctamente.', null, null);
@@ -192,26 +219,21 @@ async function eliminarTopDetalle(id, modificadoPor) {
         throw error;
     }
 }
-
 async function eliminarTopDetallePorTopId(topId, modificadoPor) {
     try {
         let response = null;
-        let topDetalleBdList = null;
-        if (id) {
-            topDetalleBdList = await obtenerTopDetallePorTop(topId);
-            if (topDetalleBdList) {
-                topDetalleBdList.forEach(topDetalle => {
-                    await topDetalle.update({
-                        FlagActivo: false
-                        , FlagEliminado: true
-                        , ModificadoPor: modificadoPor
-                        , FechaModificacion: util.get_Date()
-                    }, {
-                        fields: ['FlagActivo', 'FlagEliminado', 'ModificadoPor', 'FechaModificacion']
-                    });
-                });
-                response = buildContainer(true, 'Eliminado correctamente.', null, null);
-            }
+        if (topId) {
+            await TopDetalleDTO.update({
+                FlagActivo: false
+                , FlagEliminado: true
+                , ModificadoPor: modificadoPor
+                , FechaModificacion: util.get_Date()
+            }, {
+                where: {
+                    TopId: topId
+                }
+            });
+            response = buildContainer(true, 'Eliminado correctamente.', null, null);
         }
         if (response === null) {
             throw new Error('No se pudo eliminar top detalle');
@@ -235,7 +257,9 @@ async function eliminarTop(id, modificadoPor) {
                     , ModificadoPor: modificadoPor
                     , FechaModificacion: util.get_Date()
                 }, {
-                    fields: ['FlagActivo', 'FlagEliminado', 'ModificadoPor', 'FechaModificacion']
+                    where: {
+                        TopId: id
+                    }
                 });
                 let eliminarDetalle = await eliminarTopDetallePorTopId(id, modificadoPor);
                 if (eliminarDetalle.ok) {
@@ -254,11 +278,12 @@ async function eliminarTop(id, modificadoPor) {
     }
 }
 
-
 module.exports = {
     crearTop,
-    obtenerTopPorUsuario,
-    obtenerTopDetallePorTop,
+    listarTopPorUsuario,
+    listarTopDetallePorTop,
     eliminarTopDetalle,
-    eliminarTop
+    eliminarTop,
+    listarTopPorUsuarioPorCategoria,
+    listarTopPorUsuarioPorFiltro
 }

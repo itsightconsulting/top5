@@ -103,7 +103,12 @@ async function decryptedAES256ctr(texto) {
     }
     throw new Error(`decryptedAES256ctr(error): param no cumple condiciones. valor = ${texto}`);
 }
-
+function existeJsonData(req, res) {
+    let { data } = req.body;
+    if (!data) {
+        throw new Error('Cuerpo JSON "data" no esta definido.');
+    }
+}
 function buildContainer(ok, message, data, token) {
     let dataJSON = {
         ok,
@@ -119,5 +124,6 @@ module.exports = {
     downloadFromS3,
     encryptAES256ctr,
     decryptedAES256ctr,
-    buildContainer
+    buildContainer,
+    existeJsonData
 }
