@@ -24,7 +24,7 @@ function CreateFieldObj(_dataTypes) {
             allowNull: false,
         },
         FlagProcedenciaGoogleMaps: {
-            type: DataTypes.BOOLEAN,
+            type: _dataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false
         }
