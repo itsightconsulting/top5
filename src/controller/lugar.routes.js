@@ -1,13 +1,13 @@
 import controller from '../controller/lugar.controller';
-import { buildContainer, existeJsonData } from '../controller/common.controller';
+import { buildContainer, existeJsonData, controlError } from '../controller/common.controller';
 
 async function crearLugar(req, res) {
     try {
         existeJsonData(req, res);
         let response = await controller.crearLugar(req.body.data);
         return res.status(200).send(response);
-    } catch (err) {
-        console.log("crearLugar.routes error:", err.message);
+    } catch (error) {
+        controlError("crearLugar", error);
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
@@ -18,8 +18,8 @@ async function obtenerLugar(req, res) {
         const { id } = req.body.data;
         let response = await controller.obtenerLugar(id);
         return res.status(200).send(response);
-    } catch (err) {
-        console.log("obtenerLugar.routes error:", err.message);
+    } catch (error) {
+        controlError("obtenerLugar", error);
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
@@ -30,8 +30,8 @@ async function eliminarLugar(req, res) {
         const { id, modificadoPor } = req.body.data;
         let response = await controller.eliminarLugar(id, modificadoPor);
         return res.status(200).send(response);
-    } catch (err) {
-        console.log("eliminarLugar.routes error:", err.message);
+    } catch (error) {
+        controlError("eliminarLugar", error);
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
@@ -41,8 +41,8 @@ async function obtenerLugarPorUbicacion(req, res) {
         const { Latitud, Longitud } = req.body.data;
         let response = await controller.obtenerLugarPorUbicacion(Latitud, Longitud);
         return res.status(200).send(response);
-    } catch (err) {
-        console.log("obtenerLugarPorUbicacion.routes error:", err.message);
+    } catch (error) {
+        controlError("obtenerLugarPorUbicacion", error);
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
@@ -50,8 +50,8 @@ async function listarLugares(req, res) {
     try {
         let response = await controller.listarLugares();
         return res.status(200).send(response);
-    } catch (err) {
-        console.log("listarLugares.routes error:", err.message);
+    } catch (error) {
+        controlError("listarLugares", error);
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }

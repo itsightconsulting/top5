@@ -103,8 +103,6 @@ async function downloadFile(req, res) {
 }
 async function getTerminoyCondiciones(req, res) {
     try {
-        existeJsonData(req, res);
-        console.log("getTerminoyCondiciones");
         let response = await usuarioController.getTerminoyCondiciones();
         res.status(200).send(response);
     } catch (error) {

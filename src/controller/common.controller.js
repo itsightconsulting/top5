@@ -39,8 +39,8 @@ async function uploadToS3(filePath, bucketName, key) {
         let paramKeyId = await obtenerParametro(aws_config_s3.ACCESS_KEY_ID);
         let paramACCESS_KEY = await obtenerParametro(aws_config_s3.SECRET_ACCESS_KEY)
         if (!paramKeyId || !paramACCESS_KEY) throw new Error(`parámetro ${aws_config_s3.ACCESS_KEY_ID} y/ó ${aws_config_s3.SECRET_ACCESS_KEY} no existen`);
-        let accessKeyId = await decryptedAES256ctr(paramKeyId.Valor);
-        let secretAccessKey = await decryptedAES256ctr(paramACCESS_KEY.Valor);
+        let accessKeyId = await decryptedAES256ctr(paramKeyId.value);
+        let secretAccessKey = await decryptedAES256ctr(paramACCESS_KEY.value);
         let s3bucket = new AWS.S3({
             accessKeyId,
             secretAccessKey,

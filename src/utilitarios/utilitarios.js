@@ -54,8 +54,9 @@ function get_Date() {
 
     let dateFormat = [month, day, year].join("/");
     let timeFormat = [hour, minutes, seconds, milliseconds].join(":");
-    console.log(dateFormat, timeFormat);
-    let date = parseInt(today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear();
+    // console.log(dateFormat, timeFormat);
+    let date = dateFormat + " " + timeFormat;
+    // let date = parseInt(today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear();
     return date;
 }
 

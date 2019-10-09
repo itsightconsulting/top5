@@ -106,6 +106,7 @@ async function loginFacebook(data) {
                 // updateRutaImagen
                 let flagCambiarRuta = usuario.rutaImagenPerfil !== rutaImagenPerfil;
                 if (flagCambiarRuta) {
+                    console.log("flagCambiarRuta", flagCambiarRuta);
                     await updaterutaImagenPerfil(usuario.id, rutaImagenPerfil);
                 }
                 objToken = ObjectToken({ correoElectronico: usuario.correoElectronico, id: usuario.id });
@@ -153,8 +154,10 @@ async function getOneUsuario(id) {
 }
 async function updateUsuario(data, path, files) {
     try {
-        console.log("contoller updateUsuario");
         const { id, correoElectronico, nombreCompleto } = data;
+        if (!id || !correoElectronico || !nombreCompleto) {
+            throw new Error("No puede enviar data vacio");
+        }
         if (files) {
             console.log("files", files.length);
             await uploadFile(id, path, files);
@@ -172,20 +175,17 @@ async function updateUsuario(data, path, files) {
 
         return buildContainer(true, 'Actualizado correctamente.', null, null);
     } catch (error) {
-        // util.controlError("updateUsuario", error);
         throw error;
     }
 }
 async function getTerminoyCondiciones() {
     try {
-        console.log("controller getTerminoyCondiciones");
         let terminosyC = await obtenerParametro(TERMINOS_Y_CONDICIONES);
         let avisoPyP = await obtenerParametro(AVISO_POLITICA_Y_PRIVACIDAD);
         if (!terminosyC || !avisoPyP) throw new Error(`parámetro ${TERMINOS_Y_CONDICIONES} y/ó ${AVISO_POLITICA_Y_PRIVACIDAD} no existen`);
-        let data = { terminosyC: terminosyC.Valor, avisoPyP: avisoPyP.Valor };
+        let data = { terminosyC: terminosyC.value, avisoPyP: avisoPyP.value };
         return buildContainer(true, '', data, null);
     } catch (error) {
-        // util.controlError("getTerminoyCondiciones", error);
         throw error;
     }
 }
