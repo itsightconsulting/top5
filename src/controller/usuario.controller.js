@@ -9,19 +9,20 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const UsuarioDTO = models.Usuario;
 
-async function validarEmail(CorreoElectronico) {
+async function validarEmail(correoElectronico) {
     try {
         const usuario = await UsuarioDTO.findOne({
             where: {
-                CorreoElectronico: CorreoElectronico.toLowerCase(),
-                FlagActivo: true
-            }, attributes: ['CorreoElectronico']
+                correoElectronico: correoElectronico.toLowerCase(),
+                flagActive: true
+            }, attributes: ['correoElectronico']
         });
         let estadoExiste = usuario != null;
         return buildContainer(true, null, estadoExiste, null);
     } catch (error) {
-        console.log("validarEmail (error): ", error);
-        throw new Error("controller validarEmail(error): " + error);
+        throw error;
+        // util.controlError("validarEmail", error);
+        // throw new Error("controller validarEmail(error): " + error);
     }
 }
 
@@ -29,72 +30,73 @@ async function login(data) {
     try {
         let usuario = await UsuarioDTO.findOne({
             where: {
-                CorreoElectronico: data.CorreoElectronico.toLowerCase(),
+                correoElectronico: data.correoElectronico.toLowerCase(),
                 TipoUsuarioId: data.TipoUsuarioId
-            }, attributes: ['UsuarioId', 'Contrasenia', 'NombreCompleto', 'FechaCreacion', 'RutaImagenPerfil']
+            }, attributes: ['id', 'contrasenia', 'nombreCompleto', 'createdAt', 'rutaImagenPerfil']
         });
         if (usuario === null) {
             return buildContainer(false, 'Email no existe.', null, null);
         }
-        var passwordIsValid = bcrypt.compareSync(data.Contrasenia, usuario.Contrasenia);
+        var passwordIsValid = bcrypt.compareSync(data.contrasenia, usuario.contrasenia);
         if (!passwordIsValid) return buildContainer(false, 'Contraseña incorrecto.', null, null);
 
         let objToken = ObjectToken(usuario);
         let token = await authService.generateToken(objToken);
-        usuario.Contrasenia = '';
+        usuario.contrasenia = '';
         return buildContainer(true, '', usuario, token);
     } catch (error) {
-        console.log("login error:", error);
+        // console.log("login error:", error);
         throw error;
     }
 }
 function ObjectToken(usuario) {
     return {
-        email: usuario.CorreoElectronico
-        , id: usuario.UsuarioId
+        email: usuario.correoElectronico
+        , id: usuario.id
     }
 }
 
 async function crearUsuario(data) {
     try {
-        let { NombreCompleto, CorreoElectronico, Contrasenia, TipoUsuarioId } = data;
+        let { nombreCompleto, correoElectronico, contrasenia, TipoUsuarioId } = data;
 
         let salt = await bcrypt.genSalt(saltRounds);
-        let ContraseniaEncrypt = await bcrypt.hash(Contrasenia, salt);
-        CorreoElectronico = CorreoElectronico.toLowerCase();
+        let contraseniaEncrypt = await bcrypt.hash(contrasenia, salt);
+        correoElectronico = correoElectronico.toLowerCase();
         let newUsuario = await UsuarioDTO.create({
-            NombreCompleto
-            , CorreoElectronico
-            , Contrasenia: ContraseniaEncrypt
+            nombreCompleto
+            , contrasenia: contraseniaEncrypt
+            , correoElectronico
             , TipoUsuarioId
-            , FlagActivo: true
-            , FlagEliminado: false
-            , FechaCreacion: util.get_Date()
+            , flagActive: true
+            , flagEliminate: false
+            , createdAt: util.get_Date()
+            , updatedAt: util.get_Date()
         }, {
-            fields: ['NombreCompleto', 'CorreoElectronico', 'Contrasenia', 'TipoUsuarioId', 'FlagActivo', 'FlagEliminado', 'FechaCreacion']
+            fields: ['nombreCompleto', 'correoElectronico', 'contrasenia', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt']
         });
         if (newUsuario) {
-            let objToken = ObjectToken({ CorreoElectronico: newUsuario.CorreoElectronico, UsuarioId: newUsuario.UsuarioId });
+            let objToken = ObjectToken({ correoElectronico: newUsuario.correoElectronico, id: newUsuario.id });
             let token = await authService.generateToken(objToken);
             return buildContainer(true, 'Usuario creado correctamente.', null, token);
         } else {
             throw new Error('No se pudo crear usuario');
         }
     } catch (error) {
-        console.log("controller crearUsuario(error):", error);
+        // util.controlError("crearUsuario", error);
         throw error;
     }
 }
 
 async function loginFacebook(data) {
     try {
-        let { CorreoElectronico, TipoUsuarioId, RutaImagenPerfil } = data;
+        let { correoElectronico, TipoUsuarioId, rutaImagenPerfil } = data;
 
         let usuario = await UsuarioDTO.findOne({
             where: {
-                CorreoElectronico: CorreoElectronico,
-                FlagActivo: true
-            }, attributes: ['CorreoElectronico', 'UsuarioId', 'TipoUsuarioId', 'RutaImagenPerfil']
+                correoElectronico: correoElectronico,
+                flagActive: true
+            }, attributes: ['correoElectronico', 'id', 'TipoUsuarioId', 'rutaImagenPerfil']
         });
         // usuario = usuario || null;
         let objToken = {};
@@ -102,26 +104,27 @@ async function loginFacebook(data) {
             let flagExisteTipoUsuario = TipoUsuarioId === usuario.TipoUsuarioId;
             if (flagExisteTipoUsuario) {
                 // updateRutaImagen
-                let flagCambiarRuta = usuario.RutaImagenPerfil !== RutaImagenPerfil;
+                let flagCambiarRuta = usuario.rutaImagenPerfil !== rutaImagenPerfil;
                 if (flagCambiarRuta) {
-                    await updateRutaImagenPerfil(usuario.UsuarioId, RutaImagenPerfil);
+                    await updaterutaImagenPerfil(usuario.id, rutaImagenPerfil);
                 }
-                objToken = ObjectToken({ CorreoElectronico: usuario.CorreoElectronico, UsuarioId: usuario.UsuarioId });
+                objToken = ObjectToken({ correoElectronico: usuario.correoElectronico, id: usuario.id });
             } else {
                 return buildContainer(false, 'Email ya se encuentra registrado', null, null);
             }
         } else {
-            CorreoElectronico = CorreoElectronico.toLower();
+            correoElectronico = correoElectronico.toLower();
             let newUsuario = await UsuarioDTO.create({
-                CorreoElectronico
+                correoElectronico
                 , TipoUsuarioId
-                , FlagActivo: true
-                , FlagEliminado: false
-                , FechaCreacion: util.get_Date()
-                , RutaImagenPerfil
-            }, { fields: ['CorreoElectronico', 'TipoUsuarioId', 'FlagActivo', 'FlagEliminado', 'FechaCreacion', 'RutaImagenPerfil'] });
+                , flagActive: true
+                , flagEliminate: false
+                , createdAt: util.get_Date()
+                , updatedAt: util.get_Date()
+                , rutaImagenPerfil
+            }, { fields: ['correoElectronico', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt', 'rutaImagenPerfil'] });
             if (newUsuario) {
-                objToken = ObjectToken({ CorreoElectronico: newUsuario.CorreoElectronico, UsuarioId: newUsuario.UsuarioId });
+                objToken = ObjectToken({ correoElectronico: newUsuario.correoElectronico, id: newUsuario.id });
             }
             usuario = newUsuario;
         }
@@ -130,7 +133,7 @@ async function loginFacebook(data) {
         let token = await authService.generateToken(objToken);
         return buildContainer(true, '', usuario, token);
     } catch (error) {
-        console.log("controller loginFacebook(error):", error);
+        // util.controlError("loginFacebook", error);
         throw error;
     }
 }
@@ -138,10 +141,10 @@ async function getOneUsuario(id) {
     try {
         const usuario = await UsuarioDTO.findOne({
             where: {
-                UsuarioId: id
+                id
             }
         });
-        usuario.Contrasenia = '';
+        usuario.contrasenia = '';
         return buildContainer(true, '', usuario, null);
     } catch (err) {
         console.log("getOneUsuario error: ", err);
@@ -151,25 +154,25 @@ async function getOneUsuario(id) {
 async function updateUsuario(data, path, files) {
     try {
         console.log("contoller updateUsuario");
-        const { UsuarioId, CorreoElectronico, NombreCompleto } = data;
+        const { id, correoElectronico, nombreCompleto } = data;
         if (files) {
             console.log("files", files.length);
-            await uploadFile(UsuarioId, path, files);
+            await uploadFile(id, path, files);
         }
 
         await UsuarioDTO.update({
-            NombreCompleto
-            , CorreoElectronico
-            , FechaModificacion: util.get_Date()
+            nombreCompleto
+            , correoElectronico
+            , updatedAt: util.get_Date()
         }, {
             where: {
-                UsuarioId
+                id
             }
         });
 
         return buildContainer(true, 'Actualizado correctamente.', null, null);
     } catch (error) {
-        console.log("updateUsuario error:", error);
+        // util.controlError("updateUsuario", error);
         throw error;
     }
 }
@@ -182,28 +185,28 @@ async function getTerminoyCondiciones() {
         let data = { terminosyC: terminosyC.Valor, avisoPyP: avisoPyP.Valor };
         return buildContainer(true, '', data, null);
     } catch (error) {
-        console.log("getTerminoyCondiciones error:", error);
+        // util.controlError("getTerminoyCondiciones", error);
         throw error;
     }
 }
-async function updateRutaImagenPerfil(id, ruta) {
+async function updaterutaImagenPerfil(id, ruta) {
     try {
         const usuario = await UsuarioDTO.findOne({
-            attributes: ['UsuarioId', 'RutaImagenPerfil']
+            attributes: ['id', 'rutaImagenPerfil']
             , where: {
-                UsuarioId: id
+                id
             }
         });
 
         if (usuario === null) throw new Error('Usuario no existe');
 
         await usuario.update({
-            RutaImagenPerfil: ruta
+            rutaImagenPerfil: ruta
         });
 
         return usuario;
     } catch (error) {
-        console.log('updateRutaImagenPerfil (error): ', error);
+        // util.controlError("updaterutaImagenPerfil", error);
         throw error
     }
 
@@ -218,12 +221,12 @@ async function uploadFile(id, path, files) {
                 const { name, size, mimetype } = file;
                 let key = `user/${id}/${path}/${name}`;
                 const { Location } = await uploadToS3(file, bucketName, key);
-                rutaImagenPerfil = await updateRutaImagenPerfil(id, Location);
+                rutaImagenPerfil = await updaterutaImagenPerfil(id, Location);
             });
             return buildContainer(true, '', rutaImagenPerfil, null)
         }
     } catch (error) {
-        console.log("uploadFile error:", error);
+        // util.controlError("uploadFile", error);
         throw error;
     }
 }
@@ -236,7 +239,7 @@ async function downloadFile(id, filePath) {
         let data = await downloadFromS3(bucketName, key);
         return buildContainer(true, 'Descarga de archivo concluido', data, null);
     } catch (error) {
-        console.log("uploadFile error:", error);
+        // util.controlError("downloadFile", error);
         throw error;
     }
 }

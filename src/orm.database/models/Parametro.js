@@ -1,23 +1,23 @@
-import { agregarCamposBase } from '../../utilitarios/utilitarios';
+import { agregarCamposBaseAuditoria } from '../../utilitarios/utilitarios';
 function CreateFieldObj(_dataTypes) {
     let objEntidad = {
-        ParametroId: {
-            type: _dataTypes.INTEGER,
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        Codigo: {
+        // ParametroId: {
+        //     type: _dataTypes.INTEGER,
+        //     allowNull: false,
+        //     autoIncrement: true,
+        //     primaryKey: true
+        // },
+        code: {
             type: _dataTypes.STRING(500),
             allowNull: false,
         },
-        Valor: {
+        value: {
             type: _dataTypes.STRING(500),
             allowNull: false,
         }
     };
 
-    objEntidad = agregarCamposBase(objEntidad, _dataTypes);
+    objEntidad = agregarCamposBaseAuditoria(objEntidad, _dataTypes);
     return objEntidad;
 }
 
@@ -26,7 +26,8 @@ export default (sequelize, DataTypes) => {
         'Parametro'
         , CreateFieldObj(DataTypes)
         , { /*options*/
-            timestamps: false
+            // timestamps: false,
+            freezeTableName: true,
         });
 
     Parametro.associate = function (models) {

@@ -1,21 +1,24 @@
 import { agregarCamposBase } from '../../utilitarios/utilitarios';
 function CreateFieldObj(_dataTypes) {
     let objEntidad = {
-        CategoriaId: {
-            type: _dataTypes.INTEGER,
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        Nombre: {
+        // CategoriaId: {
+        //     type: _dataTypes.INTEGER,
+        //     allowNull: false,
+        //     autoIncrement: true,
+        //     primaryKey: true
+        // },
+        name: {
             type: _dataTypes.STRING(200),
             allowNull: false,
         },
-        RutaImagenPrincipal: {
+        rutaImagenPrincipal: {
             type: _dataTypes.STRING(180),
             allowNull: true,
         },
-
+        nroOrden: {
+            type: _dataTypes.INTEGER,
+            allowNull: true
+        }
     };
 
     objEntidad = agregarCamposBase(objEntidad, _dataTypes);
@@ -27,11 +30,13 @@ export default (sequelize, DataTypes) => {
         'Categoria'
         , CreateFieldObj(DataTypes)
         , { /*options*/
-            timestamps: false
+            // timestamps: false
+            freezeTableName: true,
         });
 
     Categoria.associate = function (models) {
         // associations can be defined here
+        // Categoria.hasMany(models.Top);
     };
 
     return Categoria;

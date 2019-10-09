@@ -1,33 +1,33 @@
 import { agregarCamposBase } from '../../utilitarios/utilitarios';
 function CreateFieldObj(_dataTypes) {
     let objEntidad = {
-        LugarId: {
-            type: _dataTypes.INTEGER,
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        Nombre: {
+        // lugarId: {
+        //     type: _dataTypes.INTEGER,
+        //     allowNull: false,
+        //     autoIncrement: true,
+        //     primaryKey: true
+        // },
+        name: {
             type: _dataTypes.STRING(200),
             allowNull: false,
         },
-        Latitud: {
+        latitude: {
             type: _dataTypes.STRING(200),
             allowNull: false,
         },
-        Longitud: {
+        longitude: {
             type: _dataTypes.STRING(200),
             allowNull: false,
         },
-        // Tipo: {
+        // tipo: {
         //     type: _dataTypes.STRING(200),
         //     allowNull: false,
         // },
-        FlagProcedenciaGoogleMaps: {
-            type: _dataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false
-        }
+        // flagNuevoEnGoogleMaps: {
+        //     type: _dataTypes.BOOLEAN,
+        //     allowNull: false,
+        //     defaultValue: false
+        // }
     };
 
     objEntidad = agregarCamposBase(objEntidad, _dataTypes);
@@ -39,11 +39,13 @@ export default (sequelize, DataTypes) => {
         'Lugar'
         , CreateFieldObj(DataTypes)
         , { /*options*/
-            timestamps: false
+            // timestamps: false
+            freezeTableName: true,
         });
 
     Lugar.associate = function (models) {
         // associations can be defined here
+        Lugar.hasMany(models.Top);
     };
     return Lugar;
 };

@@ -1,15 +1,10 @@
 import models from '../src/orm.database/models/index';
 import { get_Date } from '../src/utilitarios/utilitarios';
-import { encryptAES256ctr, decryptedAES256ctr } from '../src/controller/common.controller';
-const TipoUsuarioDTO = models.TipoUsuario;
-const ParametroDTO = models.Parametro;
 const UsuarioDTO = models.Usuario;
 async function Init() {
     try {
-        // await SincronizarModelo();
-        // await createInitTipoUsuario();
+        await SincronizarModelo();
         // await createInitUsuario();
-        // await createInitParametro();
     } catch (err) {
         console.error('Init ERROR:', err);
     }
@@ -17,55 +12,11 @@ async function Init() {
 async function SincronizarModelo() {
     try {
         // Note: using `force: true` will drop the table if it already exists
+        // const rpta = await models.sequelize.sync({ force: true });
         const rpta = await models.sequelize.sync({ alter: true });
         console.log("SincronizarModelo ok");
     } catch (err) {
         console.error('ERROR ObtenerUsuario:', err);
-    }
-}
-async function createInitParametro() {
-    try {
-        let arrayParametro = [
-            {
-                Codigo: 'AWS_ACCESS_KEY_ID',
-                Valor: '8b1c326639d59e8c1ddc44999d91881dec3fa40b116fbc05fd5e0798d6a3efccd2c50bc0'
-            }
-            , {
-                Codigo: 'AWS_SECRET_ACCESS_KEY',
-                Valor: '44275f452ea4607c5e476711ec0c64f9bc237852c94c4679618fedb546cf6f5ff2657bb9be93d11b01ad49d6288ca057ea4a2493aee132c8'
-            }];
-        arrayParametro.forEach(async element => {
-            let newParametro = await ParametroDTO.create({
-                Codigo: element.Codigo
-                , Valor: element.Valor
-                , FlagActivo: true
-                , FlagEliminado: false
-                , FechaCreacion: get_Date()
-                , CreadoPor: 'AUTO'
-            }, {
-                fields: ['Codigo', 'Valor', 'FlagActivo', 'FlagEliminado', 'FechaCreacion', 'CreadoPor']
-            });
-        });
-    } catch (error) {
-        throw error;
-    }
-}
-async function createInitTipoUsuario() {
-    try {
-        let array = ['Top5', 'Facebook', 'Instagram'];
-        array.forEach(async element => {
-            let newTipoUsuario = await TipoUsuarioDTO.create({
-                Nombre: element
-                , FlagActivo: true
-                , FlagEliminado: false
-                , FechaCreacion: get_Date()
-                , CreadoPor: 'AUTO'
-            }, {
-                fields: ['Nombre', 'FlagActivo', 'FlagEliminado', 'FechaCreacion', 'CreadoPor']
-            });
-        });
-    } catch (error) {
-        throw error
     }
 }
 async function createInitUsuario() {

@@ -11,7 +11,7 @@ import {
 router.post('/', existeToken, crearLugar);
 router.post('/getById', existeToken, obtenerLugar);
 router.post('/deleteById', existeToken, eliminarLugar);
-router.post('/getByLocation', existeToken, obtenerLugarPorUbicacion);
-router.post('/getAll', existeToken, listarLugares);
+router.get('/getByLocation', existeToken, obtenerLugarPorUbicacion);
+router.get('/getAll', existeToken, listarLugares);
 
 module.exports = router;

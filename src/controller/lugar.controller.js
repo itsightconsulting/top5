@@ -7,9 +7,9 @@ async function obtenerLugar(id) {
     try {
         let lugarBD = await LugarDTO.findOne({
             where: {
-                LugarId: id
+                id
             }
-            , order: [['FechaCreacion', 'DESC']]
+            , order: [['updatedAt', 'DESC']]
         });
         return lugarBD;
     } catch (error) {
@@ -20,38 +20,34 @@ async function crearLugar(data) {
     try {
         let response = null;
         let lugarBD = null;
-        const { Nombre, Latitud, Longitud, Tipo, FlagProcedenciaGoogleMaps, Descripcion } = data;
-        if (data.LugarId) {
-            lugarBD = await obtenerLugar(data.LugarId);
-            if (lugarBD) {
-                await lugarBD.update({
-                    Nombre
-                    , Latitud
-                    , Longitud
-                    , Tipo
-                    , FlagProcedenciaGoogleMaps
-                    , Descripcion
-                    , FlagActivo: true
-                    , FlagEliminado: false
-                    , ModificadoPor: data.ModificadoPor
-                    , FechaModificacion: util.get_Date()
-                });
-            }
-
+        const { name, latitude, longitude } = data;
+        if (data.id) {
+            // lugarBD = await obtenerLugar(data.LugarId);
+            // if (lugarBD) {
+            await lugarBD.update({
+                name
+                , latitude
+                , longitude
+                , flagActive: true
+                , flagEliminate: false
+                , updatedAt: util.get_Date()
+            }, {
+                where: {
+                    id: data.id
+                }
+            });
+            // }
         } else {
             lugarBD = await LugarDTO.create({
-                Nombre
-                , Latitud
-                , Longitud
-                , Tipo
-                , FlagProcedenciaGoogleMaps
-                , Descripcion
-                , FlagActivo: true
-                , FlagEliminado: false
-                , CreadoPor: objTop.CreadoPor
-                , FechaCreacion: util.get_Date()
+                name
+                , latitude
+                , longitude
+                , flagActive: true
+                , flagEliminate: false
+                , createdAt: util.get_Date()
+                , updatedAt: util.get_Date()
             }, {
-                fields: ['Nombre', 'Latitud', 'Longitud', 'Tipo', 'FlagProcedenciaGoogleMaps', 'Descripcion', 'FlagActivo', 'FlagEliminado', 'CreadoPor', 'FechaCreacion']
+                fields: ['name', 'latitude', 'longitude', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt']
             });
 
         }
@@ -65,46 +61,45 @@ async function crearLugar(data) {
         }
         return response;
     } catch (error) {
-        console.log("controller crearTop(error):", error);
         throw error;
     }
 }
-async function eliminarLugar(id, modificadoPor) {
+async function eliminarLugar(id) {
     try {
         let response = null;
         let lugarBd = null;
         if (id) {
-            lugarBd = await obtenerLugar(id);
-            if (lugarBd) {
-                await lugarBd.update({
-                    FlagActivo: false
-                    , FlagEliminado: true
-                    , ModificadoPor: modificadoPor
-                    , FechaModificacion: util.get_Date()
-                });
-                response = buildContainer(true, 'Eliminado correctamente.', null, null);
-            }
-
+            // lugarBd = await obtenerLugar(id);
+            // if (lugarBd) {
+            await lugarBd.update({
+                flagActive: false
+                , flagEliminate: true
+                , updatedAt: util.get_Date()
+            });
+            response = buildContainer(true, 'Eliminado correctamente.', null, null);
+            // }
         }
         if (response === null) {
             throw new Error('No se pudo eliminar lugar');
         }
         return response;
     } catch (error) {
-        console.log("controller eliminarLugar(error):", error);
         throw error;
     }
 }
-async function obtenerLugarPorUbicacion(Latitud, Longitud) {
+async function obtenerLugarPorUbicacion(latitude, longitude) {
     try {
+        let response = null;
         let lugarBdListado = await LugarDTO.findAll({
             where: {
-                Latitud: Latitud,
-                Longitud: Longitud,
-                FlagActivo: true
-            }, order: [['FechaCreacion', 'DESC']]
+                latitude,
+                longitude,
+                flagActive: true
+            }, order: [['updatedAt', 'DESC']]
         });
-        return lugarBdListado;
+        let data = { total: lugarBdListado.length, datos: lugarBdListado };
+        response = buildContainer(true, null, data, null);
+        return response;
     } catch (error) {
         throw error;
     }
@@ -113,9 +108,9 @@ async function listarLugares(pagina, cantidad) {
     try {
         let response = null;
         let lugarBDList = await LugarDTO.findAll({
-            where: { FlagActivo: true, FlagEliminado: false },
-            attributes: ['Nombre', 'Latitud', 'Longitud'],
-            order: [['FechaCreacion', 'DESC']]
+            where: { flagActive: true, flagEliminate: false },
+            attributes: ['name', 'latitude', 'longitude'],
+            order: [['updatedAt', 'DESC']]
         });
         let data = { total: lugarBDList.length, datos: lugarBDList };
         response = buildContainer(true, null, data, null);

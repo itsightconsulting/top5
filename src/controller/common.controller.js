@@ -6,6 +6,10 @@ import { obtenerParametro } from '../controller/parametro.controller';
 //Para que cuando el archivo sea subido al bucket este pueda ser accedido publicamente
 const FILE_PERMISSION = 'public-read'
 
+function controlError(from, error) {
+    console.log(from, " error message =>", error.message);
+    console.log(from, " error stack =>", error.stack);
+}
 async function emptyS3Directory(bucket, dir) {
     const listParams = {
         Bucket: bucket,
@@ -125,5 +129,6 @@ module.exports = {
     encryptAES256ctr,
     decryptedAES256ctr,
     buildContainer,
-    existeJsonData
+    existeJsonData,
+    controlError
 }

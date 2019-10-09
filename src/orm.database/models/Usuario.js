@@ -1,52 +1,54 @@
+import { agregarCamposBase } from '../../utilitarios/utilitarios';
 function CreateFieldObj(_dataTypes) {
-    let FIELD_TABLE = {
-        UsuarioId: {
-            type: _dataTypes.INTEGER,
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true,
-            comment: 'Identificador de la tabla usuario'
-        },
-        NombreCompleto: {
+    let objEntidad = {
+        // UsuarioId: {
+        //     type: _dataTypes.INTEGER,
+        //     allowNull: false,
+        //     autoIncrement: true,
+        //     primaryKey: true,
+        //     comment: 'Identificador de la tabla usuario'
+        // },
+        nombreCompleto: {
             type: _dataTypes.STRING(200),
             allowNull: true,
         },
-        CorreoElectronico: {
+        correoElectronico: {
             type: _dataTypes.STRING(200),
             allowNull: true,
         },
-        Contrasenia: {
+        contrasenia: {
             type: _dataTypes.STRING(100),
             allowNull: true,
         },
-        TipoUsuarioId: {
-            type: _dataTypes.INTEGER,
-            allowNull: true,
-        },
-        RutaImagenPerfil: {
+        // tipoUsuarioId: {
+        //     type: _dataTypes.INTEGER,
+        //     allowNull: true,
+        // },
+        rutaImagenPerfil: {
             type: _dataTypes.STRING(180),
             allowNull: true,
         },
-        FlagActivo: {
-            type: _dataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: true
-        },
-        FlagEliminado: {
-            type: _dataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false
-        },
-        FechaCreacion: {
-            type: _dataTypes.DATE,
-            allowNull: false,
-        },
-        FechaModificacion: {
-            type: _dataTypes.DATE,
-            allowNull: true,
-        }
+        // FlagActivo: {
+        //     type: _dataTypes.BOOLEAN,
+        //     allowNull: false,
+        //     defaultValue: true
+        // },
+        // FlagEliminado: {
+        //     type: _dataTypes.BOOLEAN,
+        //     allowNull: false,
+        //     defaultValue: false
+        // },
+        // FechaCreacion: {
+        //     type: _dataTypes.DATE,
+        //     allowNull: false,
+        // },
+        // FechaModificacion: {
+        //     type: _dataTypes.DATE,
+        //     allowNull: true,
+        // }
     };
-    return FIELD_TABLE;
+    objEntidad = agregarCamposBase(objEntidad, _dataTypes);
+    return objEntidad;
 }
 
 export default (sequelize, DataTypes) => {
@@ -54,13 +56,12 @@ export default (sequelize, DataTypes) => {
         'Usuario'
         , CreateFieldObj(DataTypes)
         , { /*options*/
-            timestamps: false
+            // timestamps: false,
+            freezeTableName: true,
         });
     Usuario.associate = (models) => {
-        // Usuario.belongsTo(models.TipoUsuario)
-        // Usuario.belongsTo(models.TipoUsuario, {
-        //     as: 'Current', foreignKey: 'TipoUsuarioId', constraints: false
-        // });
+        // Usuario.belongsTo(models.TipoUsuario);
+        Usuario.hasMany(models.TopReaccion);
     };
 
     return Usuario;

@@ -7,9 +7,10 @@ async function listarCategoria() {
         let response = null;
         let categoriaBDList = await CategoriaDTO.findAll({
             where: {
-                FlagActivo: true,
-                FlagEliminado: false,
-            }, order: [['FechaCreacion', 'DESC']]
+                flagActive: true,
+                flagEliminate: false,
+            }, attributes: ['id', 'name', 'rutaImagenPrincipal']
+            , order: [['nroOrden', 'ASC']]
         });
         let data = { total: categoriaBDList.length, datos: categoriaBDList };
         response = buildContainer(true, null, data, null);

@@ -1,19 +1,19 @@
-import { agregarCamposBase } from '../../utilitarios/utilitarios';
+import { agregarCamposBaseAuditoria } from '../../utilitarios/utilitarios';
 function CreateFieldObj(_dataTypes) {
     let objEntidad = {
-        TipoUsuarioId: {
-            type: _dataTypes.INTEGER,
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        Nombre: {
+        // tipoUsuarioId: {
+        //     type: _dataTypes.INTEGER,
+        //     allowNull: false,
+        //     autoIncrement: true,
+        //     primaryKey: true
+        // },
+        name: {
             type: _dataTypes.STRING(200),
             allowNull: false,
         }
     };
 
-    objEntidad = agregarCamposBase(objEntidad, _dataTypes);
+    objEntidad = agregarCamposBaseAuditoria(objEntidad, _dataTypes);
     return objEntidad;
 }
 
@@ -22,12 +22,13 @@ export default (sequelize, DataTypes) => {
         'TipoUsuario'
         , CreateFieldObj(DataTypes)
         , { /*options*/
-            timestamps: false
+            // timestamps: false
+            freezeTableName: true,
         });
 
     TipoUsuario.associate = function (models) {
         // associations can be defined here
-        // TipoUsuario.hasMany(models.Usuario);
+        TipoUsuario.hasMany(models.Usuario);
     };
     return TipoUsuario;
 };
