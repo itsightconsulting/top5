@@ -108,6 +108,18 @@ async function getOneTop(req, res) {
         controlError("listarTopGeneral", error);
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
+
+}
+async function listarTopByLugarByCategoria(req, res) {
+    try {
+        existeJsonData(req, res);
+        const { LugarId, categoriaId } = req.body.data;
+        let response = await controller.listarTopByLugarByCategoria(LugarId, categoriaId);
+        return res.status(200).send(response);
+    } catch (error) {
+        controlError("listarTopByLugarByCategoria", error);
+        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+    }
 }
 module.exports = {
     crearTop,
@@ -119,5 +131,6 @@ module.exports = {
     listarTopPorUsuarioPorFiltro,
     publicarTop,
     listarTopGeneral,
-    getOneTop
+    getOneTop,
+    listarTopByLugarByCategoria
 }

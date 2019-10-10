@@ -109,8 +109,16 @@ async function listarLugares(pagina, cantidad) {
         let response = null;
         let lugarBDList = await LugarDTO.findAll({
             where: { flagActive: true, flagEliminate: false },
-            attributes: ['name', 'latitude', 'longitude'],
-            order: [['updatedAt', 'DESC']]
+            attributes: ['id', 'name', 'latitude', 'longitude'],
+            order: [['updatedAt', 'DESC']],
+            include: [{
+                model: models.Top
+                , where: {
+                    flagActive: true,
+                    flagEliminate: false
+                },
+                attributes: []
+            }]
         });
         let data = { total: lugarBDList.length, datos: lugarBDList };
         response = buildContainer(true, null, data, null);

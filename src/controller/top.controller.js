@@ -3,6 +3,7 @@ import util from '../utilitarios/utilitarios';
 import { buildContainer, uploadToS3 } from './common.controller';
 const TopDTO = models.Top;;
 const TopDetalleDTO = models.TopDetalle;
+const Op = models.Sequelize.Op;
 
 async function obtenerTopDetalle(id) {
     try {
@@ -90,6 +91,32 @@ async function listarTopGeneral(categoriaId, cantidad) {
         throw error;
     }
 }
+async function listarTopByLugarByCategoria(LugarId, categoriaId) {
+    try {
+        let response = null;
+        let topBD = null;
+        topBD = await TopDTO.findAll({
+            where: {
+                LugarId,
+                categoriaId,
+                flagActive: true
+            }
+            , attributes: ['id', 'LugarId', 'categoriaId', 'titulo', 'descripcion', 'flagPublicado', 'valoracion','updatedAt']
+            , include: [{
+                model: TopDetalleDTO
+                , where: {
+                    flagImagenDefaultTop: true
+                },
+                attributes: ['id', 'TopId', 'rutaImagen'],
+            }]
+            , order: [['updatedAt', 'DESC']]
+        });
+        response = buildContainer(true, '', topBD, null);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
 async function listarTopPorUsuarioPorCategoria(categoriaId, correoElectronico) {
     try {
         let response = null;
@@ -114,7 +141,7 @@ async function listarTopPorUsuarioPorFiltro(filtro, correoElectronico) {
             where: {
                 createdBy: correoElectronico,
                 flagActive: true,
-                // [Op.or]: [{ Titulo: { [Op.like]: filtro } }, { Descripcion: { [Op.like]: filtro } }]
+                [Op.or]: [{ Titulo: { [Op.like]: filtro } }, { Descripcion: { [Op.like]: filtro } }]
             }, order: [['updatedAt', 'DESC']]
         });
         // TODO obtener foto default
@@ -367,5 +394,6 @@ module.exports = {
     listarTopPorUsuarioPorFiltro,
     listarTopGeneral,
     publicarTop,
-    getOneTop
+    getOneTop,
+    listarTopByLugarByCategoria
 }

@@ -1,27 +1,17 @@
 var router = require('express').Router();
 const { existeToken } = require('../security/AuthService');
 
-import {
-    crearTop,
-    listarTopPorUsuario,
-    listarTopDetallePorTop,
-    eliminarTopDetalle,
-    eliminarTop,
-    listarTopPorUsuarioPorCategoria,
-    listarTopPorUsuarioPorFiltro,
-    publicarTop,
-    listarTopGeneral,
-    getOneTop
-} from '../controller/top.routes';
+import routes from '../controller/top.routes';
 
-router.post('/', existeToken, crearTop);
-router.post('/list/usuario', existeToken, listarTopPorUsuario);
-router.post('/list/categoria', existeToken, listarTopGeneral);
-router.post('/detalle/list/top', existeToken, listarTopDetallePorTop);
-router.post('/detalle/delete', existeToken, eliminarTopDetalle);
-router.post('/delete', existeToken, eliminarTop);
-router.post('/publicar', existeToken, publicarTop);
-router.post('/list/usuario/categoria', existeToken, listarTopPorUsuarioPorCategoria);
-router.post('/list/usuario/autocomplete', existeToken, listarTopPorUsuarioPorFiltro);
-router.post('/getById/:id', existeToken, getOneTop);
+router.post('/', existeToken, routes.crearTop);
+router.post('/list/usuario', existeToken, routes.listarTopPorUsuario);
+router.post('/list/categoria', existeToken, routes.listarTopGeneral);
+router.post('/list/lugar/categoria', existeToken, routes.listarTopByLugarByCategoria);
+router.post('/detalle/list/top', existeToken, routes.listarTopDetallePorTop);
+router.post('/detalle/delete', existeToken, routes.eliminarTopDetalle);
+router.post('/delete', existeToken, routes.eliminarTop);
+router.post('/publicar', existeToken, routes.publicarTop);
+router.post('/list/usuario/categoria', existeToken, routes.listarTopPorUsuarioPorCategoria);
+router.post('/list/usuario/autocomplete', existeToken, routes.listarTopPorUsuarioPorFiltro);
+router.post('/getById/:id', existeToken, routes.getOneTop);
 module.exports = router;
