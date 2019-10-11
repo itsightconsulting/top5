@@ -1,9 +1,22 @@
 import { agregarCamposBaseAuditoria, monthNamefromDate } from '../../utilitarios/utilitarios';
 function CreateFieldObj(_dataTypes) {
     let objEntidad = {
-        titulo: {
-            type: _dataTypes.STRING(200),
+        descripcion: {
+            type: _dataTypes.STRING(500),
+            allowNull: true,
+        },
+        valoracion: {
+            type: _dataTypes.INTEGER,
+            allowNull: true,
+        },
+        flagPublicado: {
+            type: _dataTypes.BOOLEAN,
             allowNull: false,
+            defaultValue: false
+        },
+        fechaPublicado: {
+            type: _dataTypes.DATE,
+            allowNull: true
         }
     };
 
@@ -12,8 +25,8 @@ function CreateFieldObj(_dataTypes) {
 }
 
 export default (sequelize, DataTypes) => {
-    const Top = sequelize.define(
-        'Top'
+    const TopItem = sequelize.define(
+        'TopItem'
         , CreateFieldObj(DataTypes)
         , {
             freezeTableName: true,
@@ -26,10 +39,10 @@ export default (sequelize, DataTypes) => {
             }
         });
 
-    Top.associate = function (models) {
+    TopItem.associate = function (models) {
         // associations can be defined here
-        Top.belongsTo(models.Categoria, { as: 'categoria' });
-        // Top.hasMany(models.TopReaccion);
+        TopItem.hasMany(models.TopItemDetalle);
+        TopItem.hasMany(models.TopReaccion);
     };
-    return Top;
+    return TopItem;
 };

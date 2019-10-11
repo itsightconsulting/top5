@@ -1,4 +1,4 @@
-import { agregarCamposBase } from '../../utilitarios/utilitarios';
+import { agregarCamposBaseAuditoria } from '../../utilitarios/utilitarios';
 function CreateFieldObj(_dataTypes) {
     let objEntidad = {
         // CategoriaId: {
@@ -21,7 +21,7 @@ function CreateFieldObj(_dataTypes) {
         }
     };
 
-    objEntidad = agregarCamposBase(objEntidad, _dataTypes);
+    objEntidad = agregarCamposBaseAuditoria(objEntidad, _dataTypes);
     return objEntidad;
 }
 

@@ -11,15 +11,15 @@ function agregarCamposBaseAuditoria(object, DataTypes) {
         defaultValue: false
     };
     object.createdBy = {
-        type: DataTypes.STRING(100),
-        allowNull: false,
+        type: DataTypes.INTEGER,
+        allowNull: true,
     };
     // object.FechaCreacion = {
     //     type: DataTypes.DATE,
     //     allowNull: false,
     // };
     object.updatedBy = {
-        type: DataTypes.STRING(100),
+        type: DataTypes.INTEGER,
         allowNull: true,
     };
     // object.FechaModificacion = {
@@ -59,9 +59,32 @@ function get_Date() {
     // let date = parseInt(today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear();
     return date;
 }
+function monthNamefromDate(date) {
+    var monthNames = [
+        "Enero", "Febrero", "Marzo",
+        "Abril", "Mayo", "Junio", "Julio",
+        "Agosto", "Septiembre", "Octubre",
+        "Noviembre", "Diciembre"
+    ];
+
+    // var day = date.getDate();
+    var monthIndex = date.getMonth();
+    // var year = date.getFullYear();
+    return monthNames[monthIndex];
+}
+
+String.Format = function (b) {
+    var a = arguments;
+    return b.replace(/(\{\{\d\}\}|\{\d\})/g, function (b) {
+        if (b.substring(0, 2) == "{{") return b;
+        var c = parseInt(b.match(/\d/)[0]);
+        return a[c + 1]
+    })
+};
 
 module.exports = {
     agregarCamposBaseAuditoria,
     agregarCamposBase,
-    get_Date
+    get_Date,
+    monthNamefromDate
 }
