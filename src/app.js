@@ -11,7 +11,6 @@ app.use(fileUpload({ limits: { fileSize: 50 * 1024 * 1024 } }));
 
 // routes
 app.use('/api/usuario', require('./routes/usuario')); // cada que visiten, solo con prefijo, => api
-app.use('/api/categoria', require('./routes/categoria'));
-app.use('/api/top', require('./routes/top'));
-app.use('/api/lugares', require('./routes/lugares'));
+// app.use('/api/categoria', require('./routes/categoria'));
+// app.use('/api/top', require('./routes/top'));
 export default app;

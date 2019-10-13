@@ -1,28 +1,24 @@
-import models from '../orm.database/models/index';
 import authService from "../security/AuthService";
-
+import models from '../database/database';
 import util from '../utilitarios/utilitarios';
-import { TERMINOS_Y_CONDICIONES, AVISO_POLITICA_Y_PRIVACIDAD } from '../utilitarios/constants';
 import { buildContainer, uploadToS3, downloadFromS3 } from './common.controller';
-import { obtenerParametro } from '../controller/parametro.controller';
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const UsuarioDTO = models.Usuario;
 
-async function validarEmail(correoElectronico) {
+async function validarEmail(CorreoElectronico) {
     try {
         const usuario = await UsuarioDTO.findOne({
             where: {
-                correoElectronico: correoElectronico.toLowerCase(),
-                flagActive: true
-            }, attributes: ['correoElectronico']
+                CorreoElectronico: CorreoElectronico.toLowerCase(),
+                FlagActivo: true
+            }, attributes: ['CorreoElectronico']
         });
         let estadoExiste = usuario != null;
         return buildContainer(true, null, estadoExiste, null);
     } catch (error) {
-        throw error;
-        // util.controlError("validarEmail", error);
-        // throw new Error("controller validarEmail(error): " + error);
+        console.log("validarEmail (error): ", error);
+        throw new Error("controller validarEmail(error): " + error);
     }
 }
 
@@ -30,73 +26,72 @@ async function login(data) {
     try {
         let usuario = await UsuarioDTO.findOne({
             where: {
-                correoElectronico: data.correoElectronico.toLowerCase(),
+                CorreoElectronico: data.CorreoElectronico.toLowerCase(),
                 TipoUsuarioId: data.TipoUsuarioId
-            }, attributes: ['id', 'contrasenia', 'nombreCompleto', 'createdAt', 'rutaImagenPerfil']
+            }, attributes: ['UsuarioId', 'Contrasenia', 'NombreCompleto', 'FechaCreacion', 'RutaImagenPerfil']
         });
         if (usuario === null) {
             return buildContainer(false, 'Email no existe.', null, null);
         }
-        var passwordIsValid = bcrypt.compareSync(data.contrasenia, usuario.contrasenia);
+        var passwordIsValid = bcrypt.compareSync(data.Contrasenia, usuario.Contrasenia);
         if (!passwordIsValid) return buildContainer(false, 'Contraseña incorrecto.', null, null);
 
         let objToken = ObjectToken(usuario);
         let token = await authService.generateToken(objToken);
-        usuario.contrasenia = '';
+        usuario.Contrasenia = '';
         return buildContainer(true, '', usuario, token);
     } catch (error) {
-        // console.log("login error:", error);
+        console.log("login error:", error);
         throw error;
     }
 }
 function ObjectToken(usuario) {
     return {
-        email: usuario.correoElectronico
-        , id: usuario.id
+        email: usuario.CorreoElectronico
+        , id: usuario.UsuarioId
     }
 }
 
 async function crearUsuario(data) {
     try {
-        let { nombreCompleto, correoElectronico, contrasenia, TipoUsuarioId } = data;
+        let { NombreCompleto, CorreoElectronico, Contrasenia, TipoUsuarioId } = data;
 
         let salt = await bcrypt.genSalt(saltRounds);
-        let contraseniaEncrypt = await bcrypt.hash(contrasenia, salt);
-        correoElectronico = correoElectronico.toLowerCase();
+        let ContraseniaEncrypt = await bcrypt.hash(Contrasenia, salt);
+        CorreoElectronico = CorreoElectronico.toLowerCase();
         let newUsuario = await UsuarioDTO.create({
-            nombreCompleto
-            , contrasenia: contraseniaEncrypt
-            , correoElectronico
+            NombreCompleto
+            , CorreoElectronico
+            , Contrasenia: ContraseniaEncrypt
             , TipoUsuarioId
-            , flagActive: true
-            , flagEliminate: false
-            , createdAt: util.get_Date()
-            , updatedAt: util.get_Date()
+            , FlagActivo: true
+            , FlagEliminado: false
+            , FechaCreacion: util.get_Date()
         }, {
-            fields: ['nombreCompleto', 'correoElectronico', 'contrasenia', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt']
+            fields: ['NombreCompleto', 'CorreoElectronico', 'Contrasenia', 'TipoUsuarioId', 'FlagActivo', 'FlagEliminado', 'FechaCreacion']
         });
         if (newUsuario) {
-            let objToken = ObjectToken({ correoElectronico: newUsuario.correoElectronico, id: newUsuario.id });
+            let objToken = ObjectToken({ CorreoElectronico: newUsuario.CorreoElectronico, UsuarioId: newUsuario.UsuarioId });
             let token = await authService.generateToken(objToken);
             return buildContainer(true, 'Usuario creado correctamente.', null, token);
         } else {
             throw new Error('No se pudo crear usuario');
         }
     } catch (error) {
-        // util.controlError("crearUsuario", error);
+        console.log("controller crearUsuario(error):", error);
         throw error;
     }
 }
 
 async function loginFacebook(data) {
     try {
-        let { correoElectronico, TipoUsuarioId, rutaImagenPerfil } = data;
+        let { CorreoElectronico, TipoUsuarioId, RutaImagenPerfil } = data;
 
         let usuario = await UsuarioDTO.findOne({
             where: {
-                correoElectronico: correoElectronico,
-                flagActive: true
-            }, attributes: ['correoElectronico', 'id', 'TipoUsuarioId', 'rutaImagenPerfil']
+                CorreoElectronico: CorreoElectronico,
+                FlagActivo: true
+            }, attributes: ['CorreoElectronico', 'UsuarioId', 'TipoUsuarioId', 'RutaImagenPerfil']
         });
         // usuario = usuario || null;
         let objToken = {};
@@ -104,28 +99,26 @@ async function loginFacebook(data) {
             let flagExisteTipoUsuario = TipoUsuarioId === usuario.TipoUsuarioId;
             if (flagExisteTipoUsuario) {
                 // updateRutaImagen
-                let flagCambiarRuta = usuario.rutaImagenPerfil !== rutaImagenPerfil;
+                let flagCambiarRuta = usuario.RutaImagenPerfil !== RutaImagenPerfil;
                 if (flagCambiarRuta) {
-                    console.log("flagCambiarRuta", flagCambiarRuta);
-                    await updaterutaImagenPerfil(usuario.id, rutaImagenPerfil);
+                    await updateRutaImagenPerfil(usuario.UsuarioId, RutaImagenPerfil);
                 }
-                objToken = ObjectToken({ correoElectronico: usuario.correoElectronico, id: usuario.id });
+                objToken = ObjectToken({ CorreoElectronico: usuario.CorreoElectronico, UsuarioId: usuario.UsuarioId });
             } else {
                 return buildContainer(false, 'Email ya se encuentra registrado', null, null);
             }
         } else {
-            correoElectronico = correoElectronico.toLower();
+            CorreoElectronico = CorreoElectronico.toLower();
             let newUsuario = await UsuarioDTO.create({
-                correoElectronico
+                CorreoElectronico
                 , TipoUsuarioId
-                , flagActive: true
-                , flagEliminate: false
-                , createdAt: util.get_Date()
-                , updatedAt: util.get_Date()
-                , rutaImagenPerfil
-            }, { fields: ['correoElectronico', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt', 'rutaImagenPerfil'] });
+                , FlagActivo: true
+                , FlagEliminado: false
+                , FechaCreacion: util.get_Date()
+                , RutaImagenPerfil
+            }, { fields: ['CorreoElectronico', 'TipoUsuarioId', 'FlagActivo', 'FlagEliminado', 'FechaCreacion', 'RutaImagenPerfil'] });
             if (newUsuario) {
-                objToken = ObjectToken({ correoElectronico: newUsuario.correoElectronico, id: newUsuario.id });
+                objToken = ObjectToken({ CorreoElectronico: newUsuario.CorreoElectronico, UsuarioId: newUsuario.UsuarioId });
             }
             usuario = newUsuario;
         }
@@ -134,7 +127,7 @@ async function loginFacebook(data) {
         let token = await authService.generateToken(objToken);
         return buildContainer(true, '', usuario, token);
     } catch (error) {
-        // util.controlError("loginFacebook", error);
+        console.log("controller loginFacebook(error):", error);
         throw error;
     }
 }
@@ -142,71 +135,58 @@ async function getOneUsuario(id) {
     try {
         const usuario = await UsuarioDTO.findOne({
             where: {
-                id
+                UsuarioId: id
             }
         });
-        usuario.contrasenia = '';
+        usuario.Contrasenia = '';
         return buildContainer(true, '', usuario, null);
     } catch (err) {
         console.log("getOneUsuario error: ", err);
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
-async function updateUsuario(data, path, files) {
-    try {
-        const { id, correoElectronico, nombreCompleto } = data;
-        if (!id || !correoElectronico || !nombreCompleto) {
-            throw new Error("No puede enviar data vacio");
-        }
-        if (files) {
-            console.log("files", files.length);
-            await uploadFile(id, path, files);
-        }
+async function updateUsuario(req, res) {
+    const { id } = req.params;
+    const { CorreoElectronico, Contrasenia } = req.body;
 
-        await UsuarioDTO.update({
-            nombreCompleto
-            , correoElectronico
-            , updatedAt: util.get_Date()
-        }, {
-            where: {
-                id
-            }
+    const usuario = await UsuarioDTO.findOne({
+        attributes: ['CorreoElectronico', 'Contrasenia']
+        , where: {
+            UsuarioId: id
+        }
+    });
+
+    const salt = await bcrypt.genSalt(saltRounds);
+    Contrasenia = await bcrypt.hash(Contrasenia, salt);
+
+    if (usuario != null && usuario != undefined) {
+        await usuario.update({
+            CorreoElectronico, Contrasenia
         });
-
-        return buildContainer(true, 'Actualizado correctamente.', null, null);
-    } catch (error) {
-        throw error;
     }
+    return res.send({
+        message: 'Actualizado correctamente.',
+        data: usuario
+    })
 }
-async function getTerminoyCondiciones() {
-    try {
-        let terminosyC = await obtenerParametro(TERMINOS_Y_CONDICIONES);
-        let avisoPyP = await obtenerParametro(AVISO_POLITICA_Y_PRIVACIDAD);
-        if (!terminosyC || !avisoPyP) throw new Error(`parámetro ${TERMINOS_Y_CONDICIONES} y/ó ${AVISO_POLITICA_Y_PRIVACIDAD} no existen`);
-        let data = { terminosyC: terminosyC.value, avisoPyP: avisoPyP.value };
-        return buildContainer(true, '', data, null);
-    } catch (error) {
-        throw error;
-    }
-}
-async function updaterutaImagenPerfil(id, ruta) {
+async function updateRutaImagenPerfil(id, ruta) {
     try {
         const usuario = await UsuarioDTO.findOne({
-            attributes: ['id', 'rutaImagenPerfil']
+            attributes: ['UsuarioId', 'RutaImagenPerfil']
             , where: {
-                id
+                UsuarioId: id
             }
         });
 
         if (usuario === null) throw new Error('Usuario no existe');
 
         await usuario.update({
-            rutaImagenPerfil: ruta
+            RutaImagenPerfil: ruta
         });
 
         return usuario;
     } catch (error) {
-        // util.controlError("updaterutaImagenPerfil", error);
+        console.log('updateRutaImagenPerfil (error): ', error);
         throw error
     }
 
@@ -214,19 +194,17 @@ async function updaterutaImagenPerfil(id, ruta) {
 async function uploadFile(id, path, files) {
     try {
         let bucketName = "itsight-top5-bucket-user";
-        if (files) {
-            console.log('files cant', files.length);
-            let rutaImagenPerfil = '';
-            files.forEach(async file => {
-                const { name, size, mimetype } = file;
-                let key = `user/${id}/${path}/${name}`;
-                const { Location } = await uploadToS3(file, bucketName, key);
-                rutaImagenPerfil = await updaterutaImagenPerfil(id, Location);
-            });
-            return buildContainer(true, '', rutaImagenPerfil, null)
-        }
+        console.log('files cant', files.length);
+        let rutaImagenPerfil = '';
+        files.forEach(async file => {
+            const { name, size, mimetype } = file;
+            let key = `user/${id}/${path}/${name}`;
+            const { Location } = await uploadToS3(file, bucketName, key);
+            rutaImagenPerfil = await updateRutaImagenPerfil(id, Location);
+        });
+        return buildContainer(true, '', rutaImagenPerfil, null)
     } catch (error) {
-        // util.controlError("uploadFile", error);
+        console.log("uploadFile error:", error);
         throw error;
     }
 }
@@ -239,7 +217,7 @@ async function downloadFile(id, filePath) {
         let data = await downloadFromS3(bucketName, key);
         return buildContainer(true, 'Descarga de archivo concluido', data, null);
     } catch (error) {
-        // util.controlError("downloadFile", error);
+        console.log("uploadFile error:", error);
         throw error;
     }
 }
@@ -252,6 +230,4 @@ module.exports = {
     , loginFacebook
     , uploadFile
     , downloadFile
-    , updateUsuario
-    , getTerminoyCondiciones
 }

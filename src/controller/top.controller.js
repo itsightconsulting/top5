@@ -1,19 +1,18 @@
-import models from '../orm.database/models/index';
+import models from '../database/database';
 import util from '../utilitarios/utilitarios';
 import { buildContainer, uploadToS3 } from './common.controller';
 const TopDTO = models.Top;
-const TopItemDTO = models.TopItem;
-const TopItemDetalleDTO = models.TopItemDetalle;
-const Op = models.Sequelize.Op;
+const TopDetalleDTO = models.TopDetalle;
 
-async function obtenerTopItemDetalle(id) {
+async function obtenerTopDetalle(id) {
     try {
-        let topItemDetalleBD = await TopItemDetalleDTO.findOne({
+        let topDetalleBD = await TopDetalleDTO.findOne({
             where: {
-                id
+                TopDetalleId: id
             }
+            , order: [['FechaCreacion', 'DESC']]
         });
-        return topItemDetalleBD;
+        return topDetalleBD;
     } catch (error) {
         throw error;
     }
@@ -22,164 +21,73 @@ async function obtenerTop(id) {
     try {
         let topBD = await TopDTO.findOne({
             where: {
-                id
+                TopId: id
             }
+            , order: [['FechaCreacion', 'DESC']]
         });
         return topBD;
     } catch (error) {
         throw error;
     }
 }
-async function listarTopPorUsuario(createdBy, cantidad) {
+async function listarTopPorUsuario(correoElectronico, cantidad) {
     try {
-        let topBD = null;
-        let response = null;
-        // if (cantidad) {
-
-        // } else {
-        topBD = await TopDTO.findAll({
-            where: { createdBy, flagActive: true }
-            , include: [{
-                model: TopItemDTO
-                , where: { flagActive: true }
-                , include: [{
-                    model: TopItemDetalleDTO
-                    , where: { flagImagenDefaultTop: true }
-                }]
-            }]
-            , order: [['updatedAt', 'DESC']]
-        });
-        // }
-        response = buildContainer(true, '', topBD, null);
-        return response;
-    } catch (error) {
-        throw error;
-    }
-}
-async function listarTopGeneral(categoriaId, cantidad) {
-    try {
-        let response = null;
         let topBD = null;
         if (cantidad) {
-            topBD = await TopDTO.findAll({
-                where: {
-                    categoriaId,
-                    flagActive: true
-                }
-                , include: [{
-                    model: TopItemDTO
-                    , where: { flagActive: true }
-                    , include: [{
-                        model: TopItemDetalleDTO
-                        , where: { flagImagenDefaultTop: true }
-                    }]
-                }]
-            });
+
         } else {
+            // sequelize.query("UPDATE users SET y = 42 WHERE x = 12")
             topBD = await TopDTO.findAll({
                 where: {
-                    categoriaId,
-                    flagActive: true
-                }
-                , include: [{
-                    model: TopItemDTO
-                    , where: { flagActive: true }
-                    , include: [{
-                        model: TopItemDetalleDTO
-                        , where: { flagImagenDefaultTop: true }
-                    }]
-                }]
-                , order: [['updatedAt', 'DESC']]
+                    CreadoPor: correoElectronico,
+                    FlagActivo: true
+                }, order: [['FechaCreacion', 'DESC']]
             });
         }
-        response = buildContainer(true, '', topBD, null);
-        return response;
+        return topBD;
     } catch (error) {
         throw error;
     }
 }
-async function listarTopByLugarByCategoria(LugarId, categoriaId) {
+async function listarTopPorUsuarioPorCategoria(categoriaId, correoElectronico) {
     try {
-        let response = null;
-        let topBD = null;
-        topBD = await TopDTO.findAll({
-            where: {
-                LugarId,
-                categoriaId,
-                flagActive: true
-            }
-            , attributes: ['id', 'LugarId', 'categoriaId', 'titulo', 'updatedAt']
-            , include: [{
-                model: TopItemDTO
-                , where: { flagActive: true }
-                , include: [{
-                    model: TopItemDetalleDTO
-                    , where: { flagImagenDefaultTop: true }
-                    , attributes: ['id', 'TopItemId', 'rutaImagen']
-                }]
-                , attributes: ['id', 'descripcion', 'flagPublicado', 'valoracion']
-            }]
-            , order: [['updatedAt', 'DESC']]
-        });
-        response = buildContainer(true, '', topBD, null);
-        return response;
-    } catch (error) {
-        throw error;
-    }
-}
-async function listarTopPorUsuarioPorCategoria(categoriaId, createdBy) {
-    try {
-        let response = null;
         let topBDListado = await TopDTO.findAll({
             where: {
-                createdBy,
-                categoriaId,
-                flagActive: true
-            }, order: [['updatedAt', 'DESC']]
+                CreadoPor: correoElectronico,
+                CategoriaId: categoriaId,
+                FlagActivo: true
+            }, order: [['FechaCreacion', 'DESC']]
         });
         // TODO obtener foto default
-        response = buildContainer(true, '', topBDListado, null);
-        return response;
+        return topBDListado;
     } catch (error) {
         throw error;
     }
 }
-async function listarTopPorUsuarioPorFiltro(filtro, createdBy) {
+async function listarTopPorUsuarioPorFiltro(filtro, correoElectronico) {
     try {
-        let response = null;
-        let topItemBDListado = await TopItemDTO.findAll({
+        let topBDListado = await TopDTO.findAll({
             where: {
-                flagActive: true,
-                [Op.or]: [{ Titulo: { [Op.like]: filtro } }]
-            }
-            , include: [{
-                model: TopItemDTO,
-                where: {
-                    flagActive: true,
-                    createdBy,
-                    [Op.or]: [{ Descripcion: { [Op.like]: filtro } }]
-                }
-            }]
-            , order: [['updatedAt', 'DESC']]
+                CreadoPor: correoElectronico,
+                FlagActivo: true,
+                // [Op.or]: [{Titulo: [Op.like]: filtro}, {Descripcion: [Op.like]: filtro}] 
+            }, order: [['FechaCreacion', 'DESC']]
         });
         // TODO obtener foto default
-        response = buildContainer(true, '', topItemBDListado, null);
-        return response;
+        return topBDListado;
     } catch (error) {
         throw error;
     }
 }
-async function listarTopDetallePorTopItem(id) {
+async function listarTopDetallePorTop(id) {
     try {
-        let response = null;
-        let topItemDetalleBD = await TopItemDetalleDTO.findAll({
+        let topDetalleBD = await TopDetalleDTO.findAll({
             where: {
-                TopItemId: id,
-                flagActive: true
-            }, order: [['updatedAt', 'DESC']]
+                TopId: id,
+                FlagActivo: true
+            }, order: [['FechaCreacion', 'DESC']]
         });
-        response = buildContainer(true, '', topItemDetalleBD, null);
-        return response;
+        return topDetalleBD;
     } catch (error) {
         throw error;
     }
@@ -187,52 +95,52 @@ async function listarTopDetallePorTopItem(id) {
 async function crearTop(objTop, objTopDetalle) {
     try {
         let response = null;
+        // let objTop = data.Top;
+        // let objTopDetalle = data.TopDetalle;
         let topBD = null;
-        if (objTop.id) {
-            topBD = await obtenerTop(objTop.id);
+        if (objTop.TopId) {
+            topBD = await obtenerTop(objTop.TopId);
             if (topBD) {
                 await topBD.update({
-                    titulo: objTop.titulo
-                    , descripcion: objTop.descripcion
-                    , categoriaId: objTop.CategoriaId
-                    , valoracion: objTop.valoracion
-                    , flagPublicado: objTop.flagPublicado
+                    Titulo: objTop.Titulo
+                    , Descripcion: objTop.Descripcion
+                    , CategoriaId: objTop.CategoriaId
+                    , Valoracion: objTop.Valoracion
+                    , FlagPublicado: objTop.FlagPublicado
+                    , CantLike: objTop.CantLike
                     , LugarId: objTop.LugarId
-                    , flagActive: true
-                    , FlagEliminate: false
-                    , updatedBy: objTop.createdBy
-                    , updatedAt: util.get_Date()
+                    , FlagActivo: true
+                    , FlagEliminado: false
+                    , ModificadoPor: objTop.ModificadoPor
+                    , FechaModificacion: util.get_Date()
                 });
             }
 
         } else {
             topBD = await TopDTO.create({
-                titulo: objTop.titulo
-                , descripcion: objTop.descripcion
-                , categoriaId: objTop.categoriaId
-                , valoracion: objTop.valoracion
-                , flagPublicado: objTop.flagPublicado
+                Titulo: objTop.Titulo
+                , Descripcion: objTop.Descripcion
+                , CategoriaId: objTop.CategoriaId
+                , Valoracion: objTop.Valoracion
+                , FlagPublicado: objTop.FlagPublicado
+                , CantLike: objTop.CantLike
                 , LugarId: objTop.LugarId
-                , flagActive: true
-                , FlagEliminate: false
-                , createdBy: objTop.createdBy
-                , createdAt: util.get_Date()
-                , updatedAt: util.get_Date()
+                , FlagActivo: true
+                , FlagEliminado: false
+                , CreadoPor: objTop.CreadoPor
+                , FechaCreacion: util.get_Date()
             }, {
-                fields: ['titulo', 'descripcion', 'categoriaId', 'valoracion', 'flagPublicado', 'LugarId', 'flagActive', 'FlagEliminate', 'createdBy', 'createdAt', 'updatedAt']
+                fields: ['Titulo', 'Descripcion', 'CategoriaId', 'Valoracion', 'FlagPublicado', 'CantLike', 'LugarId', 'FlagActivo', 'FlagEliminado', 'CreadoPor', 'FechaCreacion']
             });
 
         }
 
         if (topBD) {
-            objTopDetalle.forEach(async element => {
-                element.TopId = topBD.id;
-                let topItemDetalleBD = await crearTopDetalle(element);
-                if (!topItemDetalleBD.ok) {
-                    throw new Error('No se pudo crear top detalle');
-                }
-            });
-            response = buildContainer(true, 'Top creado correctamente.', null, null);
+            objTopDetalle.TopId = topBD.TopId;
+            let topDetalleBd = await crearTopDetalle(objTopDetalle);
+            if (topDetalleBd.ok) {
+                response = buildContainer(true, 'Top creado correctamente.', null, token);
+            }
         }
 
         if (response === null) {
@@ -240,62 +148,64 @@ async function crearTop(objTop, objTopDetalle) {
         }
         return response;
     } catch (error) {
+        console.log("controller crearTop(error):", error);
         throw error;
     }
 }
-async function crearTopDetalle(topDetalle) {
+async function crearTopDetalle(data) {
     try {
         let response = null;
-        let topItemDetalleBD = null;
-        if (topDetalle.id) {
-            topItemDetalleBD = await obtenerTopItemDetalle(topDetalle.id);
-            if (topItemDetalleBD) {
-                await topItemDetalleBD.update({
-                    rutaImagen: topDetalle.rutaImagen
-                    , flagImagenDefaultTop: topDetalle.flagImagenDefaultTop
-                    , flagActive: true
-                    , flagEliminate: false
-                    , updatedBy: topDetalle.createdBy
-                    , updatedAt: util.get_Date()
+        let TopDetalleBd = null;
+        if (data.TopDetalleId) {
+            TopDetalleBd = await obtenerTop(objTop.TopDetalleId);
+            if (TopDetalleBd) {
+                await TopDetalleBd.update({
+                    RutaImagen: data.RutaImagen
+                    , FlagImagenDefaultTop: data.FlagImagenDefaultTop
+                    , FlagActivo: true
+                    , FlagEliminado: false
+                    , ModificadoPor: data.ModificadoPor
+                    , FechaModificacion: util.get_Date()
                 });
             }
         } else {
-            topItemDetalleBD = await TopItemDetalleDTO.create({
-                TopId: topDetalle.TopId
-                , rutaImagen: topDetalle.rutaImagen
-                , flagImagenDefaultTop: topDetalle.flagImagenDefaultTop
-                , flagActive: true
-                , flagEliminate: false
-                , createdBy: topDetalle.createdBy
-                , createdAt: util.get_Date()
-                , updatedAt: util.get_Date()
+            TopDetalleBd = await TopDetalleDTO.create({
+                TopId: data.TopId
+                , RutaImagen: data.RutaImagen
+                , FlagImagenDefaultTop: data.FlagImagenDefaultTop
+                , FlagActivo: true
+                , FlagEliminado: false
+                , CreadoPor: data.CreadoPor
+                , FechaCreacion: util.get_Date()
             }, {
-                fields: ['TopId', 'rutaImagen', 'flagImagenDefaultTop', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt']
+                fields: ['TopId', 'RutaImagen', 'FlagImagenDefaultTop', 'Valoracion', 'FlagActivo', 'FlagEliminado', 'CreadoPor', 'FechaCreacion']
             });
         }
 
-        if (topItemDetalleBD) {
-            response = buildContainer(true, 'Creado correctamente.', topItemDetalleBD, null);
+        if (TopDetalleBd) {
+            response = buildContainer(true, 'Creado correctamente.', TopDetalleBd, null);
         }
         if (response === null) {
             throw new Error('No se pudo crear top detalle');
         }
         return response;
     } catch (error) {
+        console.log("controller crearTopDetalle(error):", error);
         throw error;
     }
 }
-async function eliminarTopDetalle(id) {
+async function eliminarTopDetalle(id, modificadoPor) {
     try {
         let response = null;
-        let topItemDetalleBD = null;
+        let TopDetalleBd = null;
         if (id) {
-            topItemDetalleBD = await obtenerTopItemDetalle(id);
-            if (topItemDetalleBD) {
-                await topItemDetalleBD.update({
-                    flagActive: false
-                    , FlagEliminate: true
-                    , updatedAt: util.get_Date()
+            TopDetalleBd = await obtenerTopDetalle(id);
+            if (TopDetalleBd) {
+                await TopDetalleBd.update({
+                    FlagActivo: false
+                    , FlagEliminado: true
+                    , ModificadoPor: modificadoPor
+                    , FechaModificacion: util.get_Date()
                 });
             }
             response = buildContainer(true, 'Eliminado correctamente.', null, null);
@@ -305,20 +215,22 @@ async function eliminarTopDetalle(id) {
         }
         return response;
     } catch (error) {
+        console.log("controller eliminarTopDetalle(error):", error);
         throw error;
     }
 }
-async function eliminarTopDetallePorTopId(id) {
+async function eliminarTopDetallePorTopId(topId, modificadoPor) {
     try {
         let response = null;
-        if (id) {
-            await TopItemDetalleDTO.update({
-                flagActive: false
-                , flagEliminate: true
-                , updatedAt: util.get_Date()
+        if (topId) {
+            await TopDetalleDTO.update({
+                FlagActivo: false
+                , FlagEliminado: true
+                , ModificadoPor: modificadoPor
+                , FechaModificacion: util.get_Date()
             }, {
                 where: {
-                    TopId: id
+                    TopId: topId
                 }
             });
             response = buildContainer(true, 'Eliminado correctamente.', null, null);
@@ -328,10 +240,11 @@ async function eliminarTopDetallePorTopId(id) {
         }
         return response;
     } catch (error) {
+        console.log("controller eliminarTopDetallePorTopId(error):", error);
         throw error;
     }
 }
-async function eliminarTop(id) {
+async function eliminarTop(id, modificadoPor) {
     try {
         let response = null;
         let TopBd = null;
@@ -339,15 +252,16 @@ async function eliminarTop(id) {
             TopBd = await obtenerTop(id);
             if (TopBd) {
                 await TopBd.update({
-                    flagActive: false
-                    , flagEliminate: true
-                    , updatedAt: util.get_Date()
+                    FlagActivo: false
+                    , FlagEliminado: true
+                    , ModificadoPor: modificadoPor
+                    , FechaModificacion: util.get_Date()
                 }, {
                     where: {
-                        id
+                        TopId: id
                     }
                 });
-                let eliminarDetalle = await eliminarTopDetallePorTopId(id);
+                let eliminarDetalle = await eliminarTopDetallePorTopId(id, modificadoPor);
                 if (eliminarDetalle.ok) {
                     response = buildContainer(true, 'Eliminado correctamente.', null, null);
                 }
@@ -359,59 +273,17 @@ async function eliminarTop(id) {
         }
         return response;
     } catch (error) {
+        console.log("controller eliminarTop(error):", error);
         throw error;
     }
 }
-async function publicarTop(id) {
-    try {
-        let response = null;
-        if (id) {
-            await TopDTO.update({
-                flagPublicado: true
-                , updatedAt: util.get_Date()
-            }, { where: { id } });
-            response = buildContainer(true, 'Publicado correctamente.', null, null);
-        }
-        if (response === null) {
-            throw new Error('No se pudo publicar top');
-        }
-        return response;
-    } catch (error) {
-        throw error;
-    }
-}
-async function getOneTop(id) {
-    try {
-        let response = null;
-        let topBD = null;
-        topBD = await TopDTO.findOne({
-            where: {
-                id,
-                flagActive: true
-            }
-            , include: [{
-                model: TopItemDetalleDTO
-                , where: {
-                    flagImagenDefaultTop: true
-                }
-            }]
-        });
-        response = buildContainer(true, '', topBD, null);
-        return response;
-    } catch (error) {
-        throw error;
-    }
-}
+
 module.exports = {
     crearTop,
     listarTopPorUsuario,
-    listarTopDetallePorTopItem,
+    listarTopDetallePorTop,
     eliminarTopDetalle,
     eliminarTop,
     listarTopPorUsuarioPorCategoria,
-    listarTopPorUsuarioPorFiltro,
-    listarTopGeneral,
-    publicarTop,
-    getOneTop,
-    listarTopByLugarByCategoria
+    listarTopPorUsuarioPorFiltro
 }

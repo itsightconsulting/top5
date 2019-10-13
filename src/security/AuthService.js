@@ -14,21 +14,17 @@ async function obtenerTokenDecoded(token) {
 }
 
 async function existeToken(req, res, next) {
-    try {
-        var authorization = req.headers['authorization']
-        if (!authorization) {
-            throw new Error("Es necesario el token de autenticación");
-        }
+    var authorization = req.headers['authorization']
+    if (!authorization) {
+        return res.status(401).send({ ok: false, message: "Es necesario el token de autenticación", data: null, token: null })
+    }
 
-        let token = authorization.split(' ')[1];//Because Authorization is equals to a string like 'Bearer [jwt]'
-        const decoded = await jwt.verify(token, secret);
-        if (!decoded) {
-            throw new Error("Token inválido");
-        } else {
-            next();
-        }
-    } catch (error) {
-        return res.status(401).send({ ok: false, message: error, data: null, token: null })
+    let token = authorization.split(' ')[1];//Because Authorization is equals to a string like 'Bearer [jwt]'
+    const decoded = await jwt.verify(token, secret);
+    if (!decoded) {
+        return res.status(401).send({ ok: false, message: "Token inválido", data: null, token: null })
+    } else {
+        next();
     }
 }
 module.exports = {

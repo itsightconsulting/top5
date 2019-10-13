@@ -1,43 +1,30 @@
-function agregarCamposBaseAuditoria(object, DataTypes) {
-
-    object.flagActive = {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true
-    };
-    object.flagEliminate = {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
-    };
-    object.createdBy = {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-    };
-    // object.FechaCreacion = {
-    //     type: DataTypes.DATE,
-    //     allowNull: false,
-    // };
-    object.updatedBy = {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-    };
-    // object.FechaModificacion = {
-    //     type: DataTypes.DATE,
-    //     allowNull: true,
-    // };
-    return object;
-}
 function agregarCamposBase(object, DataTypes) {
-    object.flagActive = {
+
+    object.FlagActivo = {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: true
     };
-    object.flagEliminate = {
+    object.FlagEliminado = {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
+    };
+    object.CreadoPor = {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+    };
+    object.FechaCreacion = {
+        type: DataTypes.DATE,
+        allowNull: false,
+    };
+    object.ModificadoPor = {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+    };
+    object.FechaModificacion = {
+        type: DataTypes.DATE,
+        allowNull: true,
     };
     return object;
 }
@@ -54,37 +41,12 @@ function get_Date() {
 
     let dateFormat = [month, day, year].join("/");
     let timeFormat = [hour, minutes, seconds, milliseconds].join(":");
-    // console.log(dateFormat, timeFormat);
-    let date = dateFormat + " " + timeFormat;
-    // let date = parseInt(today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear();
+    console.log(dateFormat, timeFormat);
+    let date = parseInt(today.getMonth() + 1) + "/" + today.getDate() + "/" + today.getFullYear();
     return date;
 }
-function monthNamefromDate(date) {
-    var monthNames = [
-        "Enero", "Febrero", "Marzo",
-        "Abril", "Mayo", "Junio", "Julio",
-        "Agosto", "Septiembre", "Octubre",
-        "Noviembre", "Diciembre"
-    ];
-
-    // var day = date.getDate();
-    var monthIndex = date.getMonth();
-    // var year = date.getFullYear();
-    return monthNames[monthIndex];
-}
-
-String.Format = function (b) {
-    var a = arguments;
-    return b.replace(/(\{\{\d\}\}|\{\d\})/g, function (b) {
-        if (b.substring(0, 2) == "{{") return b;
-        var c = parseInt(b.match(/\d/)[0]);
-        return a[c + 1]
-    })
-};
 
 module.exports = {
-    agregarCamposBaseAuditoria,
     agregarCamposBase,
-    get_Date,
-    monthNamefromDate
+    get_Date
 }

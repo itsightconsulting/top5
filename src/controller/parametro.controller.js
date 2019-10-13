@@ -1,12 +1,12 @@
-import models from '../orm.database/models/index';
+import models from '../database/database';
 const ParametroDTO = models.Parametro;
 async function obtenerParametro(codigo) {
     try {
         const parametro = await ParametroDTO.findOne({
             where: {
-                code: codigo,
-                flagActive: true
-            }, attributes: ['value']
+                Codigo: codigo,
+                FlagActivo: true
+            }, attributes: ['Valor']
         });
         return parametro;
     } catch (err) {
