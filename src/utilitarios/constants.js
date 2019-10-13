@@ -3,8 +3,12 @@ const SECRET_ACCESS_KEY = "AWS_SECRET_ACCESS_KEY";
 const aws_config_s3 = { ACCESS_KEY_ID, SECRET_ACCESS_KEY };
 const SECRET_KEY_JWT = process.env.jwtsecret || "dev_s3cr3t";
 const SECRET_KEY_ENCRYPT = process.env.cryptsecret || "dev_s3cr3t";
+const TERMINOS_Y_CONDICIONES = "TERMINOS_Y_CONDICIONES";
+const AVISO_POLITICA_Y_PRIVACIDAD = "AVISO_POLITICA_Y_PRIVACIDAD";
 module.exports = {
     aws_config_s3,
     SECRET_KEY_JWT,
-    SECRET_KEY_ENCRYPT
+    SECRET_KEY_ENCRYPT,
+    TERMINOS_Y_CONDICIONES,
+    AVISO_POLITICA_Y_PRIVACIDAD
 }

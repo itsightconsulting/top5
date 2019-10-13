@@ -6,6 +6,10 @@ import { obtenerParametro } from '../controller/parametro.controller';
 //Para que cuando el archivo sea subido al bucket este pueda ser accedido publicamente
 const FILE_PERMISSION = 'public-read'
 
+function controlError(from, error) {
+    console.log(from, " error message =>", error.message);
+    console.log(from, " error stack =>", error.stack);
+}
 async function emptyS3Directory(bucket, dir) {
     const listParams = {
         Bucket: bucket,
@@ -34,9 +38,9 @@ async function uploadToS3(filePath, bucketName, key) {
     try {
         let paramKeyId = await obtenerParametro(aws_config_s3.ACCESS_KEY_ID);
         let paramACCESS_KEY = await obtenerParametro(aws_config_s3.SECRET_ACCESS_KEY)
-        if (!paramKeyId || !paramACCESS_KEY) throw new Error(`${aws_config_s3.ACCESS_KEY_ID} ó ${aws_config_s3.SECRET_ACCESS_KEY} no existen`);
-        let accessKeyId = await decryptedAES256ctr(paramKeyId.Valor);
-        let secretAccessKey = await decryptedAES256ctr(paramACCESS_KEY.Valor);
+        if (!paramKeyId || !paramACCESS_KEY) throw new Error(`parámetro ${aws_config_s3.ACCESS_KEY_ID} y/ó ${aws_config_s3.SECRET_ACCESS_KEY} no existen`);
+        let accessKeyId = await decryptedAES256ctr(paramKeyId.value);
+        let secretAccessKey = await decryptedAES256ctr(paramACCESS_KEY.value);
         let s3bucket = new AWS.S3({
             accessKeyId,
             secretAccessKey,
@@ -125,5 +129,6 @@ module.exports = {
     encryptAES256ctr,
     decryptedAES256ctr,
     buildContainer,
-    existeJsonData
+    existeJsonData,
+    controlError
 }

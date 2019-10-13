@@ -28,4 +28,4 @@ const production = {
     dialect: "postgres",
     logging: false
 };
-export const database = test;
+export const database = development;
