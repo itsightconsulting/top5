@@ -3,10 +3,10 @@ import { get_Date, formatoPublicacion } from '../src/utilitarios/utilitarios';
 const UsuarioDTO = models.Usuario;
 async function Init() {
     try {
-        var fec_moment = '2019-10-11 16:33:26.37+00';
-        let rpta = formatoPublicacion(fec_moment);
-        console.log(rpta);
-        // await SincronizarModelo();
+        // var fec_moment = '2019-10-11 16:33:26.37+00';
+        // let rpta = formatoPublicacion(fec_moment);
+        // console.log(rpta);
+        await SincronizarModelo();
         // await createInitUsuario();
     } catch (err) {
         console.error('Init ERROR:', err);
@@ -19,7 +19,7 @@ async function SincronizarModelo() {
         const rpta = await models.sequelize.sync({ alter: true });
         console.log("SincronizarModelo ok");
     } catch (err) {
-        console.error('ERROR ObtenerUsuario:', err);
+        console.error('ERROR SincronizarModelo:', err);
     }
 }
 async function createInitUsuario() {

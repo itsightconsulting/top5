@@ -15,10 +15,31 @@ function agregarCamposBaseAuditoria(object, DataTypes) {
     object.createdBy = {
         type: DataTypes.INTEGER,
         allowNull: true,
+        // references: {
+        //     model: 'Usuario',
+        //     key: 'id'
+        // }
     };
     object.updatedBy = {
         type: DataTypes.INTEGER,
         allowNull: true,
+    };
+
+    object.updatedAtStr = {
+        type: DataTypes.VIRTUAL,
+        get() {
+            let date = new Date(this.updatedAt);
+            let dateStr = "";
+            if (date) {
+                let dateNow = new Date();
+                let hourFormat = formatAMPM(date);
+
+                if (dateNow.getFullYear() === date.getFullYear())
+                    dateStr = date.getDate() + ' ' + monthNamefromDate(date) + ' ' + hourFormat;
+                else dateStr = date.getDate() + ' ' + monthNamefromDate(date) + ' del ' + date.getFullYear() + ' ' + hourFormat;
+            }
+            return dateStr;
+        }
     };
     // object.createdHourAt = {
     //     type: DataTypes.DATE,

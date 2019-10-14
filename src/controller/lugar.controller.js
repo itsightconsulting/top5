@@ -3,67 +3,74 @@ import util from '../utilitarios/utilitarios';
 import { buildContainer } from './common.controller';
 const LugarDTO = models.Lugar;
 
-async function obtenerLugar(id) {
+async function obtenerLugar(id, createdBy) {
     try {
-        let lugarBD = await LugarDTO.findOne({
-            where: {
-                id
-            }
-            , order: [['updatedAt', 'DESC']]
+        let conditionObject = { id };
+        if (createdBy) conditionObject.createdBy = createdBy;
+        let { dataValues } = await LugarDTO.findOne({
+            where: conditionObject
+            , attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedAt', 'updatedAtStr']
         });
-        return lugarBD;
-    } catch (error) {
-        throw error;
-    }
-}
-async function crearLugar(data) {
-    try {
-        let response = null;
-        let lugarBD = null;
-        const { name, latitude, longitude } = data;
-        if (data.id) {
-            // lugarBD = await obtenerLugar(data.LugarId);
-            // if (lugarBD) {
-            await lugarBD.update({
-                name
-                , latitude
-                , longitude
-                , flagActive: true
-                , flagEliminate: false
-                , updatedAt: util.get_Date()
-            }, {
-                where: {
-                    id: data.id
-                }
-            });
-            // }
-        } else {
-            lugarBD = await LugarDTO.create({
-                name
-                , latitude
-                , longitude
-                , flagActive: true
-                , flagEliminate: false
-                , createdAt: util.get_Date()
-                , updatedAt: util.get_Date()
-            }, {
-                fields: ['name', 'latitude', 'longitude', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt']
-            });
-
-        }
-
-        if (lugarBD) {
-            response = buildContainer(true, 'Top creado correctamente.', null, token);
-        }
-
-        if (response === null) {
-            throw new Error('No se pudo crear lugar');
-        }
+        let response = buildContainer(true, '', dataValues, null);
         return response;
     } catch (error) {
         throw error;
     }
 }
+async function createdOrUpdatedLugar(objLugar) {
+    try {
+        let queryObject = {
+            name: objLugar.name
+            , latitude: objLugar.latitude
+            , longitude: objLugar.longitude
+            , address: objLugar.address
+            , flagActive: true
+            , flagEliminate: false
+            , updatedAt: objLugar.updatedAt
+        };
+
+        if (objLugar.id) {
+            queryObject.updatedBy = objLugar.createdBy;
+            var { dataValues } = await LugarDTO.update(queryObject, { where: { id: objLugar.id } });
+        } else {
+            queryObject.createdBy = objLugar.createdBy;
+            queryObject.createdAt = objLugar.createdAt;
+
+            var { dataValues } = await LugarDTO.create(queryObject, {
+                fields: ['name', 'latitude', 'longitude', 'address', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt']
+            });
+        }
+        return buildContainer(true, '', dataValues, null);
+    } catch (error) {
+        throw error;
+    }
+}
+async function listarLugares(createdBy) {
+    try {
+        let response = null;
+        let conditionObject = { flagActive: true, flagEliminate: false };
+        if (createdBy) conditionObject.createdBy = createdBy;
+
+        let lugarBDList = await LugarDTO.findAll({
+            where: createdBy
+            , attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedAt', 'updatedAtStr'
+                , [models.Sequelize.fn("COUNT", models.Sequelize.col("TopItems.id")), "CountTop"]]
+            , include: [{
+                model: models.TopItem
+                , where: conditionObject
+                , attributes: []
+            }]
+            , group: ['Lugar.id', 'Lugar.name', 'Lugar.latitude', 'Lugar.longitude', 'Lugar.address', 'Lugar.updatedAt']
+            , order: [['updatedAt', 'DESC']]
+        });
+        let data = { total: lugarBDList.length, datos: lugarBDList };
+        response = buildContainer(true, null, data, null);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
 async function eliminarLugar(id) {
     try {
         let response = null;
@@ -104,34 +111,66 @@ async function obtenerLugarPorUbicacion(latitude, longitude) {
         throw error;
     }
 }
-async function listarLugares(pagina, cantidad) {
-    try {
-        let response = null;
-        let lugarBDList = await LugarDTO.findAll({
-            where: { flagActive: true, flagEliminate: false },
-            attributes: ['id', 'name', 'latitude', 'longitude'],
-            order: [['updatedAt', 'DESC']],
-            include: [{
-                model: models.TopItem
-                , where: {
-                    flagActive: true,
-                    flagEliminate: false
-                },
-                attributes: []
-            }]
-        });
-        let data = { total: lugarBDList.length, datos: lugarBDList };
-        response = buildContainer(true, null, data, null);
-        return response;
-    } catch (error) {
-        throw error;
-    }
-}
 
+// async function crearLugar(data, transact) {
+//     try {
+//         let response = null;
+//         let lugarBD = null;
+//         const { name, latitude, longitude, address, createdBy } = data;
+//         if (data.id) {
+//             let queryObject = {
+//                 name
+//                 , latitude
+//                 , longitude
+//                 , address
+//                 , flagActive: true
+//                 , flagEliminate: false
+//                 , updatedBy: createdBy
+//                 , updatedAt: util.get_Date()
+//             };
+//             queryObject.where = { id: data.id };
+//             if (transact) {
+//                 queryObject.transaction = transact;
+//             }
+
+//             lugarBD = await LugarDTO.update(queryObject);
+//         } else {
+//             let queryObject = {
+//                 name
+//                 , latitude
+//                 , longitude
+//                 , address
+//                 , flagActive: true
+//                 , flagEliminate: false
+//                 , createdBy
+//                 , createdAt: util.get_Date()
+//                 , updatedAt: util.get_Date()
+//             };
+//             queryObject.fields = ['name', 'latitude', 'longitude', 'address', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt'];
+//             if (transact) {
+//                 queryObject.transaction = transact;
+//             }
+//             lugarBD = await LugarDTO.create(queryObject);
+//         }
+
+//         if (lugarBD) {
+//             console.log("lugar.controller return");
+//             response = buildContainer(true, null, lugarBD, null);
+//         }
+
+//         if (response === null) {
+//             throw new Error('No se pudo crear lugar');
+//         }
+//         return response;
+//     } catch (error) {
+//         throw error;
+//     }
+// }
 module.exports = {
-    crearLugar,
+    createdOrUpdatedLugar,
     obtenerLugar,
     eliminarLugar,
     obtenerLugarPorUbicacion,
-    listarLugares
+    listarLugares,
+
 }

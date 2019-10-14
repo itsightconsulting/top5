@@ -2,7 +2,7 @@ import { agregarCamposBase } from '../../utilitarios/utilitarios';
 function CreateFieldObj(_dataTypes) {
     let objEntidad = {
         rutaImagen: {
-            type: _dataTypes.STRING(180),
+            type: _dataTypes.STRING(500),
             allowNull: true,
         },
         flagImagenDefaultTop: {
