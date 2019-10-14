@@ -11,14 +11,49 @@ function CreateFieldObj(_dataTypes) {
             type: _dataTypes.STRING(200),
             allowNull: false,
         },
+        // latitude: {
+        //     type: _dataTypes.FLOAT(9, 10),
+        //     allowNull: false,
+        // },
+        // longitude: {
+        //     type: _dataTypes.FLOAT(9, 10),
+        //     allowNull: false,
+        // },
         latitude: {
-            type: _dataTypes.STRING(200),
+            type: _dataTypes.STRING(80),
             allowNull: false,
         },
         longitude: {
-            type: _dataTypes.STRING(200),
+            type: _dataTypes.STRING(80),
             allowNull: false,
         },
+        address: {
+            type: _dataTypes.STRING(250),
+            allowNull: false,
+        },
+
+        latitudeFormat: {
+            type: _dataTypes.VIRTUAL,
+            get() {
+                let latitude = this.getDataValue('latitude');
+                let latitudeNumber = "";
+                if (latitude) {
+                    latitudeNumber = Number(latitude);
+                }
+                return latitudeNumber;
+            }
+        },
+        longitudeFormat: {
+            type: _dataTypes.VIRTUAL,
+            get() {
+                let longitude = this.getDataValue('longitude');
+                let longitudeNumber = "";
+                if (longitude) {
+                    longitudeNumber = Number(longitude);
+                }
+                return longitudeNumber;
+            }
+        }
         // tipo: {
         //     type: _dataTypes.STRING(200),
         //     allowNull: false,

@@ -4,7 +4,7 @@ import { buildContainer, existeJsonData, controlError } from '../controller/comm
 async function crearLugar(req, res) {
     try {
         existeJsonData(req, res);
-        let response = await controller.crearLugar(req.body.data);
+        let response = await controller.createdOrUpdatedLugar(req.body.data);
         return res.status(200).send(response);
     } catch (error) {
         controlError("crearLugar", error);
@@ -14,13 +14,13 @@ async function crearLugar(req, res) {
 async function obtenerLugar(req, res) {
     try {
         existeJsonData(req, res);
-        // const { id } = req.params;
-        const { id } = req.body.data;
-        let response = await controller.obtenerLugar(id);
+        const { id } = req.params;
+        const { createdBy } = req.body.data;
+        let response = await controller.obtenerLugar(id, createdBy);
         return res.status(200).send(response);
     } catch (error) {
         controlError("obtenerLugar", error);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+        res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
 async function eliminarLugar(req, res) {
@@ -35,24 +35,14 @@ async function eliminarLugar(req, res) {
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
-async function obtenerLugarPorUbicacion(req, res) {
-    try {
-        existeJsonData(req, res);
-        const { Latitud, Longitud } = req.body.data;
-        let response = await controller.obtenerLugarPorUbicacion(Latitud, Longitud);
-        return res.status(200).send(response);
-    } catch (error) {
-        controlError("obtenerLugarPorUbicacion", error);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
-    }
-}
 async function listarLugares(req, res) {
     try {
-        let response = await controller.listarLugares();
+        existeJsonData(req, res);
+        let response = await controller.listarLugares(req.body.data.createdBy);
         return res.status(200).send(response);
     } catch (error) {
         controlError("listarLugares", error);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+        res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
 
@@ -60,6 +50,5 @@ module.exports = {
     crearLugar,
     obtenerLugar,
     eliminarLugar,
-    obtenerLugarPorUbicacion,
     listarLugares
 }

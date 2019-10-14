@@ -1,4 +1,4 @@
-import { agregarCamposBaseAuditoria, monthNamefromDate, formatAMPM, formatoPublicacion } from '../../utilitarios/utilitarios';
+import { agregarCamposBaseAuditoria, formatoPublicacion } from '../../utilitarios/utilitarios';
 function CreateFieldObj(_dataTypes) {
     let objEntidad = {
         titulo: {
@@ -14,10 +14,10 @@ function CreateFieldObj(_dataTypes) {
             allowNull: false,
             defaultValue: false
         },
-        valoracion: {
-            type: _dataTypes.INTEGER,
-            allowNull: true,
-        },
+        // valoracion: {
+        //     type: _dataTypes.INTEGER,
+        //     allowNull: true,
+        // },
         fechaPublicado: {
             type: _dataTypes.DATE,
             allowNull: true
@@ -26,7 +26,11 @@ function CreateFieldObj(_dataTypes) {
             type: _dataTypes.VIRTUAL,
             get() {
                 let datePublicado = this.getDataValue('fechaPublicado');
-                let datePublicadoStr = formatoPublicacion(datePublicado);
+                let datePublicadoStr = "";
+                if (datePublicado) {
+                    datePublicadoStr = formatoPublicacion(datePublicado);
+                }
+                // console.log("datePublicadoStr", datePublicadoStr);
                 return datePublicadoStr;
             }
         }
@@ -41,26 +45,14 @@ export default (sequelize, DataTypes) => {
         'Top'
         , CreateFieldObj(DataTypes)
         , {
-            freezeTableName: true,
-            getterMethods: {
-                updatedAtString: function () {
-                    let date = new Date(this.updatedAt);
-                    let dateNow = new Date();
-                    let dateStr = "";
-                    let hourFormat = formatAMPM(date);
-                    if (date) {
-                        if (dateNow.getFullYear() === date.getFullYear())
-                            dateStr = date.getDate() + ' ' + monthNamefromDate(date) + ' ' + hourFormat;
-                        else dateStr = date.getDate() + ' ' + monthNamefromDate(date) + ' del ' + date.getFullYear() + ' ' + hourFormat;
-                    }
-                    return dateStr;
-                }
-            }
+            freezeTableName: true
         });
 
     Top.associate = function (models) {
         // associations can be defined here
         // Top.hasMany(models.TopReaccion);
+        Top.belongsTo(models.Categoria, { as: 'Categoria' });
+        Top.hasMany(models.TopItem);
     };
     return Top;
 };

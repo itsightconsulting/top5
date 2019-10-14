@@ -29,14 +29,7 @@ export default (sequelize, DataTypes) => {
         'TopItem'
         , CreateFieldObj(DataTypes)
         , {
-            freezeTableName: true,
-            getterMethods: {
-                updatedAtString() {
-                    let date = new Date(this.updatedAt);
-                    console.log("updatedAtString", date);
-                    return date.getDate() + ' de ' + monthNamefromDate(date) + ' del ' + date.getFullYear();
-                }
-            }
+            freezeTableName: true
         });
 
     TopItem.associate = function (models) {
@@ -44,6 +37,7 @@ export default (sequelize, DataTypes) => {
         TopItem.belongsTo(models.Categoria, { as: 'categoria' });
         TopItem.hasMany(models.TopItemDetalle);
         TopItem.hasMany(models.TopReaccion);
+        TopItem.belongsTo(models.Top);
     };
     return TopItem;
 };
