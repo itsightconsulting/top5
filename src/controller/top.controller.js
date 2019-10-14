@@ -62,6 +62,12 @@ async function listarTopPorUsuario(objParams) {
         let queryObject = {
             where: whereConditions
             , attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedAt', 'updatedAtStr', 'fechaPublicado', 'fechaPublicadoStr']
+            , include: [{
+                model: models.Categoria
+                , as: 'Categoria'
+                , where: { flagActive: true }
+                , attributes: ['name']
+            }]
             , order: [['fechaPublicado', 'DESC'], ['updatedAt', 'DESC']]
         };
 
@@ -72,15 +78,17 @@ async function listarTopPorUsuario(objParams) {
 
         topBD = await TopDTO.findAll(queryObject);
         let totalRows = topBD.length || 0;
-        if (totalRows && flagPublicado) {
-            for (const element of topBD) {
-                let top = element.dataValues;
-                let UsuarioBd = await models.Usuario.findOne({
-                    where: { id: top.createdBy, flagActive: true }
-                    , attributes: ['id', 'nombreCompleto', 'rutaImagenPerfil']
-                });
-                if (UsuarioBd) {
-                    top.Usuarios = UsuarioBd.dataValues;
+        if (totalRows) {
+            if (flagPublicado) {
+                for (const element of topBD) {
+                    let top = element.dataValues;
+                    let UsuarioBd = await models.Usuario.findOne({
+                        where: { id: top.createdBy, flagActive: true }
+                        , attributes: ['id', 'nombreCompleto', 'rutaImagenPerfil']
+                    });
+                    if (UsuarioBd) {
+                        top.Usuarios = UsuarioBd.dataValues;
+                    }
                 }
             }
             response = buildContainer(true, '', { dataValues: topBD, totalRows }, null);
