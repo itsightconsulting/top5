@@ -77,10 +77,9 @@ async function updateUsuario(req, res) {
     try {
         const { id } = req.params;
         let data = { id, correoElectronico: req.body.correoElectronico, nombreCompleto: req.body.nombreCompleto }
-        let files = null;
+        let files = [];
         if (req.files) {
-            let files = req.files.image;
-            files = [].concat(files);
+            files = [].concat(req.files.image);
         }
         let response = await usuarioController.updateUsuario(data, req.body.path, files);
         res.status(200).send(response);

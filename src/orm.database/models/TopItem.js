@@ -41,6 +41,7 @@ export default (sequelize, DataTypes) => {
 
     TopItem.associate = function (models) {
         // associations can be defined here
+        TopItem.belongsTo(models.Categoria, { as: 'categoria' });
         TopItem.hasMany(models.TopItemDetalle);
         TopItem.hasMany(models.TopReaccion);
     };

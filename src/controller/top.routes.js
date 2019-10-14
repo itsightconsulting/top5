@@ -1,11 +1,15 @@
 import controller from '../controller/top.controller';
 import { buildContainer, existeJsonData, controlError } from '../controller/common.controller';
 
-async function crearTop(req, res) {
+async function createOrUpdateTop(req, res) {
     try {
         existeJsonData(req, res);
-        const { top, topDetalle } = req.body.data;
-        let response = await controller.crearTop(top, topDetalle);
+        let objTop = { id, titulo, createdBy } = req.body;
+        let files = [];
+        if (req.files) {
+            files = [].concat(req.files.image);
+        }
+        let response = await controller.createOrUpdateTop(objTop, files);
         return res.status(200).send(response);
     } catch (error) {
         controlError("crearTop", error);
@@ -16,8 +20,8 @@ async function crearTop(req, res) {
 async function listarTopPorUsuario(req, res) {
     try {
         existeJsonData(req, res);
-        const { correoElectronico, cantidad } = req.body.data;
-        let response = await controller.listarTopPorUsuario(correoElectronico, cantidad);
+        const { createdBy, pageNumber, pageSize } = req.body.data;
+        let response = await controller.listarTopPorUsuario(createdBy, pageNumber, pageSize);
         return res.status(200).send(response);
     } catch (error) {
         controlError("listarTopPorUsuario", error);
@@ -122,7 +126,7 @@ async function listarTopByLugarByCategoria(req, res) {
     }
 }
 module.exports = {
-    crearTop,
+    createOrUpdateTop,
     listarTopPorUsuario,
     listarTopDetallePorTop,
     eliminarTopDetalle,

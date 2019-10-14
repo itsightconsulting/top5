@@ -112,7 +112,7 @@ async function listarLugares(pagina, cantidad) {
             attributes: ['id', 'name', 'latitude', 'longitude'],
             order: [['updatedAt', 'DESC']],
             include: [{
-                model: models.Top
+                model: models.TopItem
                 , where: {
                     flagActive: true,
                     flagEliminate: false

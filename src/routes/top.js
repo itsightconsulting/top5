@@ -3,7 +3,7 @@ const { existeToken } = require('../security/AuthService');
 
 import routes from '../controller/top.routes';
 
-router.post('/', existeToken, routes.crearTop);
+router.post('/', existeToken, routes.createOrUpdateTop);
 router.post('/list/usuario', existeToken, routes.listarTopPorUsuario);
 router.post('/list/categoria', existeToken, routes.listarTopGeneral);
 router.post('/list/lugar/categoria', existeToken, routes.listarTopByLugarByCategoria);

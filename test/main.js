@@ -1,9 +1,12 @@
 import models from '../src/orm.database/models/index';
-import { get_Date } from '../src/utilitarios/utilitarios';
+import { get_Date, formatoPublicacion } from '../src/utilitarios/utilitarios';
 const UsuarioDTO = models.Usuario;
 async function Init() {
     try {
-        await SincronizarModelo();
+        var fec_moment = '2019-10-11 16:33:26.37+00';
+        let rpta = formatoPublicacion(fec_moment);
+        console.log(rpta);
+        // await SincronizarModelo();
         // await createInitUsuario();
     } catch (err) {
         console.error('Init ERROR:', err);
