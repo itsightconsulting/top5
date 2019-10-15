@@ -20,6 +20,6 @@ router.post('/detalle/delete', existeToken, routes.eliminarTopDetalle);
 router.post('/list/usuario/categoria', existeToken, routes.listarTopPorUsuarioPorCategoria);
 router.post('/list/usuario/autocomplete', existeToken, routes.listarTopPorUsuarioPorFiltro);
 
-router.get('/getById/:id', existeToken, routes.getOneTop);
+router.post('/getById/:id', existeToken, routes.getOneTop);
 
 module.exports = router;
