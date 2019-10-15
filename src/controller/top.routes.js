@@ -122,6 +122,19 @@ async function listarTopPublicadoPorUsuario(req, res) {
         res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
+async function listarTopItemByTop(req, res) {
+    try {
+        existeJsonData(req, res);
+
+        let { TopId, createdBy, pageNumber, pageSize, flagPublicado } = req.body.data;
+        let response = await controller.listarTopItemByTop({ TopId, createdBy, pageNumber, pageSize, flagPublicado });
+        return res.status(200).send(response);
+    } catch (error) {
+        controlError("listarTopItemByTop", error);
+        res.status(500).send(buildContainer(false, error.message, null, null));
+    }
+}
+
 
 async function listarTopDetallePorTop(req, res) {
     try {
@@ -201,5 +214,6 @@ module.exports = {
     listarTopGeneral,
     getOneTop,
     listarTopByLugarByCategoria,
-    listarTopPublicadoPorUsuario
+    listarTopPublicadoPorUsuario,
+    listarTopItemByTop
 }

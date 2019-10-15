@@ -76,12 +76,14 @@ async function uploadFile(req, res) {
 async function updateUsuario(req, res) {
     try {
         const { id } = req.params;
-        let data = { id, correoElectronico: req.body.correoElectronico, nombreCompleto: req.body.nombreCompleto }
-        let files = [];
-        if (req.files) {
-            files = [].concat(req.files.image);
-        }
-        let response = await usuarioController.updateUsuario(data, req.body.path, files);
+        existeJsonData(req, res);
+        const { correoElectronico, nombreCompleto } = req.body.data;
+        // let data = { id, correoElectronico: req.body.data.correoElectronico, nombreCompleto: req.body.data.nombreCompleto }
+        // let files = [];
+        // if (req.files) {
+        //     files = [].concat(req.files.image);
+        // }
+        let response = await usuarioController.updateUsuario({ id, correoElectronico, nombreCompleto });
         res.status(200).send(response);
     } catch (error) {
         controlError("updateUsuario", error);

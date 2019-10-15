@@ -231,21 +231,30 @@ async function eliminarTop(id, updatedAt, createdBy) {
         throw error;
     }
 }
-// listarTopItemByTop
 
-
-
-async function listarTopItemPorTop(objParams) {
+async function listarTopItemByTop(objParams) {
     try {
         let response = null;
         let topBD = null;
-        let { TopId, createdBy, pageNumber, pageSize } = objParams;
+        let { TopId, createdBy, pageNumber, pageSize, flagPublicado } = objParams;
 
-        let whereConditions = { TopId, createdBy, flagActive: true };
+        let whereConditions = { flagActive: true };
+
+        if (createdBy) whereConditions.createdBy = createdBy;
+        if (TopId) whereConditions.TopId = TopId;
 
         let queryObject = {
             where: whereConditions
-            , attributes: ['id', 'descripcion', 'createdBy', 'updatedAt', 'updatedAtStr', 'fechaPublicado', 'fechaPublicadoStr']
+            , attributes: ['id', 'TopId', 'descripcion', 'createdBy', 'updatedAt', 'updatedAtStr']
+            , include: [{
+                model: TopItemDetalleDTO,
+                required: false, // do not generate INNER JOIN
+                attributes: ['id', 'rutaImagen', 'flagImagenDefaultTop'] // do not return any columns of the other table
+            }]
+            , include: [{
+                model: models.Lugar,
+                attributes: ['id', 'name', 'address', 'latitude', 'longitude']
+            }]
             , order: [['fechaPublicado', 'DESC'], ['updatedAt', 'DESC']]
         };
 
@@ -256,15 +265,17 @@ async function listarTopItemPorTop(objParams) {
 
         topBD = await TopItemDTO.findAll(queryObject);
         let totalRows = topBD.length || 0;
-        if (totalRows && flagPublicado) {
-            for (const element of topBD) {
-                let top = element.dataValues;
-                let UsuarioBd = await models.Usuario.findOne({
-                    where: { id: top.createdBy, flagActive: true }
-                    , attributes: ['id', 'nombreCompleto', 'rutaImagenPerfil']
-                });
-                if (UsuarioBd) {
-                    top.Usuarios = UsuarioBd.dataValues;
+        if (totalRows) {
+            if (flagPublicado) {
+                for (const element of topBD) {
+                    let top = element.dataValues;
+                    let UsuarioBd = await models.Usuario.findOne({
+                        where: { id: top.createdBy, flagActive: true }
+                        , attributes: ['id', 'nombreCompleto', 'rutaImagenPerfil']
+                    });
+                    if (UsuarioBd) {
+                        top.Usuarios = UsuarioBd.dataValues;
+                    }
                 }
             }
             response = buildContainer(true, '', { dataValues: topBD, totalRows }, null);
@@ -859,7 +870,7 @@ module.exports = {
 
     listarTopByLugar,
 
-    listarTopItemPorTop,
+    listarTopItemByTop,
     createOrUpdateTopItem,
     createOrUpdateTopItemDetalle,
     eliminarTopItem,

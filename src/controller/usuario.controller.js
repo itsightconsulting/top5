@@ -155,25 +155,21 @@ async function getOneUsuario(id) {
 async function updateUsuario(data, path, files) {
     try {
         const { id, correoElectronico, nombreCompleto } = data;
-        if (!id || !correoElectronico || !nombreCompleto) {
-            throw new Error("No puede enviar data vacio");
-        }
-        if (files) {
-            console.log("files", files.length);
-            await uploadFile(id, path, files);
-        }
+        // if (!id || !correoElectronico || !nombreCompleto) {
+        //     throw new Error("No puede enviar data vacio");
+        // }
+        // if (files) {
+        //     console.log("files", files.length);
+        //     await uploadFile(id, path, files);
+        // }
 
         await UsuarioDTO.update({
             nombreCompleto
             , correoElectronico
             , updatedAt: util.get_Date()
-        }, {
-            where: {
-                id
-            }
-        });
+        }, { where: { id } });
 
-        return buildContainer(true, 'Actualizado correctamente.', null, null);
+        return buildContainer(true, '', null, null);
     } catch (error) {
         throw error;
     }

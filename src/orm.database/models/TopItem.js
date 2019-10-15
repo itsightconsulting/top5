@@ -9,15 +9,15 @@ function CreateFieldObj(_dataTypes) {
             type: _dataTypes.INTEGER,
             allowNull: true,
         },
-        flagPublicado: {
-            type: _dataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false
-        },
-        fechaPublicado: {
-            type: _dataTypes.DATE,
-            allowNull: true
-        }
+        // flagPublicado: {
+        //     type: _dataTypes.BOOLEAN,
+        //     allowNull: false,
+        //     defaultValue: false
+        // },
+        // fechaPublicado: {
+        //     type: _dataTypes.DATE,
+        //     allowNull: true
+        // }
     };
 
     objEntidad = agregarCamposBaseAuditoria(objEntidad, _dataTypes);
@@ -34,10 +34,10 @@ export default (sequelize, DataTypes) => {
 
     TopItem.associate = function (models) {
         // associations can be defined here
-        TopItem.belongsTo(models.Categoria, { as: 'categoria' });
         TopItem.hasMany(models.TopItemDetalle);
         TopItem.hasMany(models.TopReaccion);
         TopItem.belongsTo(models.Top);
+        TopItem.belongsTo(models.Lugar);
     };
     return TopItem;
 };

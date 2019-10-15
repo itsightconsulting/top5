@@ -11,6 +11,7 @@ router.post('/invalidate', existeToken, routes.eliminarTop);
 router.post('/topItem/', existeToken, routes.createOrUpdateTopItem);
 router.post('/topBylugarId/', existeToken, routes.listarTopByLugar);
 router.post('/topItem/list/publish/', existeToken, routes.listarTopPublicadoPorUsuario);
+router.post('/topItem/listByTop/', existeToken, routes.listarTopItemByTop);
 
 router.post('/list/categoria', existeToken, routes.listarTopGeneral);
 router.post('/list/lugar/categoria', existeToken, routes.listarTopByLugarByCategoria);
