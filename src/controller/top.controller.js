@@ -61,7 +61,7 @@ async function listarTopPorUsuario(objParams) {
 
         let queryObject = {
             where: whereConditions
-            , attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedAt', 'updatedAtStr', 'fechaPublicado', 'fechaPublicadoStr']
+            , attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedAt', 'updatedAtStr', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr']
             , include: [{
                 model: models.Categoria
                 , as: 'Categoria'
@@ -245,7 +245,7 @@ async function listarTopItemByTop(objParams) {
 
         let queryObject = {
             where: whereConditions
-            , attributes: ['id', 'TopId', 'descripcion', 'createdBy', 'updatedAt', 'updatedAtStr']
+            , attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedAt', 'updatedAtStr']
             , include: [{
                 model: TopItemDetalleDTO,
                 required: false, // do not generate INNER JOIN
