@@ -52,7 +52,7 @@ async function listarLugares(createdBy) {
         if (createdBy) conditionObject.createdBy = createdBy;
 
         let lugarBDList = await LugarDTO.findAll({
-            where: createdBy
+            where: { flagActive: true }
             , attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedAt', 'updatedAtStr'
                 , [models.Sequelize.fn("COUNT", models.Sequelize.col("TopItems.id")), "CountTop"]]
             , include: [{

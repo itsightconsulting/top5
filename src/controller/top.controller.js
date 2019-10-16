@@ -106,24 +106,30 @@ async function listarTopPublicadoPorUsuario(objParams) {
         let topItemBD = null;
         let { createdBy, pageNumber, pageSize, CategoriaId, flagPublicado } = objParams;
 
-        let whereConditions = { createdBy, flagActive: true };
-        if (flagPublicado) {
-            whereConditions.flagPublicado = true;
-            whereConditions.createdBy = { [Op.notIn]: [createdBy] }
+        let whereConditions = { flagActive: true };
+        if (createdBy) {
+            whereConditions.createdBy = createdBy;
         }
-        if (CategoriaId) whereConditions.CategoriaId = CategoriaId;
+        let whereConditionsTop = { flagActive: true, flagPublicado: true };
+        let whereConditionsCategoria = { flagActive: true };
+
+        if (flagPublicado) {
+            whereConditionsTop.flagPublicado = true;
+            whereConditionsTop.createdBy = { [Op.notIn]: [createdBy] }
+        }
+        if (CategoriaId) whereConditionsTop.CategoriaId = CategoriaId;
 
         let queryObject = {
             where: whereConditions
             , attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedAt', 'updatedAtStr']
             , include: [{
                 model: TopDTO
-                , where: { flagActive: true, flagPublicado: true }
+                , where: whereConditionsTop
                 , attributes: []
                 , include: [{
                     model: models.Categoria
                     , as: 'Categoria'
-                    , where: { flagActive: true }
+                    , where: whereConditionsCategoria
                     , attributes: []
                 }]
             }
@@ -135,7 +141,7 @@ async function listarTopPublicadoPorUsuario(objParams) {
             queryObject.offset = ((pageNumber - 1) * pageSize);
             queryObject.limit = pageSize;
         }
-
+        console.log("listarTopPublicadoPorUsuario", queryObject);
         topItemBD = await TopItemDTO.findAll(queryObject);
         let totalRows = topItemBD.length || 0;
         if (totalRows && flagPublicado) {
@@ -255,7 +261,7 @@ async function listarTopItemByTop(objParams) {
                 model: models.Lugar,
                 attributes: ['id', 'name', 'address', 'latitude', 'longitude']
             }]
-            , order: [['fechaPublicado', 'DESC'], ['updatedAt', 'DESC']]
+            , order: [['updatedAt', 'DESC']]
         };
 
         if (pageNumber && pageSize) {

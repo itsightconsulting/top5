@@ -10,6 +10,6 @@ import {
 router.post('/', existeToken, crearLugar);
 router.post('/getById', existeToken, obtenerLugar);
 router.post('/deleteById', existeToken, eliminarLugar);
-router.get('/getAll', existeToken, listarLugares);
+router.post('/getAll', existeToken, listarLugares);
 
 module.exports = router;

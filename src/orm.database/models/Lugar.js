@@ -81,6 +81,9 @@ export default (sequelize, DataTypes) => {
     Lugar.associate = function (models) {
         // associations can be defined here
         // Lugar.hasMany(models.TopItem);
+        Lugar.hasMany(models.TopItem, {
+            foreignKey: "LugarId"
+        });
     };
     return Lugar;
 };
