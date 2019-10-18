@@ -90,7 +90,7 @@ async function crearUsuario(data) {
 
 async function loginFacebook(data) {
     try {
-        let { correoElectronico, TipoUsuarioId, rutaImagenPerfil } = data;
+        let { nombreCompleto, correoElectronico, TipoUsuarioId, rutaImagenPerfil } = data;
 
         let usuario = await UsuarioDTO.findOne({
             where: {
@@ -103,6 +103,13 @@ async function loginFacebook(data) {
         if (usuario != null) {
             let flagExisteTipoUsuario = TipoUsuarioId === usuario.TipoUsuarioId;
             if (flagExisteTipoUsuario) {
+                let flagUpdate = usuario.nombreCompleto !== nombreCompleto;
+                if (flagUpdate) {
+                    await UsuarioDTO.update({
+                        nombreCompleto
+                        , updatedAt: util.get_Date()
+                    }, { where: { id: usuario.id } });
+                }
                 // updateRutaImagen
                 let flagCambiarRuta = usuario.rutaImagenPerfil !== rutaImagenPerfil;
                 if (flagCambiarRuta) {
@@ -116,14 +123,15 @@ async function loginFacebook(data) {
         } else {
             correoElectronico = correoElectronico.toLower();
             let newUsuario = await UsuarioDTO.create({
-                correoElectronico
+                nombreCompleto
+                , correoElectronico
                 , TipoUsuarioId
                 , flagActive: true
                 , flagEliminate: false
                 , createdAt: util.get_Date()
                 , updatedAt: util.get_Date()
                 , rutaImagenPerfil
-            }, { fields: ['correoElectronico', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt', 'rutaImagenPerfil'] });
+            }, { fields: ['nombreCompleto', 'correoElectronico', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt', 'rutaImagenPerfil'] });
             if (newUsuario) {
                 objToken = ObjectToken({ correoElectronico: newUsuario.correoElectronico, id: newUsuario.id });
             }

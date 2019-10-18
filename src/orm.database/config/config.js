@@ -22,7 +22,7 @@ const test = {
 const production = {
     username: "postgres",
     password: "sql",
-    database: "top5_desa",
+    database: "top5_qa",
     host: "52.186.67.112",
     port: "5432",
     dialect: "postgres",

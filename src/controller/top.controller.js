@@ -35,7 +35,7 @@ async function createOrUpdateTop(objTop) {
             });
         }
         if (topBD) {
-            response = buildContainer(true, '', null, null);
+            response = buildContainer(true, '', topBD, null);
         }
 
         if (response === null) {
@@ -324,15 +324,21 @@ async function createdOrUpdatedTopItem(objTopItem) {
         throw error;
     }
 }
-async function createOrUpdateTopItem({ objLugar, objTopItem, objListTopItemDetalle, files }) {
+async function createOrUpdateTopItem({ top, lugar, topItem }) {
     try {
         let response = null;
         // await models.sequelize.transaction(async transact => {
-        if (objLugar) {
-            let responseLugar = await createdOrUpdatedLugar(objLugar);
-            objTopItem.LugarId = responseLugar.data.id;
+        if (!topItem.TopId) {
+            let responseTop = await createOrUpdateTop(top);
+            topItem.TopId = responseTop.data.id;
         }
-        let responseTopItem = await createdOrUpdatedTopItem(objTopItem);
+
+        if (!topItem.LugarId) {
+            let responseLugar = await createdOrUpdatedLugar(lugar);
+            topItem.LugarId = responseLugar.data.id;
+        }
+
+        let responseTopItem = await createdOrUpdatedTopItem(topItem);
         // registrar Detalle
         response = buildContainer(true, '', responseTopItem.data, null);
         // });
@@ -867,6 +873,26 @@ async function eliminarTopDetallePorTopId(id) {
         throw error;
     }
 }
+
+
+async function createOrUpdateTopItemIgnore({ objLugar, objTopItem, objListTopItemDetalle, files }) {
+    try {
+        let response = null;
+        // await models.sequelize.transaction(async transact => {
+        if (objLugar) {
+            let responseLugar = await createdOrUpdatedLugar(objLugar);
+            objTopItem.LugarId = responseLugar.data.id;
+        }
+        let responseTopItem = await createdOrUpdatedTopItem(objTopItem);
+        // registrar Detalle
+        response = buildContainer(true, '', responseTopItem.data, null);
+        // });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports = {
     createOrUpdateTop,
     listarTopPorUsuario,

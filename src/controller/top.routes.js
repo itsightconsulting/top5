@@ -78,21 +78,16 @@ async function eliminarTop(req, res) {
 
 async function createOrUpdateTopItem(req, res) {
     try {
-        let files = [];
-        if (req.files) files = req.files.image;
-        files = [].concat(files);
+        existeJsonData(req, res);
+        let { top, lugar, topItem } = req.body.data;
+        if (top && lugar && topItem) {
+            let response = await controller.createOrUpdateTopItem({ top, lugar, topItem });
+            return res.status(200).send(response);
+        } else { 
+            throw new Error("Asegurese que los parámetros enviados esten completos");
+        }
 
-        let { objLugar, objTopItem, objListTopItemDetalle, idsEliminar } = req.body;
-        if (objLugar) objLugar = JSON.parse(objLugar);
-        if (objTopItem) objTopItem = JSON.parse(objTopItem);
-        if (objListTopItemDetalle) objListTopItemDetalle = JSON.parse(objListTopItemDetalle);
-        let response = await controller.createOrUpdateTopItem({ objLugar, objTopItem, objListTopItemDetalle, files });
 
-        // if (response.ok) {
-        //     let { TopId, createdBy, updatedAt } = response.data;
-        //     response = await controller.createOrUpdateTopItemDetalle(TopId, createdBy, updatedAt, objListTopItemDetalle, files, idsEliminar);
-        // }
-        return res.status(200).send(response);
     } catch (error) {
         controlError("crearTop", error);
         res.status(500).send(buildContainer(false, error.message, null, null));
@@ -198,6 +193,30 @@ async function listarTopByLugarByCategoria(req, res) {
         res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
+
+async function createOrUpdateTopItem43(req, res) {
+    try {
+        let files = [];
+        if (req.files) files = req.files.image;
+        files = [].concat(files);
+
+        let { objLugar, objTopItem, objListTopItemDetalle, idsEliminar } = req.body;
+        if (objLugar) objLugar = JSON.parse(objLugar);
+        if (objTopItem) objTopItem = JSON.parse(objTopItem);
+        if (objListTopItemDetalle) objListTopItemDetalle = JSON.parse(objListTopItemDetalle);
+        let response = await controller.createOrUpdateTopItem({ objLugar, objTopItem, objListTopItemDetalle, files });
+
+        // if (response.ok) {
+        //     let { TopId, createdBy, updatedAt } = response.data;
+        //     response = await controller.createOrUpdateTopItemDetalle(TopId, createdBy, updatedAt, objListTopItemDetalle, files, idsEliminar);
+        // }
+        return res.status(200).send(response);
+    } catch (error) {
+        controlError("crearTop", error);
+        res.status(500).send(buildContainer(false, error.message, null, null));
+    }
+}
+
 module.exports = {
     createOrUpdateTop,
     listarTopPorUsuario,
