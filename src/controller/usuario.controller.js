@@ -58,7 +58,7 @@ function ObjectToken(usuario) {
 
 async function crearUsuario(data) {
     try {
-        let { nombreCompleto, correoElectronico, contrasenia, TipoUsuarioId } = data;
+        let { nombreCompleto, correoElectronico, contrasenia, TipoUsuarioId, createdAt, updatedAt } = data;
 
         let salt = await bcrypt.genSalt(saltRounds);
         let contraseniaEncrypt = await bcrypt.hash(contrasenia, salt);
@@ -70,8 +70,8 @@ async function crearUsuario(data) {
             , TipoUsuarioId
             , flagActive: true
             , flagEliminate: false
-            , createdAt: util.get_Date()
-            , updatedAt: util.get_Date()
+            , createdAt
+            , updatedAt
         }, {
             fields: ['nombreCompleto', 'correoElectronico', 'contrasenia', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt']
         });
@@ -90,7 +90,7 @@ async function crearUsuario(data) {
 
 async function loginFacebook(data) {
     try {
-        let { nombreCompleto, correoElectronico, TipoUsuarioId, rutaImagenPerfil } = data;
+        let { nombreCompleto, correoElectronico, TipoUsuarioId, rutaImagenPerfil, createdAt, updatedAt } = data;
 
         let usuario = await UsuarioDTO.findOne({
             where: {
@@ -107,7 +107,7 @@ async function loginFacebook(data) {
                 if (flagUpdate) {
                     await UsuarioDTO.update({
                         nombreCompleto
-                        , updatedAt: util.get_Date()
+                        , updatedAt
                     }, { where: { id: usuario.id } });
                 }
                 // updateRutaImagen
@@ -128,8 +128,8 @@ async function loginFacebook(data) {
                 , TipoUsuarioId
                 , flagActive: true
                 , flagEliminate: false
-                , createdAt: util.get_Date()
-                , updatedAt: util.get_Date()
+                , createdAt
+                , updatedAt
                 , rutaImagenPerfil
             }, { fields: ['nombreCompleto', 'correoElectronico', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt', 'rutaImagenPerfil'] });
             if (newUsuario) {
@@ -162,7 +162,7 @@ async function getOneUsuario(id) {
 }
 async function updateUsuario(data, path, files) {
     try {
-        const { id, correoElectronico, nombreCompleto } = data;
+        const { id, correoElectronico, nombreCompleto, updatedAt } = data;
         // if (!id || !correoElectronico || !nombreCompleto) {
         //     throw new Error("No puede enviar data vacio");
         // }
@@ -174,7 +174,7 @@ async function updateUsuario(data, path, files) {
         await UsuarioDTO.update({
             nombreCompleto
             , correoElectronico
-            , updatedAt: util.get_Date()
+            , updatedAt
         }, { where: { id } });
 
         return buildContainer(true, '', null, null);
@@ -217,16 +217,23 @@ async function updaterutaImagenPerfil(id, ruta) {
 }
 async function uploadFile(id, path, files) {
     try {
-        let bucketName = "itsight-top5-bucket-user";
+        let bucketName = "its-top5-bucket-client";
+        // let bucketName = "itsight-top5-bucket-user";
         if (files) {
             console.log('files cant', files.length);
             let rutaImagenPerfil = '';
-            files.forEach(async file => {
+            for (const file of files) {
                 const { name, size, mimetype } = file;
                 let key = `user/${id}/${path}/${name}`;
                 const { Location } = await uploadToS3(file, bucketName, key);
                 rutaImagenPerfil = await updaterutaImagenPerfil(id, Location);
-            });
+            }
+            // files.forEach(async file => {
+            //     const { name, size, mimetype } = file;
+            //     let key = `user/${id}/${path}/${name}`;
+            //     const { Location } = await uploadToS3(file, bucketName, key);
+            //     rutaImagenPerfil = await updaterutaImagenPerfil(id, Location);
+            // });
             return buildContainer(true, '', rutaImagenPerfil, null)
         }
     } catch (error) {
@@ -237,7 +244,8 @@ async function uploadFile(id, path, files) {
 
 async function downloadFile(id, filePath) {
     try {
-        let bucketName = "itsight-top5-bucket-user";
+        // let bucketName = "itsight-top5-bucket-user";
+        let bucketName = "its-top5-bucket-client";
         let key = `user/${id}/${filePath}`;
         console.log("key", key);
         let data = await downloadFromS3(bucketName, key);

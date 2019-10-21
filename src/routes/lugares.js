@@ -1,15 +1,10 @@
 var router = require('express').Router();
 const { existeToken } = require('../security/AuthService');
-import {
-    crearLugar,
-    obtenerLugar,
-    eliminarLugar,
-    listarLugares
-} from '../controller/lugar.routes';
+import routes from '../controller/lugar.routes';
 
-router.post('/', existeToken, crearLugar);
-router.post('/getById', existeToken, obtenerLugar);
-router.post('/deleteById', existeToken, eliminarLugar);
-router.post('/getAll', existeToken, listarLugares);
+// router.post('/', existeToken, routes.createdOrUpdatedLugar); // HUERFANO
+// router.post('/getById', existeToken, routes.obtenerLugar); // HUERFANO
+// router.post('/deleteById', existeToken, routes.eliminarLugar); // HUERFANO
+router.post('/getAll', existeToken, routes.listarLugares);
 
 module.exports = router;

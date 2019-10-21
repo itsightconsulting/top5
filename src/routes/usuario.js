@@ -2,26 +2,16 @@ var router = require('express').Router();
 // AuthController.js
 const { existeToken } = require('../security/AuthService');
 
-import {
-    crearUsuario,
-    loginFacebook,
-    login,
-    validarEmail,
-    getOneUsuario,
-    uploadFile,
-    downloadFile,
-    updateUsuario,
-    getTerminoyCondiciones
-} from '../controller/usuario.routes';
+import routes from '../controller/usuario.routes';
 
-router.post('/', crearUsuario);
-router.post('/validarEmail', validarEmail);
-router.post('/login/facebook', loginFacebook);
-router.post('/login', login);
-router.post('/:id', existeToken, updateUsuario);
-router.get('/getbyId/:id', existeToken, getOneUsuario);
-router.post('/upload/:id', existeToken, uploadFile);
-router.post('/download/:id', existeToken, downloadFile);
-router.get('/conditions', existeToken, getTerminoyCondiciones);
+router.post('/', routes.crearUsuario);
+router.post('/validarEmail', routes.validarEmail);
+router.post('/login/facebook', routes.loginFacebook);
+router.post('/login', routes.login);
+router.post('/:id', existeToken, routes.updateUsuario);
+router.get('/getbyId/:id', existeToken, routes.getOneUsuario);
+router.post('/upload/:id', existeToken, routes.uploadFile);
+// router.post('/download/:id', existeToken, routes.downloadFile); // HUERFANO
+router.get('/conditions', existeToken, routes.getTerminoyCondiciones);
 
 module.exports = router;

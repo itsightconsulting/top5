@@ -3,20 +3,6 @@ import util from '../utilitarios/utilitarios';
 import { buildContainer } from './common.controller';
 const LugarDTO = models.Lugar;
 
-async function obtenerLugar(id, createdBy) {
-    try {
-        let conditionObject = { id };
-        if (createdBy) conditionObject.createdBy = createdBy;
-        let { dataValues } = await LugarDTO.findOne({
-            where: conditionObject
-            , attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedAt', 'updatedAtStr']
-        });
-        let response = buildContainer(true, '', dataValues, null);
-        return response;
-    } catch (error) {
-        throw error;
-    }
-}
 async function createdOrUpdatedLugar(objLugar) {
     try {
         let queryObject = {
@@ -41,6 +27,22 @@ async function createdOrUpdatedLugar(objLugar) {
             });
         }
         return buildContainer(true, '', dataValues, null);
+    } catch (error) {
+        throw error;
+    }
+}
+
+
+async function obtenerLugar(id, createdBy) {
+    try {
+        let conditionObject = { id };
+        if (createdBy) conditionObject.createdBy = createdBy;
+        let { dataValues } = await LugarDTO.findOne({
+            where: conditionObject
+            , attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedAt', 'updatedAtStr']
+        });
+        let response = buildContainer(true, '', dataValues, null);
+        return response;
     } catch (error) {
         throw error;
     }
@@ -70,8 +72,7 @@ async function listarLugares(createdBy) {
         throw error;
     }
 }
-
-async function eliminarLugar(id) {
+async function eliminarLugar(id, updatedAt) {
     try {
         let response = null;
         let lugarBd = null;
@@ -81,7 +82,7 @@ async function eliminarLugar(id) {
             await lugarBd.update({
                 flagActive: false
                 , flagEliminate: true
-                , updatedAt: util.get_Date()
+                , updatedAt
             });
             response = buildContainer(true, 'Eliminado correctamente.', null, null);
             // }
@@ -112,65 +113,11 @@ async function obtenerLugarPorUbicacion(latitude, longitude) {
     }
 }
 
-// async function crearLugar(data, transact) {
-//     try {
-//         let response = null;
-//         let lugarBD = null;
-//         const { name, latitude, longitude, address, createdBy } = data;
-//         if (data.id) {
-//             let queryObject = {
-//                 name
-//                 , latitude
-//                 , longitude
-//                 , address
-//                 , flagActive: true
-//                 , flagEliminate: false
-//                 , updatedBy: createdBy
-//                 , updatedAt: util.get_Date()
-//             };
-//             queryObject.where = { id: data.id };
-//             if (transact) {
-//                 queryObject.transaction = transact;
-//             }
-
-//             lugarBD = await LugarDTO.update(queryObject);
-//         } else {
-//             let queryObject = {
-//                 name
-//                 , latitude
-//                 , longitude
-//                 , address
-//                 , flagActive: true
-//                 , flagEliminate: false
-//                 , createdBy
-//                 , createdAt: util.get_Date()
-//                 , updatedAt: util.get_Date()
-//             };
-//             queryObject.fields = ['name', 'latitude', 'longitude', 'address', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt'];
-//             if (transact) {
-//                 queryObject.transaction = transact;
-//             }
-//             lugarBD = await LugarDTO.create(queryObject);
-//         }
-
-//         if (lugarBD) {
-//             console.log("lugar.controller return");
-//             response = buildContainer(true, null, lugarBD, null);
-//         }
-
-//         if (response === null) {
-//             throw new Error('No se pudo crear lugar');
-//         }
-//         return response;
-//     } catch (error) {
-//         throw error;
-//     }
-// }
 module.exports = {
     createdOrUpdatedLugar,
-    obtenerLugar,
-    eliminarLugar,
-    obtenerLugarPorUbicacion,
-    listarLugares,
 
+    obtenerLugar,
+    listarLugares,
+    eliminarLugar,
+    obtenerLugarPorUbicacion
 }

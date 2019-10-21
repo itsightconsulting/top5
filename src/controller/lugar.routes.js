@@ -1,7 +1,7 @@
 import controller from '../controller/lugar.controller';
 import { buildContainer, existeJsonData, controlError } from '../controller/common.controller';
 
-async function crearLugar(req, res) {
+async function createdOrUpdatedLugar(req, res) {
     try {
         existeJsonData(req, res);
         let response = await controller.createdOrUpdatedLugar(req.body.data);
@@ -11,6 +11,8 @@ async function crearLugar(req, res) {
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
+
+
 async function obtenerLugar(req, res) {
     try {
         existeJsonData(req, res);
@@ -20,6 +22,16 @@ async function obtenerLugar(req, res) {
         return res.status(200).send(response);
     } catch (error) {
         controlError("obtenerLugar", error);
+        res.status(500).send(buildContainer(false, error.message, null, null));
+    }
+}
+async function listarLugares(req, res) {
+    try {
+        existeJsonData(req, res);
+        let response = await controller.listarLugares(req.body.data.createdBy);
+        return res.status(200).send(response);
+    } catch (error) {
+        controlError("listarLugares", error);
         res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
@@ -35,20 +47,11 @@ async function eliminarLugar(req, res) {
         res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
     }
 }
-async function listarLugares(req, res) {
-    try {
-        existeJsonData(req, res);
-        let response = await controller.listarLugares(req.body.data.createdBy);
-        return res.status(200).send(response);
-    } catch (error) {
-        controlError("listarLugares", error);
-        res.status(500).send(buildContainer(false, error.message, null, null));
-    }
-}
 
 module.exports = {
-    crearLugar,
+    createdOrUpdatedLugar,
+
     obtenerLugar,
-    eliminarLugar,
-    listarLugares
+    listarLugares,
+    eliminarLugar
 }
