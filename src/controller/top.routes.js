@@ -63,7 +63,6 @@ async function eliminarTop(req, res) {
     }
 }
 
-
 async function createOrUpdateTopItem(req, res) {
     try {
         existeJsonData(req, res);
@@ -109,11 +108,21 @@ async function listarTopItemByLugar(req, res) {
     try {
         existeJsonData(req, res);
 
-        let { lugarId } = req.body.data;
-        let response = await controller.listarTopItemByLugar(lugarId);
+        let { lugarId, pageNumber, pageSize } = req.body.data;
+        let response = await controller.listarTopItemByLugar(lugarId, { pageNumber, pageSize });
         return res.status(200).send(response);
     } catch (error) {
         controlError("listarTopItemByLugar", error);
+        res.status(500).send(buildContainer(false, error.message, null, null));
+    }
+}
+async function eliminarTopItem(req, res) {
+    try {
+        const { id, updatedAt, createdBy } = req.body.data;
+        let response = await controller.eliminarTopItem(id, updatedAt, createdBy);
+        return res.status(200).send(response);
+    } catch (error) {
+        controlError("eliminarTopItem", error);
         res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
@@ -141,6 +150,19 @@ async function getOneTop(req, res) {
         return res.status(200).send(response);
     } catch (error) {
         controlError("listarTopGeneral", error);
+        res.status(500).send(buildContainer(false, error.message, null, null));
+    }
+
+}
+async function getOneTopItem(req, res) {
+    try {
+        existeJsonData(req, res);
+        const { id } = req.params;
+        let createdBy = req.body.data.createdBy;
+        let response = await controller.getOneTopItem(id, createdBy);
+        return res.status(200).send(response);
+    } catch (error) {
+        controlError("getOneTopItem", error);
         res.status(500).send(buildContainer(false, error.message, null, null));
     }
 
@@ -204,12 +226,14 @@ module.exports = {
 
     createOrUpdateTopItem,
     listarTopItemByLugar,
+    eliminarTopItem,
 
     listarTopPorUsuarioPorCategoria,
     listarTopPorUsuarioPorFiltro,
     publicarTop,
     listarTopGeneral,
     getOneTop,
+    getOneTopItem,
     listarTopByLugarByCategoria,
     listarTopPublicadoPorUsuario,
     listarTopItemByTop

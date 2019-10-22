@@ -52,7 +52,11 @@ export default (sequelize, DataTypes) => {
         // associations can be defined here
         // Top.hasMany(models.TopReaccion);
         Top.belongsTo(models.Categoria, { as: 'Categoria' });
-        Top.hasMany(models.TopItem);
+
+        // Top.hasMany(models.TopItem);
+        Top.hasMany(models.TopItem, {
+            foreignKey: "TopId"
+        });
     };
     return Top;
 };

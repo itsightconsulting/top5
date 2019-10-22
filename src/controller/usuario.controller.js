@@ -113,7 +113,6 @@ async function loginFacebook(data) {
                 // updateRutaImagen
                 let flagCambiarRuta = usuario.rutaImagenPerfil !== rutaImagenPerfil;
                 if (flagCambiarRuta) {
-                    console.log("flagCambiarRuta", flagCambiarRuta);
                     await updaterutaImagenPerfil(usuario.id, rutaImagenPerfil);
                 }
                 objToken = ObjectToken({ correoElectronico: usuario.correoElectronico, id: usuario.id });

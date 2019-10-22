@@ -13,7 +13,8 @@ router.post('/topItem', existeToken, routes.createOrUpdateTopItem);
 router.post('/topItem/list/published', existeToken, routes.listarTopPublicadoPorUsuario);
 router.post('/topItem/list/byTop', existeToken, routes.listarTopItemByTop);
 router.post('/topItem/list/byLugar', existeToken, routes.listarTopItemByLugar);
-
+router.post('/topItem/invalidate', existeToken, routes.eliminarTopItem);
+router.post('/topItem/getById/:id', existeToken, routes.getOneTopItem);
 // router.post('/topItemDetalle/', existeToken, routes.createOrUpdateTopItemDetalle);
 
 
