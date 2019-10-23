@@ -2,6 +2,7 @@ import models from '../orm.database/models/index';
 import util from '../utilitarios/utilitarios';
 import { buildContainer } from './common.controller';
 const LugarDTO = models.Lugar;
+const Op = models.Sequelize.Op;
 
 async function createdOrUpdatedLugar(objLugar) {
     try {
@@ -50,7 +51,7 @@ async function obtenerLugar(id, createdBy) {
 async function listarLugares(createdBy) {
     try {
         let response = null;
-        let conditionObject = { flagActive: true, flagEliminate: false };
+        let conditionObject = { flagActive: true, flagEliminate: false, TopId: { [Op.ne]: null } };
         if (createdBy) conditionObject.createdBy = createdBy;
 
         let lugarBDList = await LugarDTO.findAll({
@@ -61,6 +62,12 @@ async function listarLugares(createdBy) {
                 model: models.TopItem
                 , where: conditionObject
                 , attributes: []
+                , include: [{
+                    model: models.Top
+                    , where: { flagActive: true, flagPublicado: true }
+                    , attributes: []
+                    , required: true
+                }]
             }]
             , group: ['Lugar.id', 'Lugar.name', 'Lugar.latitude', 'Lugar.longitude', 'Lugar.address', 'Lugar.updatedAt']
             , order: [['updatedAt', 'DESC']]

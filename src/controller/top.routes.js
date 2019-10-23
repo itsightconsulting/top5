@@ -128,7 +128,18 @@ async function eliminarTopItem(req, res) {
 }
 
 
-
+async function uploadFileTopItemDetalle(req, res) {
+    try {
+        let files = req.files.image;
+        let { id, path, nameImageDefault, updatedAt, createdBy } = req.body;
+        files = [].concat(files);
+        let response = await controller.uploadFileTopItemDetalle({ id, path, nameImageDefault, updatedAt, createdBy }, files);
+        res.status(200).send(response);
+    } catch (error) {
+        controlError("uploadFileTopItemDetalle", error);
+        res.status(500).send(buildContainer(false, error.message, null, null));
+    }
+}
 
 async function listarTopByLugarByCategoria(req, res) {
     try {
@@ -177,16 +188,6 @@ async function listarTopDetallePorTop(req, res) {
         res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
-async function eliminarTopDetalle(req, res) {
-    try {
-        const { id, modificadoPor } = req.body.data;
-        let response = await controller.eliminarTopDetalle(id, modificadoPor);
-        return res.status(200).send(response);
-    } catch (error) {
-        controlError("eliminarTopDetalle", error);
-        res.status(500).send(buildContainer(false, error.message, null, null));
-    }
-}
 async function listarTopPorUsuarioPorCategoria(req, res) {
     try {
         const { categoriaId, correoElectronico } = req.body.data;
@@ -221,12 +222,13 @@ module.exports = {
     createOrUpdateTop,
     listarTopPorUsuario,
     listarTopDetallePorTop,
-    eliminarTopDetalle,
     eliminarTop,
 
     createOrUpdateTopItem,
     listarTopItemByLugar,
     eliminarTopItem,
+
+    uploadFileTopItemDetalle,
 
     listarTopPorUsuarioPorCategoria,
     listarTopPorUsuarioPorFiltro,

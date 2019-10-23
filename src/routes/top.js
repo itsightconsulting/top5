@@ -15,8 +15,9 @@ router.post('/topItem/list/byTop', existeToken, routes.listarTopItemByTop);
 router.post('/topItem/list/byLugar', existeToken, routes.listarTopItemByLugar);
 router.post('/topItem/invalidate', existeToken, routes.eliminarTopItem);
 router.post('/topItem/getById/:id', existeToken, routes.getOneTopItem);
-// router.post('/topItemDetalle/', existeToken, routes.createOrUpdateTopItemDetalle);
 
+// router.post('/topItemDetalle/', existeToken, routes.createOrUpdateTopItemDetalle);
+router.post('/topItemDetalle/upload', existeToken, routes.uploadFileTopItemDetalle);
 
 // router.post('/list/categoria', existeToken, routes.listarTopGeneral); // HUERFANO
 // router.post('/list/lugar/categoria', existeToken, routes.listarTopByLugarByCategoria); // HUERFANO

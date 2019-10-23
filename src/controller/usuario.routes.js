@@ -8,7 +8,7 @@ async function crearUsuario(req, res) {
         return res.status(200).send(response);
     } catch (error) {
         controlError("crearUsuario", error);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+        res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
 async function loginFacebook(req, res) {
@@ -19,7 +19,7 @@ async function loginFacebook(req, res) {
         res.status(statusCode).send(response);
     } catch (error) {
         controlError("loginFacebook", error);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+        res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
 async function login(req, res) {
@@ -34,7 +34,7 @@ async function login(req, res) {
         }
     } catch (error) {
         controlError("login", error);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+        res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
 
@@ -47,7 +47,7 @@ async function validarEmail(req, res) {
         res.status(200).send(response);
     } catch (error) {
         controlError("validarEmail", error);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', error, null));
+        res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
 
@@ -58,7 +58,7 @@ async function getOneUsuario(req, res) {
         res.send(response);
     } catch (error) {
         controlError("getOneUsuario", error);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', null, null));
+        res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
 async function uploadFile(req, res) {
@@ -70,7 +70,7 @@ async function uploadFile(req, res) {
         res.status(200).send(response);
     } catch (error) {
         controlError("uploadFile", error);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', err, null));
+        res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
 async function updateUsuario(req, res) {
@@ -87,7 +87,7 @@ async function updateUsuario(req, res) {
         res.status(200).send(response);
     } catch (error) {
         controlError("updateUsuario", error);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', err, null));
+        res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
 async function downloadFile(req, res) {
@@ -99,7 +99,7 @@ async function downloadFile(req, res) {
         res.status(200).send(response);
     } catch (error) {
         controlError("downloadFile", error);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', error, null));
+        res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
 async function getTerminoyCondiciones(req, res) {
@@ -108,7 +108,7 @@ async function getTerminoyCondiciones(req, res) {
         res.status(200).send(response);
     } catch (error) {
         controlError("getTerminoyCondiciones", error);
-        res.status(500).send(buildContainer(false, 'Sucedio un error inesperado vuelva a intentar.', error, null));
+        res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
 module.exports = {
