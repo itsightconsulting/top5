@@ -196,13 +196,13 @@ async function listarTopPublicadoPorUsuario(objParams) {
                 , where: whereConditionsTop
                 , attributes: []
                 , include: [{
-                    model: models.Categoria
+                    required: true
+                    , model: models.Categoria
                     , as: 'Categoria'
                     , where: whereConditionsCategoria
                     , attributes: []
                 }]
-            },]
-            , include: [{
+            }, {
                 model: TopItemDetalleDTO,
                 required: false,
                 attributes: ['id', 'rutaImagen', 'flagImagenDefaultTop'],
@@ -267,7 +267,6 @@ async function listarTopItemByTop(objParams) {
             queryObject.offset = ((pageNumber - 1) * pageSize);
             queryObject.limit = pageSize;
         }
-        console.log("queryObject", queryObject);
         topBD = await TopItemDTO.findAll(queryObject);
         let totalRows = topBD.length || 0;
         if (totalRows) {
@@ -530,7 +529,8 @@ async function createdOrUpdatedTopItem(objTopItem) {
 
         if (objTopItem.id) {
             queryObject.updatedBy = objTopItem.createdBy;
-            var { dataValues } = await TopItemDTO.update(queryObject, { where: { id: objTopItem.id } });
+            await TopItemDTO.update(queryObject, { where: { id: objTopItem.id } });
+            var dataValues = objTopItem;
 
         } else {
             queryObject.createdBy = objTopItem.createdBy;
