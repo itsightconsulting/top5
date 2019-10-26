@@ -21,11 +21,11 @@ const test = {
 
 const production = {
     username: "postgres",
-    password: "sql",
-    database: "top5_qa",
-    host: "52.186.67.112",
+    password: "postgreSql",
+    database: "top5_prod",
+    host: "database-top5.csq4bi7avmow.us-east-2.rds.amazonaws.com",
     port: "5432",
     dialect: "postgres",
     logging: false
 };
-export const database = test;
+export const database = production;

@@ -55,7 +55,25 @@ function ObjectToken(usuario) {
         , id: usuario.id
     }
 }
-
+async function relogin(data) {
+    try {
+        let usuario = await UsuarioDTO.findOne({
+            where: {
+                correoElectronico: data.correoElectronico.toLowerCase(),
+                TipoUsuarioId: data.TipoUsuarioId,
+                id: data.id,
+                // createdAt: data.createdAt,
+                flagActive: true,
+                flagEliminate: false
+            }, attributes: ['id', 'correoElectronico']
+        });
+        let objToken = ObjectToken({ correoElectronico: usuario.correoElectronico, id: usuario.id });
+        let token = await authService.generateToken(objToken);
+        return buildContainer(true, '', null, token);
+    } catch (error) {
+        throw error;
+    }
+}
 async function crearUsuario(data) {
     try {
         let { nombreCompleto, correoElectronico, contrasenia, TipoUsuarioId, createdAt, updatedAt } = data;
@@ -265,4 +283,5 @@ module.exports = {
     , downloadFile
     , updateUsuario
     , getTerminoyCondiciones
+    , relogin
 }

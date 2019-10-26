@@ -37,7 +37,21 @@ async function login(req, res) {
         res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
-
+async function relogin(req, res) {
+    try {
+        existeJsonData(req, res);
+        let { data } = req.body;
+        let response = await usuarioController.relogin(data);
+        if (response.ok) {
+            res.status(200).send(response);
+        } else {
+            res.status(403).send(response);
+        }
+    } catch (error) {
+        controlError("relogin", error);
+        res.status(500).send(buildContainer(false, error.message, null, null));
+    }
+}
 async function validarEmail(req, res) {
     try {
         existeJsonData(req, res);
@@ -115,6 +129,7 @@ module.exports = {
     crearUsuario,
     loginFacebook,
     login,
+    relogin,
     validarEmail,
     getOneUsuario,
     uploadFile,

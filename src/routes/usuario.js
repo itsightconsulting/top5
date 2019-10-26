@@ -8,6 +8,7 @@ router.post('/', routes.crearUsuario);
 router.post('/validarEmail', routes.validarEmail);
 router.post('/login/facebook', routes.loginFacebook);
 router.post('/login', routes.login);
+router.post('/relogin', routes.relogin);
 router.post('/:id', existeToken, routes.updateUsuario);
 router.get('/getbyId/:id', existeToken, routes.getOneUsuario);
 router.post('/upload/:id', existeToken, routes.uploadFile);

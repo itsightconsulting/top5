@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const secret = 's3cr3t'; //Never set up in static files as it but process.env.secret
-let _expiresIn = '7d';// 60 * 60 * 1; //expires in 1 hours
+// const _expiresIn = '7d';// 60 * 60 * 1; //expires in 1 hours
+const _expiresIn = '20d';
 
 async function generateToken(_data) {
     let tokenData = _data
@@ -28,7 +29,7 @@ async function existeToken(req, res, next) {
             next();
         }
     } catch (error) {
-        return res.status(401).send({ ok: false, message: error, data: null, token: null })
+        return res.status(401).send({ ok: false, message: error.message, data: null, token: null })
     }
 }
 module.exports = {

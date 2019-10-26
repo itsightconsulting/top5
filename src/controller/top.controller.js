@@ -207,6 +207,9 @@ async function listarTopPublicadoPorUsuario(objParams) {
                 required: false,
                 attributes: ['id', 'rutaImagen', 'flagImagenDefaultTop'],
                 where: { flagActive: true }
+            }, {
+                model: models.Lugar,
+                attributes: ['id', 'name', 'address', 'latitude', 'longitude']
             }]
             , order: [['updatedAt', 'DESC']]
         };
