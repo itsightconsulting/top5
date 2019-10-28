@@ -1,10 +1,13 @@
-FROM node
+FROM node:8
 
-# ARG NODE_ENV=production
-# ENV NODE_ENV=${NODE_ENV}
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
 
--e "NODE_ENV=production"
--e "PORT=5000"
+ARG PORT=5080
+ENV PORT=${PORT}
+
+# -e "NODE_ENV=production"
+# -e "PORT=5000"
 
 
 # Create app directory
@@ -22,10 +25,6 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 5000
+EXPOSE 8080
 
-CMD [ "npm","run", "build" ]
-CMD [ "npm","run", "start" ]
-
-
-
+CMD [ "node", "index.js" ]
