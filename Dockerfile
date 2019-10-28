@@ -14,8 +14,10 @@ WORKDIR /usr/src/app
 # donde esté disponible (npm @ 5 +)
 COPY package*.json ./
 
-RUN npm install
+
 RUN npm build
+RUN npm install
+
 # Si está construyendo su código para producción
 # RUN npm ci --only = production
 
