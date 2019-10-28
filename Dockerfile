@@ -1,10 +1,10 @@
 FROM node:8
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+# ARG NODE_ENV=production
+# ENV NODE_ENV=${NODE_ENV}
 
-ARG PORT=5000
-ENV PORT=${PORT}
+# ARG PORT=5000
+# ENV PORT=${PORT}
 
 # Crear directorio de aplicaciones
 WORKDIR /usr/src/app
