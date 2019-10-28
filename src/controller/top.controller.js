@@ -408,12 +408,12 @@ async function likesTopItem(TopItemId = 0, updatedAt, createdBy, flagLike = fals
                 const newTopItemLikeBd = await TopItemLikeDTO.create({
                     flagActive: true,
                     flagEliminate: false,
-                    TopId: TopItemId,
+                    TopItemId,
                     UsuarioId: createdBy,
                     createdAt: updatedAt,
                     updatedAt
                 }, {
-                    fields: ['flagActive', 'flagEliminate', 'TopId', 'UsuarioId', 'createdAt', 'updatedAt']
+                    fields: ['flagActive', 'flagEliminate', 'TopItemId', 'UsuarioId', 'createdAt', 'updatedAt']
                 });
 
             }
