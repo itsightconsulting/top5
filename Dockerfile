@@ -15,6 +15,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN npm install
+RUN npm build
 # Si está construyendo su código para producción
 # RUN npm ci --only = production
 
@@ -25,4 +26,4 @@ COPY . .
 # por lo que usará la instrucción EXPOSE para que el docker demonio la asigne:
 EXPOSE 8080
 
-CMD [ "npm", "run","dev" ]
+CMD [ "npm", "run","start" ]
