@@ -3,7 +3,7 @@ FROM node:8
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
-ARG PORT=5080
+ARG PORT=5000
 ENV PORT=${PORT}
 
 # -e "NODE_ENV=production"
@@ -25,6 +25,6 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 8080
+EXPOSE 5020
 
 CMD [ "node", "index.js" ]
