@@ -18,9 +18,12 @@ export default (sequelize, DataTypes) => {
 
     TopItemLike.associate = function (models) {
         // associations can be defined here
-        // TopItemLike.belongsTo(models.TopIem, {
-        //     foreignKey: "TopItemId"
-        // });
+        TopItemLike.belongsTo(models.Usuario, {
+            foreignKey: "UsuarioId"
+        });
+        TopItemLike.belongsTo(models.TopItem, {
+            foreignKey: "TopItemId"
+        });
     };
     return TopItemLike;
 };

@@ -211,6 +211,11 @@ async function listarTopPublicadoPorUsuario(objParams) {
             }, {
                 model: models.Lugar,
                 attributes: ['id', 'name', 'address', 'latitude', 'longitude']
+            }, {
+                required: false,
+                where: { flagActive: true },
+                model: TopItemLikeDTO,
+                attributes: ['id', 'UsuarioId']
             }]
             , order: [['updatedAt', 'DESC']]
         };
@@ -376,15 +381,15 @@ async function eliminarTopItem(id, updatedAt, createdBy) {
     }
 }
 
-async function likesTopItem(TopId = 0, updatedAt, createdBy, flagLike = false) {
+async function likesTopItem(TopItemId = 0, updatedAt, createdBy, flagLike = false) {
     try {
         let response = null;
-        if (TopId > 0) {
+        if (TopItemId > 0) {
             let TopItemLikeBd = await TopItemLikeDTO.findOne({
-                where: { TopId, UsuarioId: createdBy }
+                where: { TopItemId, UsuarioId: createdBy }
                 , attributes: ['id', 'flagActive', 'flagEliminate']
             });
-            if (TopItemLikeBd.id) {
+            if (TopItemLikeBd) {
                 let queryObject = {
                     updatedAt
                 };
@@ -403,7 +408,7 @@ async function likesTopItem(TopId = 0, updatedAt, createdBy, flagLike = false) {
                 const newTopItemLikeBd = await TopItemLikeDTO.create({
                     flagActive: true,
                     flagEliminate: false,
-                    TopId,
+                    TopId: TopItemId,
                     UsuarioId: createdBy,
                     createdAt: updatedAt,
                     updatedAt
@@ -416,7 +421,7 @@ async function likesTopItem(TopId = 0, updatedAt, createdBy, flagLike = false) {
             response = buildContainer(true, '', null, null);
         }
         if (response === null) {
-            throw new Error('No se pudo publicar top');
+            throw new Error('No se pudo actualizar top');
         }
         return response;
     } catch (error) {
