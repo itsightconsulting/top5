@@ -1,12 +1,14 @@
 import models from '../src/orm.database/models/index';
-import { get_Date, formatoPublicacion } from '../src/utilitarios/utilitarios';
+import { get_Date, formatoPublicacion, formatoMeEncanta } from '../src/utilitarios/utilitarios';
 const UsuarioDTO = models.Usuario;
 async function Init() {
     try {
-        // var fec_moment = '2019-10-11 16:33:26.37+00';
-        // let rpta = formatoPublicacion(fec_moment);
-        // console.log(rpta);
-        await SincronizarModelo();
+        var fec_moment = '2019-10-28 07:19:53.252857+00';
+        let rpta = formatoPublicacion(fec_moment);
+        // let millon = 10e6;
+        // let rpta = formatoMeEncanta(millon);
+        console.log(rpta);
+        // await SincronizarModelo();
         // await createInitUsuario();
     } catch (err) {
         console.error('Init ERROR:', err);

@@ -126,7 +126,17 @@ async function eliminarTopItem(req, res) {
         res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
-
+async function likesTopItem(req, res) {
+    try {
+        existeJsonData(req, res);
+        const { id, updatedAt, createdBy, flagLike } = req.body.data;
+        let response = await controller.likesTopItem(id, updatedAt, createdBy, flagLike);
+        return res.status(200).send(response);
+    } catch (error) {
+        controlError("publicarTop", error);
+        res.status(500).send(buildContainer(false, error.message, null, null));
+    }
+}
 
 async function uploadFileTopItemDetalle(req, res) {
     try {
@@ -140,6 +150,20 @@ async function uploadFileTopItemDetalle(req, res) {
         res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
+
+async function listarTopItemAutocomplete(req, res) {
+    try {
+        existeJsonData(req, res);
+
+        let { keyword } = req.body.data;
+        let response = await controller.listarTopItemAutocomplete(keyword);
+        return res.status(200).send(response);
+    } catch (error) {
+        controlError("listarTopItemAutocomplete", error);
+        res.status(500).send(buildContainer(false, error.message, null, null));
+    }
+}
+
 
 async function listarTopByLugarByCategoria(req, res) {
     try {
@@ -229,6 +253,8 @@ module.exports = {
     eliminarTopItem,
 
     uploadFileTopItemDetalle,
+    listarTopItemAutocomplete,
+    likesTopItem,
 
     listarTopPorUsuarioPorCategoria,
     listarTopPorUsuarioPorFiltro,
@@ -239,4 +265,5 @@ module.exports = {
     listarTopByLugarByCategoria,
     listarTopPublicadoPorUsuario,
     listarTopItemByTop
+
 }

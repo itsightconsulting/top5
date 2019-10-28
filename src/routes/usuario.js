@@ -12,7 +12,6 @@ router.post('/relogin', routes.relogin);
 router.post('/:id', existeToken, routes.updateUsuario);
 router.get('/getbyId/:id', existeToken, routes.getOneUsuario);
 router.post('/upload/:id', existeToken, routes.uploadFile);
-// router.post('/download/:id', existeToken, routes.downloadFile); // HUERFANO
 router.get('/conditions', existeToken, routes.getTerminoyCondiciones);
 
 module.exports = router;

@@ -35,13 +35,15 @@ export default (sequelize, DataTypes) => {
     TopItem.associate = function (models) {
         // associations can be defined here
         TopItem.hasMany(models.TopItemDetalle);
-        TopItem.hasMany(models.TopReaccion);
+        TopItem.hasMany(models.TopItemLike, {
+            foreignKey: "TopItemId"
+        });
         
         // TopItem.belongsTo(models.Top);
         TopItem.belongsTo(models.Top, {
             foreignKey: "TopId"
         });
-        
+
         // TopItem.belongsTo(models.Lugar, { as: 'Lugar' });
         TopItem.belongsTo(models.Lugar, {
             foreignKey: "LugarId"

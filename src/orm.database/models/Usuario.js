@@ -61,7 +61,7 @@ export default (sequelize, DataTypes) => {
         });
     Usuario.associate = (models) => {
         // Usuario.belongsTo(models.TipoUsuario);
-        Usuario.hasMany(models.TopReaccion);
+        Usuario.hasMany(models.TopItemLike);
     };
 
     return Usuario;

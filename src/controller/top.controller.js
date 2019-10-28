@@ -5,6 +5,7 @@ import { createdOrUpdatedLugar } from "./lugar.controller";
 const TopDTO = models.Top;
 const TopItemDTO = models.TopItem;
 const TopItemDetalleDTO = models.TopItemDetalle;
+const TopItemLikeDTO = models.TopItemLike;
 const Op = models.Sequelize.Op;
 /* TOP */
 async function createOrUpdateTop(objTop) {
@@ -375,6 +376,53 @@ async function eliminarTopItem(id, updatedAt, createdBy) {
     }
 }
 
+async function likesTopItem(TopId = 0, updatedAt, createdBy, flagLike = false) {
+    try {
+        let response = null;
+        if (TopId > 0) {
+            let TopItemLikeBd = await TopItemLikeDTO.findOne({
+                where: { TopId, UsuarioId: createdBy }
+                , attributes: ['id', 'flagActive', 'flagEliminate']
+            });
+            if (TopItemLikeBd.id) {
+                let queryObject = {
+                    updatedAt
+                };
+                if (flagLike) {
+                    queryObject.flagActive = true;
+                    queryObject.flagEliminate = false;
+                } else {
+                    queryObject.flagActive = false;
+                    queryObject.flagEliminate = true;
+                }
+
+                await TopItemLikeDTO.update(queryObject
+                    , { where: { id: TopItemLikeBd.id } });
+
+            } else {
+                const newTopItemLikeBd = await TopItemLikeDTO.create({
+                    flagActive: true,
+                    flagEliminate: false,
+                    TopId,
+                    UsuarioId: createdBy,
+                    createdAt: updatedAt,
+                    updatedAt
+                }, {
+                    fields: ['flagActive', 'flagEliminate', 'TopId', 'UsuarioId', 'createdAt', 'updatedAt']
+                });
+
+            }
+
+            response = buildContainer(true, '', null, null);
+        }
+        if (response === null) {
+            throw new Error('No se pudo publicar top');
+        }
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
 /* TOP ITEM DETALLE */
 
 async function uploadFileTopItemDetalle(topItemDetalle, files) {
@@ -468,6 +516,69 @@ async function eliminarTopItemDetalleByTopItem(TopItemId, updatedAt, createdBy) 
         throw error;
     }
 }
+
+
+async function listarTopItemAutocomplete(keyword = "") {
+    try {
+        let response = null;
+        let topItemBD = null;
+
+        let queryObject = {
+            attributes: ['id', 'descripcion'
+                , [models.Sequelize.col("Lugar.name"), "LugarName"]
+                , [models.Sequelize.col("Lugar.address"), "LugarAddress"]
+                , [models.Sequelize.col("Top.titulo"), "TopTitulo"]
+                // , [models.Sequelize.col("Top.Categoria.name"), "CategoriaName"]
+            ]
+            , include: [{
+                model: TopDTO
+                , where: { flagActive: true, flagPublicado: true }
+                , attributes: ['CategoriaId']
+                , include: [{
+                    model: models.Categoria
+                    , as: 'Categoria'
+                    , where: { flagActive: true }
+                    , attributes: ['name']
+                }]
+            }, {
+                model: models.Lugar,
+                attributes: []
+            }]
+            , where: {
+                flagActive: true
+                // , [Op.or]: [
+                //     { "$Lugar.name$": { [Op.like]: keyword } }
+                //     , { "$Lugar.address$": { [Op.like]: keyword } }
+                //     , { "$Top.titulo$": { [Op.like]: keyword } }
+                //     , { "descripcion": { [Op.like]: keyword } }
+                // ]
+            }
+            , order: [['descripcion', 'ASC']]
+        };
+
+        topItemBD = await TopItemDTO.findAll(queryObject);
+        let totalRows = topItemBD.length || 0;
+        if (totalRows) {
+            if (keyword != "") {
+                topItemBD = topItemBD.filter((x, i) => (
+                    util.alwaysParseString(x.dataValues.descripcion).includes(keyword)
+                    || util.alwaysParseString(x.dataValues.LugarName).includes(keyword)
+                    || util.alwaysParseString(x.dataValues.LugarAddress).includes(keyword)
+                    || util.alwaysParseString(x.dataValues.TopTitulo).includes(keyword)
+                    || util.alwaysParseString(x.dataValues.Top.Categoria.dataValues.name).includes(keyword)
+                    // || keyword == ""
+                ));
+            }
+            response = buildContainer(true, '', { dataValues: topItemBD }, null);
+        } else {
+            response = buildContainer(true, '', { dataValues: [] }, null);
+        }
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
 /* OTROS */
 async function getOneTop(id, createdBy) {
     try {
@@ -898,6 +1009,9 @@ module.exports = {
     eliminarTopItem,
 
     uploadFileTopItemDetalle,
+
+    listarTopItemAutocomplete,
+    likesTopItem,
 
     listarTopPorUsuarioPorCategoria,
     listarTopPorUsuarioPorFiltro,

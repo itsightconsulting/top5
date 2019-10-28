@@ -37,6 +37,9 @@ export default (sequelize, DataTypes) => {
     Categoria.associate = function (models) {
         // associations can be defined here
         // Categoria.hasMany(models.Top);
+        Categoria.hasMany(models.Top, {
+            as: "Categoria", foreignKey: "CategoriaId"
+        });
     };
 
     return Categoria;
