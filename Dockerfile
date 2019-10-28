@@ -1,10 +1,10 @@
 FROM node:8
 
-# ARG NODE_ENV=production
-# ENV NODE_ENV=${NODE_ENV}
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
 
-# ARG PORT=5080
-# ENV PORT=${PORT}
+ARG PORT=5000
+ENV PORT=${PORT}
 
 # Crear directorio de aplicaciones
 WORKDIR /usr/src/app
@@ -25,6 +25,6 @@ COPY . .
 
 # Su aplicación se une al puerto 8080, 
 # por lo que usará la instrucción EXPOSE para que el docker demonio la asigne:
-EXPOSE 8080
+EXPOSE 5000
 
-CMD [ "npm", "run","start" ]
+CMD [ "npm", "run","dev" ]
