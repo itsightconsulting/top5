@@ -1,30 +1,30 @@
 FROM node:8
 
-# ARG NODE_ENV=production
-# ENV NODE_ENV=${NODE_ENV}
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
 
-# ARG PORT=5000
-# ENV PORT=${PORT}
+ARG PORT=5080
+ENV PORT=${PORT}
 
-# Crear directorio de aplicaciones
+# -e "NODE_ENV=production"
+# -e "PORT=5000"
+
+
+# Create app directory
 WORKDIR /usr/src/app
 
-# Instalar dependencias de aplicaciones
-# Se utiliza un comodín para garantizar que se copien package.json Y package-lock.json
-# donde esté disponible (npm @ 5 +)
-COPY package*.json ./
-
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package.json .
 
 RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
 
-# Si está construyendo su código para producción
-# RUN npm ci --only = production
-
-# Fuente de la aplicación del paquete
+# Bundle app source
 COPY . .
 
-# Su aplicación se une al puerto 8080, 
-# por lo que usará la instrucción EXPOSE para que el docker demonio la asigne:
-EXPOSE 5000
+EXPOSE 8080
 
-CMD [ "npm", "run","dev" ]
+CMD [ "node", "index.js" ]
