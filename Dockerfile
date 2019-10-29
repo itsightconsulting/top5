@@ -22,5 +22,5 @@ RUN npm install
 COPY . /usr/src/app
 
 EXPOSE 5000
-CMD [ "node", "src/index.js" ]
+CMD [ "node", "dist/index.js" ]
 
