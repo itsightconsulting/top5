@@ -35,5 +35,7 @@ if (process.env.NODE_ENV == "test") {
 } else if (process.env.NODE_ENV == "production") {
     database = production;
 }
-export default database;
+module.exports = {
+    database
+}
 // export const database = test;

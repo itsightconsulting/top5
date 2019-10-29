@@ -1,9 +1,5 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
 var development = {
   username: "postgres",
   password: "postgresql",
@@ -39,6 +35,6 @@ if (process.env.NODE_ENV == "test") {
   database = production;
 }
 
-var _default = database; // export const database = test;
-
-exports["default"] = _default;
+module.exports = {
+  database: database
+}; // export const database = test;
