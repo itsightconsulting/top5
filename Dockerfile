@@ -1,14 +1,12 @@
 FROM node:8
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+ENV NODE_ENV test
+ENV NPM_CONFIG_LOGLEVEL error
+ENV NODE_MODULES_CACHE true
+ENV NODE_VERBOSE false
 
-ARG PORT=5080
-ENV PORT=${PORT}
-
-# -e "NODE_ENV=production"
-# -e "PORT=5000"
-
+ENV jwtsecret dev_s3cr3t
+ENV cryptsecret dev_s3cr3t
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -16,15 +14,14 @@ WORKDIR /usr/src/app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY package.json .
+COPY package*.json ./
 
 RUN npm install
 # If you are building your code for production
 # RUN npm ci --only=production
 
 # Bundle app source
-COPY . .
+COPY . /usr/src/app
 
-EXPOSE 8080
-
-CMD [ "node", "index.js" ]
+EXPOSE 5010
+CMD [ "node", "dist/index.js" ]
