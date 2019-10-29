@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.database = void 0;
+exports["default"] = void 0;
 var development = {
   username: "postgres",
   password: "postgresql",
@@ -31,5 +31,14 @@ var production = {
   dialect: "postgres",
   logging: false
 };
-var database = test;
-exports.database = database;
+var database = development;
+
+if (process.env.NODE_ENV == "test") {
+  database = test;
+} else if (process.env.NODE_ENV == "production") {
+  database = production;
+}
+
+var _default = database; // export const database = test;
+
+exports["default"] = _default;

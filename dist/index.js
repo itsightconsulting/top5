@@ -26,9 +26,10 @@ function _main() {
             return _app["default"].listen(process.env.PORT || 5000);
 
           case 2:
+            console.log('mode ', process.env.NODE_ENV || "development");
             console.log('server on port', process.env.PORT || 5000);
 
-          case 3:
+          case 4:
           case "end":
             return _context.stop();
         }
