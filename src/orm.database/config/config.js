@@ -28,4 +28,12 @@ const production = {
     dialect: "postgres",
     logging: false
 };
-export const database = test;
+
+var database = development;
+if (process.env.NODE_ENV == "test") {
+    database = test;
+} else if (process.env.NODE_ENV == "production") {
+    database = production;
+}
+export default database;
+// export const database = test;
