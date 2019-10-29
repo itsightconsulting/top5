@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:8
 
 ENV NODE_ENV production
 ENV NPM_CONFIG_LOGLEVEL error
