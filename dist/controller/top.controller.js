@@ -523,7 +523,7 @@ function _listarTopPublicadoPorUsuario() {
               include: [{
                 model: TopDTO,
                 where: whereConditionsTop,
-                attributes: [],
+                attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr'],
                 include: [{
                   required: true,
                   model: _index["default"].Categoria,
