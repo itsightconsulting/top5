@@ -195,7 +195,7 @@ async function listarTopPublicadoPorUsuario(objParams) {
             , include: [{
                 model: TopDTO
                 , where: whereConditionsTop
-                , attributes: []
+                , attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr']
                 , include: [{
                     required: true
                     , model: models.Categoria
