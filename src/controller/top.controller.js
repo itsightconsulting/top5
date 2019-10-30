@@ -174,7 +174,7 @@ async function listarTopPublicadoPorUsuario(objParams) {
     try {
         let response = null;
         let topItemBD = null;
-        let { createdBy, pageNumber, pageSize, CategoriaId, flagPublicado } = objParams;
+        let { createdBy, pageNumber = 0, pageSize = 5, CategoriaId, flagPublicado } = objParams;
 
         let whereConditions = { flagActive: true };
         if (createdBy) {
@@ -220,10 +220,10 @@ async function listarTopPublicadoPorUsuario(objParams) {
             , order: [['updatedAt', 'DESC']]
         };
 
-        if (pageNumber && pageSize) {
-            queryObject.offset = ((pageNumber - 1) * pageSize);
-            queryObject.limit = pageSize;
-        }
+        // if (pageNumber && pageSize) {
+        queryObject.offset = ((pageNumber - 1) * pageSize);
+        queryObject.limit = pageSize;
+        // }
         topItemBD = await TopItemDTO.findAll(queryObject);
         let totalRows = topItemBD.length || 0;
         if (totalRows && flagPublicado) {
