@@ -485,7 +485,7 @@ function _listarTopPublicadoPorUsuario() {
   _listarTopPublicadoPorUsuario = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee6(objParams) {
-    var response, topItemBD, createdBy, pageNumber, pageSize, CategoriaId, flagPublicado, whereConditions, whereConditionsTop, whereConditionsCategoria, queryObject, totalRows, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, element, top, UsuarioBd;
+    var response, topItemBD, createdBy, _objParams$pageNumber, pageNumber, _objParams$pageSize, pageSize, CategoriaId, flagPublicado, whereConditions, whereConditionsTop, whereConditionsCategoria, queryObject, totalRows, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, element, top, UsuarioBd;
 
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
@@ -494,7 +494,7 @@ function _listarTopPublicadoPorUsuario() {
             _context6.prev = 0;
             response = null;
             topItemBD = null;
-            createdBy = objParams.createdBy, pageNumber = objParams.pageNumber, pageSize = objParams.pageSize, CategoriaId = objParams.CategoriaId, flagPublicado = objParams.flagPublicado;
+            createdBy = objParams.createdBy, _objParams$pageNumber = objParams.pageNumber, pageNumber = _objParams$pageNumber === void 0 ? 0 : _objParams$pageNumber, _objParams$pageSize = objParams.pageSize, pageSize = _objParams$pageSize === void 0 ? 5 : _objParams$pageSize, CategoriaId = objParams.CategoriaId, flagPublicado = objParams.flagPublicado;
             whereConditions = {
               flagActive: true
             };
@@ -550,40 +550,38 @@ function _listarTopPublicadoPorUsuario() {
                 attributes: ['id', 'UsuarioId']
               }],
               order: [['updatedAt', 'DESC']]
-            };
+            }; // if (pageNumber && pageSize) {
 
-            if (pageNumber && pageSize) {
-              queryObject.offset = (pageNumber - 1) * pageSize;
-              queryObject.limit = pageSize;
-            }
+            queryObject.offset = (pageNumber - 1) * pageSize;
+            queryObject.limit = pageSize; // }
 
-            _context6.next = 14;
+            _context6.next = 15;
             return TopItemDTO.findAll(queryObject);
 
-          case 14:
+          case 15:
             topItemBD = _context6.sent;
             totalRows = topItemBD.length || 0;
 
             if (!(totalRows && flagPublicado)) {
-              _context6.next = 49;
+              _context6.next = 50;
               break;
             }
 
             _iteratorNormalCompletion2 = true;
             _didIteratorError2 = false;
             _iteratorError2 = undefined;
-            _context6.prev = 20;
+            _context6.prev = 21;
             _iterator2 = topItemBD[Symbol.iterator]();
 
-          case 22:
+          case 23:
             if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-              _context6.next = 32;
+              _context6.next = 33;
               break;
             }
 
             element = _step2.value;
             top = element.dataValues;
-            _context6.next = 27;
+            _context6.next = 28;
             return _index["default"].Usuario.findOne({
               where: {
                 id: top.createdBy,
@@ -592,80 +590,80 @@ function _listarTopPublicadoPorUsuario() {
               attributes: ['id', 'nombreCompleto', 'rutaImagenPerfil']
             });
 
-          case 27:
+          case 28:
             UsuarioBd = _context6.sent;
 
             if (UsuarioBd) {
               top.Usuarios = UsuarioBd.dataValues;
             }
 
-          case 29:
+          case 30:
             _iteratorNormalCompletion2 = true;
-            _context6.next = 22;
+            _context6.next = 23;
             break;
 
-          case 32:
-            _context6.next = 38;
+          case 33:
+            _context6.next = 39;
             break;
 
-          case 34:
-            _context6.prev = 34;
-            _context6.t0 = _context6["catch"](20);
+          case 35:
+            _context6.prev = 35;
+            _context6.t0 = _context6["catch"](21);
             _didIteratorError2 = true;
             _iteratorError2 = _context6.t0;
 
-          case 38:
-            _context6.prev = 38;
+          case 39:
             _context6.prev = 39;
+            _context6.prev = 40;
 
             if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
               _iterator2["return"]();
             }
 
-          case 41:
-            _context6.prev = 41;
+          case 42:
+            _context6.prev = 42;
 
             if (!_didIteratorError2) {
-              _context6.next = 44;
+              _context6.next = 45;
               break;
             }
 
             throw _iteratorError2;
 
-          case 44:
-            return _context6.finish(41);
-
           case 45:
-            return _context6.finish(38);
+            return _context6.finish(42);
 
           case 46:
+            return _context6.finish(39);
+
+          case 47:
             response = (0, _common.buildContainer)(true, '', {
               dataValues: topItemBD,
               totalRows: totalRows
             }, null);
-            _context6.next = 50;
+            _context6.next = 51;
             break;
 
-          case 49:
+          case 50:
             response = (0, _common.buildContainer)(true, '', {
               dataValues: [],
               totalRows: totalRows
             }, null);
 
-          case 50:
+          case 51:
             return _context6.abrupt("return", response);
 
-          case 53:
-            _context6.prev = 53;
+          case 54:
+            _context6.prev = 54;
             _context6.t1 = _context6["catch"](0);
             throw _context6.t1;
 
-          case 56:
+          case 57:
           case "end":
             return _context6.stop();
         }
       }
-    }, _callee6, null, [[0, 53], [20, 34, 38, 46], [39,, 41, 45]]);
+    }, _callee6, null, [[0, 54], [21, 35, 39, 47], [40,, 42, 46]]);
   }));
   return _listarTopPublicadoPorUsuario.apply(this, arguments);
 }
