@@ -70,7 +70,8 @@ async function listarTopPorUsuario(objParams) {
                 , where: { flagActive: true }
                 , attributes: ['name']
             }]
-            , order: [['fechaPublicado', 'DESC'], ['updatedAt', 'DESC']]
+            , order: [[sequelize.col('fechaPublicado'), sequelize.col('updatedAt'), 'DESC']]
+
         };
 
         if (pageNumber && pageSize) {
