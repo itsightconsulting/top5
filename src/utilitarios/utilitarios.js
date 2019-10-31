@@ -131,10 +131,10 @@ function formatoPublicacion(datePublicadoStr = "") {
         const durationMinutes = Math.round((dateNow.getTime() - datePublicado.getTime()) / _MS_PER_MINUTE);
 
         // console.log(durationDays, durationHours, durationMinutes);
-        if (durationDays > 0) {
+        if (durationDays > 0 && durationHours >= 24) {
             // SI se registro hace más de un día en el formato: Publicado hace x días
             datePublicadoStr = `Publicado hace ${durationDays} día${durationDays == 1 ? "" : "s"}`;
-        } else if (durationHours > 0) {
+        } else if (durationHours > 0 && durationMinutes >= 24) {
             datePublicadoStr = `Publicado hace ${durationHours} hora${durationHours == 1 ? "" : "s"}`;
         } else if (durationMinutes > 0) {
             // Si se registro hace menos de una hora en el formato: Publicado hace x minutos

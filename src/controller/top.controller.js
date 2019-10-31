@@ -12,6 +12,7 @@ async function createOrUpdateTop(objTop) {
     try {
         let response = null;
         let topBD = null;
+        console.log(objTop.updatedAt);
         if (objTop.id) {
             topBD = await TopDTO.update({
                 titulo: objTop.titulo
