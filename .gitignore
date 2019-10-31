@@ -1,2 +1,8 @@
 # Don't track content of these folders
 node_modules/
+# dist/
+src/
+src/database/config.js
+*.env
+*.rar
+resumen.txt

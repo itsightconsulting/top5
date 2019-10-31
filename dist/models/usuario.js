@@ -20,7 +20,15 @@ function FieldTableDeclare(_Sequelize) {
       primaryKey: true,
       comment: 'Identificador de la tabla usuario'
     },
+<<<<<<< HEAD
     NombreCompleto: {
+=======
+    Nombres: {
+      type: _Sequelize.STRING(200),
+      allowNull: false
+    },
+    Apellidos: {
+>>>>>>> 0d766ade1273b645a073fa0b0e856cfb9edd9a5a
       type: _Sequelize.STRING(200),
       allowNull: false
     },
@@ -47,11 +55,19 @@ function FieldTableDeclare(_Sequelize) {
       defaultValue: false
     },
     FechaCreacion: {
+<<<<<<< HEAD
       type: _sequelize["default"].DATE,
       allowNull: false
     },
     FechaModificacion: {
       type: _sequelize["default"].DATE,
+=======
+      type: _sequelize["default"].BOOLEAN,
+      allowNull: false
+    },
+    FechaModificacion: {
+      type: _sequelize["default"].STRING(100),
+>>>>>>> 0d766ade1273b645a073fa0b0e856cfb9edd9a5a
       allowNull: true
     }
   };
@@ -60,7 +76,16 @@ function FieldTableDeclare(_Sequelize) {
 
 var Usuario = _database.sequelize.define('Usuario', FieldTableDeclare(_sequelize["default"]), {
   /*options*/
+<<<<<<< HEAD
   timestamps: false
+=======
+  timestamps: false,
+  getterMethods: {
+    fullName: function fullName() {
+      return this.Apellidos + ', ' + this.Nombres;
+    }
+  }
+>>>>>>> 0d766ade1273b645a073fa0b0e856cfb9edd9a5a
 });
 
 var _default = Usuario;

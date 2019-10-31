@@ -1,16 +1,17 @@
 import express, { json } from 'express';
-// exportar modulos
 import morgan from 'morgan';
-// importing routes
-import usuarioRoutes from './routes/usuario';
-
-const app = express();
+var fileUpload = require('express-fileupload');
+// var express = require('express');
+var app = express();
 
 // configurar mirawares
 app.use(morgan('dev')); //
 app.use(json()); // cuando el cliente envie un json el servidor pueda entender
+app.use(fileUpload({ limits: { fileSize: 50 * 1024 * 1024 } }));
 
 // routes
-app.use('/api/usuario', usuarioRoutes); // cada que visiten, colo quen prefijo, => api
-
+app.use('/api/usuario', require('./routes/usuario')); // cada que visiten, solo con prefijo, => api
+app.use('/api/categoria', require('./routes/categoria'));
+app.use('/api/top', require('./routes/top'));
+app.use('/api/lugares', require('./routes/lugares'));
 export default app;
