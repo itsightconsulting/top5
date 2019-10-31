@@ -4,6 +4,7 @@ ENV NODE_ENV test
 ENV NPM_CONFIG_LOGLEVEL error
 ENV NODE_MODULES_CACHE true
 ENV NODE_VERBOSE false
+ENV PORT 5010
 
 ENV jwtsecret dev_s3cr3t
 ENV cryptsecret dev_s3cr3t
