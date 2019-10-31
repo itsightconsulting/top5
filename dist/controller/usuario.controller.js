@@ -363,7 +363,7 @@ function _loginFacebook() {
             break;
 
           case 23:
-            correoElectronico = correoElectronico.toLower();
+            correoElectronico = correoElectronico.toLowerCase();
             _context5.next = 26;
             return UsuarioDTO.create({
               nombreCompleto: nombreCompleto,

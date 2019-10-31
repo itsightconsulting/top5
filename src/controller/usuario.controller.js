@@ -138,7 +138,7 @@ async function loginFacebook(data) {
                 return buildContainer(false, 'Email ya se encuentra registrado', null, null);
             }
         } else {
-            correoElectronico = correoElectronico.toLower();
+            correoElectronico = correoElectronico.toLowerCase();
             let newUsuario = await UsuarioDTO.create({
                 nombreCompleto
                 , correoElectronico
