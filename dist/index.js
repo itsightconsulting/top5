@@ -26,17 +26,10 @@ function _main() {
             return _app["default"].listen(process.env.PORT || 5000);
 
           case 2:
-<<<<<<< HEAD
-            // se configuro asignar el puerto como en lo servidores
-            console.log('server on port', process.env.PORT || 5000);
-
-          case 3:
-=======
             console.log('mode ', process.env.NODE_ENV || "development");
             console.log('server on port', process.env.PORT || 5000);
 
           case 4:
->>>>>>> 0d766ade1273b645a073fa0b0e856cfb9edd9a5a
           case "end":
             return _context.stop();
         }

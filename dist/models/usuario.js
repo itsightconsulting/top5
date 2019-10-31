@@ -20,15 +20,11 @@ function FieldTableDeclare(_Sequelize) {
       primaryKey: true,
       comment: 'Identificador de la tabla usuario'
     },
-<<<<<<< HEAD
-    NombreCompleto: {
-=======
     Nombres: {
       type: _Sequelize.STRING(200),
       allowNull: false
     },
     Apellidos: {
->>>>>>> 0d766ade1273b645a073fa0b0e856cfb9edd9a5a
       type: _Sequelize.STRING(200),
       allowNull: false
     },
