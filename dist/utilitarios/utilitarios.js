@@ -128,8 +128,7 @@ function formatoPublicacion() {
     var utcPublicado = Date.UTC(datePublicado.getFullYear(), datePublicado.getMonth(), datePublicado.getDate());
     var durationDays = Math.floor((utcNow - utcPublicado) / _MS_PER_DAY);
     var durationHours = Math.ceil(Math.abs(dateNow - datePublicado) / _MS_PER_HOUR);
-    var durationMinutes = Math.round((dateNow.getTime() - datePublicado.getTime()) / _MS_PER_MINUTE);
-    console.log(durationDays, durationHours, durationMinutes);
+    var durationMinutes = Math.round((dateNow.getTime() - datePublicado.getTime()) / _MS_PER_MINUTE); // console.log(durationDays, durationHours, durationMinutes);
 
     if (durationDays > 0 && durationHours >= 24) {
       // SI se registro hace más de un día en el formato: Publicado hace x días

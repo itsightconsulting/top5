@@ -153,7 +153,7 @@ function _listarTopPorUsuario() {
                 },
                 attributes: ['name']
               }],
-              order: [[sequelize.col('fechaPublicado'), sequelize.col('updatedAt'), 'DESC']]
+              order: [['fechaPublicado', 'DESC'], ['updatedAt', 'DESC']]
             };
 
             if (pageNumber && pageSize) {
