@@ -13,7 +13,7 @@ var test = {
   username: "postgres",
   password: "postgreSql",
   database: "top5_qa",
-  host: "database-top5.csq4bi7avmow.us-east-2.rds.amazonaws.com",
+  host: "dev.csq4bi7avmow.us-east-2.rds.amazonaws.com",
   port: "5432",
   dialect: "postgres",
   logging: false
@@ -22,7 +22,7 @@ var production = {
   username: "postgres",
   password: "postgreSql",
   database: "top5_prod",
-  host: "database-top5.csq4bi7avmow.us-east-2.rds.amazonaws.com",
+  host: "dev.csq4bi7avmow.us-east-2.rds.amazonaws.com",
   port: "5432",
   dialect: "postgres",
   logging: false

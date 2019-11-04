@@ -112,7 +112,7 @@ async function loginFacebook(data) {
 
         let usuario = await UsuarioDTO.findOne({
             where: {
-                correoElectronico: correoElectronico,
+                correoElectronico: correoElectronico.toLowerCase(),
                 flagActive: true
             }, attributes: ['correoElectronico', 'id', 'TipoUsuarioId', 'rutaImagenPerfil']
         });

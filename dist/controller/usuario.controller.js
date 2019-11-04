@@ -295,7 +295,7 @@ function _loginFacebook() {
             _context5.next = 4;
             return UsuarioDTO.findOne({
               where: {
-                correoElectronico: correoElectronico,
+                correoElectronico: correoElectronico.toLowerCase(),
                 flagActive: true
               },
               attributes: ['correoElectronico', 'id', 'TipoUsuarioId', 'rutaImagenPerfil']
