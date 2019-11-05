@@ -3,11 +3,11 @@ import { get_Date, formatoPublicacion, formatoMeEncanta } from '../src/utilitari
 const UsuarioDTO = models.Usuario;
 async function Init() {
     try {
-        var fec_moment = "2019-10-31 16:37:52.99+00";
-        let rpta = formatoPublicacion(fec_moment);
+        // var fec_moment = "2019-10-31 16:37:52.99+00";
+        // let rpta = formatoPublicacion(fec_moment);
         // let millon = 10e6;
         // let rpta = formatoMeEncanta(millon);
-        console.log(rpta);
+        // console.log(rpta);
         // await SincronizarModelo();
         // await createInitUsuario();
     } catch (err) {

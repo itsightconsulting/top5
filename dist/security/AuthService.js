@@ -7,9 +7,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var jwt = require('jsonwebtoken');
 
 var secret = process.env.jwtsecret || 's3cr3t'; //Never set up in static files as it but process.env.secret
-// const _expiresIn = '7d';// 60 * 60 * 1; //expires in 1 hours
 
-var _expiresIn = '20d';
+var _expiresIn = '7d'; // 60 * 60 * 1; //expires in 1 hours
+// const _expiresIn = '20d';
 
 function generateToken(_x) {
   return _generateToken.apply(this, arguments);

@@ -162,10 +162,24 @@ function formatoMeEncanta() {
 
 function alwaysParseString() {
   var word = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-  return "".concat(word);
+
+  if (word) {
+    return CleanWord(word).trim();
+  } else {
+    return "";
+  }
 }
 
 ;
+
+function CleanWord(filtro) {
+  return replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(filtro.toLowerCase(), 'Á', 'A'), 'á', 'a'), 'à', 'a'), 'â', 'a'), 'ä', 'a'), 'ã', 'a'), 'å', 'a'), 'À', 'A'), 'Â', 'A'), 'Ä', 'A'), 'Ã', 'A'), 'Å', 'A'), 'É', 'E'), 'ò', 'o'), 'ô', 'o'), 'ö', 'o'), 'õ', 'o'), 'Ú', 'U'), 'Ù', 'U'), 'Û', 'U'), 'Ü', 'U'), 'ú', 'u'), 'ù', 'u'), 'û', 'u'), 'ü', 'u'), 'Ý', 'Y'), 'ý', 'y'), 'ÿ', 'y'), 'ñ', 'n'), 'Ñ', 'N'), 'È', 'E'), 'Ê', 'E'), 'Ë', 'E'), 'é', 'e'), 'è', 'e'), 'ê', 'e'), 'ë', 'e'), 'Í', 'I'), 'Ì', 'I'), 'Î', 'I'), 'Ï', 'I'), 'í', 'i'), 'ì', 'i'), 'î', 'i'), 'ï', 'i'), 'ó', 'o'), 'Ó', 'O'), 'Ò', 'O'), 'Ô', 'O'), 'Ö', 'O'), 'Õ', 'O');
+}
+
+function replace(filtro, _char, newChar) {
+  return filtro.replace(_char, newChar);
+}
+
 module.exports = {
   agregarCamposBaseAuditoria: agregarCamposBaseAuditoria,
   agregarCamposBase: agregarCamposBase,

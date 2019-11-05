@@ -19,8 +19,8 @@ router.post('/topItem/getById/:id', existeToken, routes.getOneTopItem);
 
 router.post('/topItemDetalle/upload', existeToken, routes.uploadFileTopItemDetalle);
 
-router.post('/topItem/list/autocomplete', existeToken, routes.listarTopItemAutocomplete); // HUERFANO
-
+router.post('/topItem/list/autocomplete', routes.listarOptionsAutocomplete);
+router.post('/topItem/list/byfiltro', routes.listarTopItemAutocomplete);
 router.post('/getById/:id', existeToken, routes.getOneTop);
 
 module.exports = router;

@@ -570,6 +570,9 @@ async function listarTopItemAutocomplete(keyword = "") {
         let totalRows = topItemBD.length || 0;
         if (totalRows) {
             if (keyword != "") {
+
+                keyword = util.alwaysParseString(keyword);
+
                 topItemBD = topItemBD.filter((x, i) => (
                     util.alwaysParseString(x.dataValues.descripcion).includes(keyword)
                     || util.alwaysParseString(x.dataValues.LugarName).includes(keyword)
@@ -580,6 +583,52 @@ async function listarTopItemAutocomplete(keyword = "") {
                 ));
             }
             response = buildContainer(true, '', { dataValues: topItemBD }, null);
+        } else {
+            response = buildContainer(true, '', { dataValues: [] }, null);
+        }
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function listarOptionsAutocomplete(keyword = "") {
+    try {
+        let response = null;
+        
+        // var obj = {
+        //     order: [['descripcion', 'ASC']]
+        // };
+
+        if (keyword != "") {
+            keyword = util.alwaysParseString(keyword);
+
+            var listTopBD = models.sequelize.query(`SELECT "titulo" FROM "Top" WHERE REPLACE_FILTRO_BUSCADOR("Top"."titulo") LIKE :keyword`, {
+                replacements: { keyword: `%${keyword}%` },
+                type: models.sequelize.QueryTypes.SELECT
+            });
+
+            var listTopItemBD = models.sequelize.query(`SELECT "descripcion" FROM "TopItem" WHERE REPLACE_FILTRO_BUSCADOR("TopItem"."descripcion") LIKE :keyword`, {
+                replacements: { keyword: `%${keyword}%` },
+                type: models.sequelize.QueryTypes.SELECT
+            });
+
+            var listLugarBD = models.sequelize.query(`SELECT "name" FROM "Lugar" WHERE REPLACE_FILTRO_BUSCADOR("Lugar"."name") LIKE :keyword`, {
+                replacements: { keyword: `%${keyword}%` },
+                type: models.sequelize.QueryTypes.SELECT
+            });
+
+            var listCategoriaBD = models.sequelize.query(`SELECT "name" FROM "Categoria" WHERE REPLACE_FILTRO_BUSCADOR("Categoria"."name") LIKE :keyword`, {
+                replacements: { keyword: `%${keyword}%` },
+                type: models.sequelize.QueryTypes.SELECT
+            });
+
+            listTopBD = await listTopBD.map((x) => x.titulo);
+            listTopItemBD = await listTopItemBD.map((x) => x.descripcion);
+            listLugarBD = await listLugarBD.map((x) => x.name);
+            listCategoriaBD = await listCategoriaBD.map((x) => x.name);
+
+            response = buildContainer(true, '', { dataValues: [].concat(listTopBD, listTopItemBD, listLugarBD, listCategoriaBD) }, null);
         } else {
             response = buildContainer(true, '', { dataValues: [] }, null);
         }
@@ -1031,5 +1080,6 @@ module.exports = {
     getOneTopItem,
     listarTopByLugarByCategoria,
 
-    listarTopPublicadoPorUsuario
+    listarTopPublicadoPorUsuario,
+    listarOptionsAutocomplete
 }
