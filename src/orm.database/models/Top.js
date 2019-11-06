@@ -1,4 +1,4 @@
-import { agregarCamposBaseAuditoria, formatoPublicacion } from '../../utilitarios/utilitarios';
+import { agregarCamposBaseAuditoria, formatoPublicacion, formatoFechaStr } from '../../utilitarios/utilitarios';
 function CreateFieldObj(_dataTypes) {
     let objEntidad = {
         titulo: {
@@ -26,12 +26,7 @@ function CreateFieldObj(_dataTypes) {
             type: _dataTypes.VIRTUAL,
             get() {
                 let datePublicado = this.getDataValue('fechaPublicado');
-                let datePublicadoStr = "";
-                if (datePublicado) {
-                    datePublicadoStr = formatoPublicacion(datePublicado);
-                }
-                // console.log("datePublicadoStr", datePublicadoStr);
-                return datePublicadoStr;
+                return formatoFechaStr(datePublicado);
             }
         }
     };

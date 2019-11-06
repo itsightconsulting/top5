@@ -21,7 +21,7 @@ router.post('/topItem/list/byLugar', existeToken, _top["default"].listarTopItemB
 router.post('/topItem/invalidate', existeToken, _top["default"].eliminarTopItem);
 router.post('/topItem/getById/:id', existeToken, _top["default"].getOneTopItem);
 router.post('/topItemDetalle/upload', existeToken, _top["default"].uploadFileTopItemDetalle);
-router.post('/topItem/list/autocomplete', existeToken, _top["default"].listarTopItemAutocomplete); // HUERFANO
-
+router.post('/topItem/list/autocomplete', existeToken, _top["default"].listarOptionsAutocomplete);
+router.post('/topItem/list/byfiltro', existeToken, _top["default"].listarTopItemAutocomplete);
 router.post('/getById/:id', existeToken, _top["default"].getOneTop);
 module.exports = router;

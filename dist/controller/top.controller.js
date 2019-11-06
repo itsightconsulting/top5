@@ -39,13 +39,14 @@ function _createOrUpdateTop() {
             _context.prev = 0;
             response = null;
             topBD = null;
+            console.log(objTop.updatedAt);
 
             if (!objTop.id) {
-              _context.next = 9;
+              _context.next = 10;
               break;
             }
 
-            _context.next = 6;
+            _context.next = 7;
             return TopDTO.update({
               titulo: objTop.titulo,
               flagPublicado: objTop.flagPublicado,
@@ -60,13 +61,13 @@ function _createOrUpdateTop() {
               }
             });
 
-          case 6:
+          case 7:
             topBD = _context.sent;
-            _context.next = 12;
+            _context.next = 13;
             break;
 
-          case 9:
-            _context.next = 11;
+          case 10:
+            _context.next = 12;
             return TopDTO.create({
               titulo: objTop.titulo,
               CategoriaId: objTop.CategoriaId,
@@ -79,35 +80,35 @@ function _createOrUpdateTop() {
               fields: ['titulo', 'CategoriaId', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt']
             });
 
-          case 11:
+          case 12:
             topBD = _context.sent;
 
-          case 12:
+          case 13:
             if (topBD) {
               response = (0, _common.buildContainer)(true, '', topBD, null);
             }
 
             if (!(response === null)) {
-              _context.next = 15;
+              _context.next = 16;
               break;
             }
 
             throw new Error('No se pudo crear top');
 
-          case 15:
+          case 16:
             return _context.abrupt("return", response);
 
-          case 18:
-            _context.prev = 18;
+          case 19:
+            _context.prev = 19;
             _context.t0 = _context["catch"](0);
             throw _context.t0;
 
-          case 21:
+          case 22:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 18]]);
+    }, _callee, null, [[0, 19]]);
   }));
   return _createOrUpdateTop.apply(this, arguments);
 }
@@ -136,8 +137,7 @@ function _listarTopPorUsuario() {
             };
 
             if (flagPublicado) {
-              whereConditions.flagPublicado = true;
-              whereConditions.createdBy = _defineProperty({}, Op.notIn, [createdBy]);
+              whereConditions.flagPublicado = true; // whereConditions.createdBy = { [Op.notIn]: [createdBy] }
             }
 
             if (CategoriaId) whereConditions.CategoriaId = CategoriaId;
@@ -485,7 +485,7 @@ function _listarTopPublicadoPorUsuario() {
   _listarTopPublicadoPorUsuario = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee6(objParams) {
-    var response, topItemBD, createdBy, _objParams$pageNumber, pageNumber, _objParams$pageSize, pageSize, CategoriaId, flagPublicado, whereConditions, whereConditionsTop, whereConditionsCategoria, queryObject, totalRows, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, element, top, UsuarioBd;
+    var response, topItemBD, createdBy, pageNumber, pageSize, CategoriaId, flagPublicado, whereConditions, whereConditionsTop, whereConditionsCategoria, queryObject, totalRows, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, element, top, UsuarioBd;
 
     return regeneratorRuntime.wrap(function _callee6$(_context6) {
       while (1) {
@@ -494,7 +494,7 @@ function _listarTopPublicadoPorUsuario() {
             _context6.prev = 0;
             response = null;
             topItemBD = null;
-            createdBy = objParams.createdBy, _objParams$pageNumber = objParams.pageNumber, pageNumber = _objParams$pageNumber === void 0 ? 0 : _objParams$pageNumber, _objParams$pageSize = objParams.pageSize, pageSize = _objParams$pageSize === void 0 ? 5 : _objParams$pageSize, CategoriaId = objParams.CategoriaId, flagPublicado = objParams.flagPublicado;
+            createdBy = objParams.createdBy, pageNumber = objParams.pageNumber, pageSize = objParams.pageSize, CategoriaId = objParams.CategoriaId, flagPublicado = objParams.flagPublicado;
             whereConditions = {
               flagActive: true
             };
@@ -512,8 +512,7 @@ function _listarTopPublicadoPorUsuario() {
             };
 
             if (flagPublicado) {
-              whereConditionsTop.flagPublicado = true;
-              whereConditionsTop.createdBy = _defineProperty({}, Op.notIn, [createdBy]);
+              whereConditionsTop.flagPublicado = true; // whereConditionsTop.createdBy = { [Op.notIn]: [createdBy] }
             }
 
             if (CategoriaId) whereConditionsTop.CategoriaId = CategoriaId;
@@ -523,7 +522,7 @@ function _listarTopPublicadoPorUsuario() {
               include: [{
                 model: TopDTO,
                 where: whereConditionsTop,
-                attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr'],
+                attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt'],
                 include: [{
                   required: true,
                   model: _index["default"].Categoria,
@@ -1462,128 +1461,367 @@ function _eliminarTopItemDetalleByTopItem() {
   return _eliminarTopItemDetalleByTopItem.apply(this, arguments);
 }
 
-function listarTopItemAutocomplete() {
+function listarTopItemAutocomplete(_x24) {
   return _listarTopItemAutocomplete.apply(this, arguments);
 }
-/* OTROS */
-
 
 function _listarTopItemAutocomplete() {
   _listarTopItemAutocomplete = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee14() {
-    var keyword,
-        response,
-        topItemBD,
-        queryObject,
-        totalRows,
-        _args14 = arguments;
+  regeneratorRuntime.mark(function _callee14(objParams) {
+    var response, topItemBD, pageNumber, pageSize, keyword, listTopItemBD, queryObject, totalRows, _iteratorNormalCompletion6, _didIteratorError6, _iteratorError6, _iterator6, _step6, element, top, UsuarioBd;
+
     return regeneratorRuntime.wrap(function _callee14$(_context14) {
       while (1) {
         switch (_context14.prev = _context14.next) {
           case 0:
-            keyword = _args14.length > 0 && _args14[0] !== undefined ? _args14[0] : "";
-            _context14.prev = 1;
+            _context14.prev = 0;
             response = null;
             topItemBD = null;
+            pageNumber = objParams.pageNumber, pageSize = objParams.pageSize, keyword = objParams.keyword;
+
+            if (!(keyword != "")) {
+              _context14.next = 58;
+              break;
+            }
+
+            keyword = _utilitarios["default"].alwaysParseString(keyword);
+            listTopItemBD = _index["default"].sequelize.query("SELECT \"TopItem\".\"id\"\n            FROM \"Top\"\n            INNER JOIN \"TopItem\" ON \"Top\".\"id\" = \"TopItem\".\"TopId\"\n            INNER JOIN \"Lugar\" ON \"TopItem\".\"LugarId\" = \"Lugar\".\"id\"\n            INNER JOIN \"Categoria\" ON \"Top\".\"CategoriaId\" = \"Categoria\".\"id\"\n            WHERE\n            \"Top\".\"flagPublicado\" = true\n\t\t\tAND \"Top\".\"flagActive\" = true\n            AND \"TopItem\".\"flagActive\" = true\n            AND \"Lugar\".\"flagActive\" = true\n            AND \"Categoria\".\"flagActive\" = true\n            AND \n            (\n                REPLACE_FILTRO_BUSCADOR(\"Top\".\"titulo\") LIKE :keyword\n                OR REPLACE_FILTRO_BUSCADOR(\"TopItem\".\"descripcion\") LIKE :keyword\n                OR REPLACE_FILTRO_BUSCADOR(\"Lugar\".\"name\") LIKE :keyword\n                OR REPLACE_FILTRO_BUSCADOR(\"Categoria\".\"name\") LIKE :keyword\n             )\n             GROUP BY \"TopItem\".\"id\"", {
+              replacements: {
+                keyword: "%".concat(keyword, "%")
+              },
+              type: _index["default"].sequelize.QueryTypes.SELECT
+            });
+            _context14.next = 9;
+            return listTopItemBD.map(function (x) {
+              return x.id;
+            });
+
+          case 9:
+            listTopItemBD = _context14.sent;
+
+            if (!(listTopItemBD.length > 0)) {
+              _context14.next = 55;
+              break;
+            }
+
+            console.log(listTopItemBD);
             queryObject = {
-              attributes: ['id', 'descripcion', [_index["default"].Sequelize.col("Lugar.name"), "LugarName"], [_index["default"].Sequelize.col("Lugar.address"), "LugarAddress"], [_index["default"].Sequelize.col("Top.titulo"), "TopTitulo"] // , [models.Sequelize.col("Top.Categoria.name"), "CategoriaName"]
-              ],
+              where: {
+                flagActive: true,
+                id: listTopItemBD
+              },
+              attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedAt', 'updatedAtStr'],
               include: [{
                 model: TopDTO,
                 where: {
                   flagActive: true,
                   flagPublicado: true
                 },
-                attributes: ['CategoriaId'],
+                attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt'],
                 include: [{
+                  required: true,
                   model: _index["default"].Categoria,
                   as: 'Categoria',
                   where: {
                     flagActive: true
                   },
-                  attributes: ['name']
+                  attributes: []
                 }]
               }, {
+                model: TopItemDetalleDTO,
+                required: false,
+                attributes: ['id', 'rutaImagen', 'flagImagenDefaultTop'],
+                where: {
+                  flagActive: true
+                }
+              }, {
                 model: _index["default"].Lugar,
-                attributes: []
+                attributes: ['id', 'name', 'address', 'latitude', 'longitude']
+              }, {
+                required: false,
+                where: {
+                  flagActive: true
+                },
+                model: TopItemLikeDTO,
+                attributes: ['id', 'UsuarioId']
               }],
-              where: {
-                flagActive: true // , [Op.or]: [
-                //     { "$Lugar.name$": { [Op.like]: keyword } }
-                //     , { "$Lugar.address$": { [Op.like]: keyword } }
-                //     , { "$Top.titulo$": { [Op.like]: keyword } }
-                //     , { "descripcion": { [Op.like]: keyword } }
-                // ]
-
-              },
-              order: [['descripcion', 'ASC']]
+              order: [['updatedAt', 'DESC']]
             };
-            _context14.next = 7;
+            queryObject.offset = (pageNumber - 1) * pageSize;
+            queryObject.limit = pageSize; // console.log(queryObject);
+
+            _context14.next = 17;
             return TopItemDTO.findAll(queryObject);
 
-          case 7:
+          case 17:
             topItemBD = _context14.sent;
             totalRows = topItemBD.length || 0;
 
-            if (totalRows) {
-              if (keyword != "") {
-                topItemBD = topItemBD.filter(function (x, i) {
-                  return _utilitarios["default"].alwaysParseString(x.dataValues.descripcion).includes(keyword) || _utilitarios["default"].alwaysParseString(x.dataValues.LugarName).includes(keyword) || _utilitarios["default"].alwaysParseString(x.dataValues.LugarAddress).includes(keyword) || _utilitarios["default"].alwaysParseString(x.dataValues.TopTitulo).includes(keyword) || _utilitarios["default"].alwaysParseString(x.dataValues.Top.Categoria.dataValues.name).includes(keyword) // || keyword == ""
-                  ;
-                });
-              }
-
-              response = (0, _common.buildContainer)(true, '', {
-                dataValues: topItemBD
-              }, null);
-            } else {
-              response = (0, _common.buildContainer)(true, '', {
-                dataValues: []
-              }, null);
+            if (!totalRows) {
+              _context14.next = 52;
+              break;
             }
 
+            _iteratorNormalCompletion6 = true;
+            _didIteratorError6 = false;
+            _iteratorError6 = undefined;
+            _context14.prev = 23;
+            _iterator6 = topItemBD[Symbol.iterator]();
+
+          case 25:
+            if (_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done) {
+              _context14.next = 35;
+              break;
+            }
+
+            element = _step6.value;
+            top = element.dataValues;
+            _context14.next = 30;
+            return _index["default"].Usuario.findOne({
+              where: {
+                id: top.createdBy,
+                flagActive: true
+              },
+              attributes: ['id', 'nombreCompleto', 'rutaImagenPerfil']
+            });
+
+          case 30:
+            UsuarioBd = _context14.sent;
+
+            if (UsuarioBd) {
+              top.Usuarios = UsuarioBd.dataValues;
+            }
+
+          case 32:
+            _iteratorNormalCompletion6 = true;
+            _context14.next = 25;
+            break;
+
+          case 35:
+            _context14.next = 41;
+            break;
+
+          case 37:
+            _context14.prev = 37;
+            _context14.t0 = _context14["catch"](23);
+            _didIteratorError6 = true;
+            _iteratorError6 = _context14.t0;
+
+          case 41:
+            _context14.prev = 41;
+            _context14.prev = 42;
+
+            if (!_iteratorNormalCompletion6 && _iterator6["return"] != null) {
+              _iterator6["return"]();
+            }
+
+          case 44:
+            _context14.prev = 44;
+
+            if (!_didIteratorError6) {
+              _context14.next = 47;
+              break;
+            }
+
+            throw _iteratorError6;
+
+          case 47:
+            return _context14.finish(44);
+
+          case 48:
+            return _context14.finish(41);
+
+          case 49:
+            response = (0, _common.buildContainer)(true, '', {
+              dataValues: topItemBD,
+              totalRows: totalRows
+            }, null);
+            _context14.next = 53;
+            break;
+
+          case 52:
+            response = (0, _common.buildContainer)(true, '', {
+              dataValues: [],
+              totalRows: 0
+            }, null);
+
+          case 53:
+            _context14.next = 56;
+            break;
+
+          case 55:
+            response = (0, _common.buildContainer)(true, '', {
+              dataValues: [],
+              totalRows: 0
+            }, null);
+
+          case 56:
+            _context14.next = 59;
+            break;
+
+          case 58:
+            response = (0, _common.buildContainer)(true, '', {
+              dataValues: [],
+              totalRows: 0
+            }, null);
+
+          case 59:
             return _context14.abrupt("return", response);
 
-          case 13:
-            _context14.prev = 13;
-            _context14.t0 = _context14["catch"](1);
-            throw _context14.t0;
+          case 62:
+            _context14.prev = 62;
+            _context14.t1 = _context14["catch"](0);
+            throw _context14.t1;
 
-          case 16:
+          case 65:
           case "end":
             return _context14.stop();
         }
       }
-    }, _callee14, null, [[1, 13]]);
+    }, _callee14, null, [[0, 62], [23, 37, 41, 49], [42,, 44, 48]]);
   }));
   return _listarTopItemAutocomplete.apply(this, arguments);
 }
 
-function getOneTop(_x24, _x25) {
+function listarOptionsAutocomplete() {
+  return _listarOptionsAutocomplete.apply(this, arguments);
+}
+/* OTROS */
+
+
+function _listarOptionsAutocomplete() {
+  _listarOptionsAutocomplete = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee15() {
+    var keyword,
+        response,
+        listTopBD,
+        listTopItemBD,
+        listLugarBD,
+        listCategoriaBD,
+        _args15 = arguments;
+    return regeneratorRuntime.wrap(function _callee15$(_context15) {
+      while (1) {
+        switch (_context15.prev = _context15.next) {
+          case 0:
+            keyword = _args15.length > 0 && _args15[0] !== undefined ? _args15[0] : "";
+            _context15.prev = 1;
+            response = null; // var obj = {
+            //     order: [['descripcion', 'ASC']]
+            // };
+
+            if (!(keyword != "")) {
+              _context15.next = 24;
+              break;
+            }
+
+            keyword = _utilitarios["default"].alwaysParseString(keyword);
+            listTopBD = _index["default"].sequelize.query("SELECT \"titulo\" FROM \"Top\" WHERE REPLACE_FILTRO_BUSCADOR(\"Top\".\"titulo\") LIKE :keyword", {
+              replacements: {
+                keyword: "%".concat(keyword, "%")
+              },
+              type: _index["default"].sequelize.QueryTypes.SELECT
+            });
+            listTopItemBD = _index["default"].sequelize.query("SELECT \"descripcion\" FROM \"TopItem\" WHERE REPLACE_FILTRO_BUSCADOR(\"TopItem\".\"descripcion\") LIKE :keyword", {
+              replacements: {
+                keyword: "%".concat(keyword, "%")
+              },
+              type: _index["default"].sequelize.QueryTypes.SELECT
+            });
+            listLugarBD = _index["default"].sequelize.query("SELECT \"name\" FROM \"Lugar\" WHERE REPLACE_FILTRO_BUSCADOR(\"Lugar\".\"name\") LIKE :keyword", {
+              replacements: {
+                keyword: "%".concat(keyword, "%")
+              },
+              type: _index["default"].sequelize.QueryTypes.SELECT
+            });
+            listCategoriaBD = _index["default"].sequelize.query("SELECT \"name\" FROM \"Categoria\" WHERE REPLACE_FILTRO_BUSCADOR(\"Categoria\".\"name\") LIKE :keyword", {
+              replacements: {
+                keyword: "%".concat(keyword, "%")
+              },
+              type: _index["default"].sequelize.QueryTypes.SELECT
+            });
+            _context15.next = 11;
+            return listTopBD.map(function (x) {
+              return x.titulo;
+            });
+
+          case 11:
+            listTopBD = _context15.sent;
+            _context15.next = 14;
+            return listTopItemBD.map(function (x) {
+              return x.descripcion;
+            });
+
+          case 14:
+            listTopItemBD = _context15.sent;
+            _context15.next = 17;
+            return listLugarBD.map(function (x) {
+              return x.name;
+            });
+
+          case 17:
+            listLugarBD = _context15.sent;
+            _context15.next = 20;
+            return listCategoriaBD.map(function (x) {
+              return x.name;
+            });
+
+          case 20:
+            listCategoriaBD = _context15.sent;
+            response = (0, _common.buildContainer)(true, '', {
+              dataValues: [].concat(listTopBD, listTopItemBD, listLugarBD, listCategoriaBD)
+            }, null);
+            _context15.next = 25;
+            break;
+
+          case 24:
+            response = (0, _common.buildContainer)(true, '', {
+              dataValues: []
+            }, null);
+
+          case 25:
+            return _context15.abrupt("return", response);
+
+          case 28:
+            _context15.prev = 28;
+            _context15.t0 = _context15["catch"](1);
+            throw _context15.t0;
+
+          case 31:
+          case "end":
+            return _context15.stop();
+        }
+      }
+    }, _callee15, null, [[1, 28]]);
+  }));
+  return _listarOptionsAutocomplete.apply(this, arguments);
+}
+
+function getOneTop(_x25, _x26) {
   return _getOneTop.apply(this, arguments);
 }
 
 function _getOneTop() {
   _getOneTop = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee15(id, createdBy) {
+  regeneratorRuntime.mark(function _callee16(id, createdBy) {
     var response, topBD;
-    return regeneratorRuntime.wrap(function _callee15$(_context15) {
+    return regeneratorRuntime.wrap(function _callee16$(_context16) {
       while (1) {
-        switch (_context15.prev = _context15.next) {
+        switch (_context16.prev = _context16.next) {
           case 0:
-            _context15.prev = 0;
+            _context16.prev = 0;
             response = null;
             topBD = null;
-            _context15.next = 5;
+            _context16.next = 5;
             return TopDTO.findOne({
               where: {
                 id: id,
                 createdBy: createdBy,
                 flagActive: true
               },
-              attributes: ['id', 'titulo', 'flagPublicado', 'fechaPublicado', 'updatedAt', 'updatedAtStr'],
+              attributes: ['id', 'titulo', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt', 'updatedAtStr'],
               include: [{
                 model: _index["default"].Categoria,
                 as: 'Categoria',
@@ -1596,55 +1834,55 @@ function _getOneTop() {
             });
 
           case 5:
-            topBD = _context15.sent;
+            topBD = _context16.sent;
 
             if (!topBD) {
-              _context15.next = 10;
+              _context16.next = 10;
               break;
             }
 
             response = (0, _common.buildContainer)(true, '', topBD, null);
-            _context15.next = 11;
+            _context16.next = 11;
             break;
 
           case 10:
             throw new Error("Top no existe");
 
           case 11:
-            return _context15.abrupt("return", response);
+            return _context16.abrupt("return", response);
 
           case 14:
-            _context15.prev = 14;
-            _context15.t0 = _context15["catch"](0);
-            throw _context15.t0;
+            _context16.prev = 14;
+            _context16.t0 = _context16["catch"](0);
+            throw _context16.t0;
 
           case 17:
           case "end":
-            return _context15.stop();
+            return _context16.stop();
         }
       }
-    }, _callee15, null, [[0, 14]]);
+    }, _callee16, null, [[0, 14]]);
   }));
   return _getOneTop.apply(this, arguments);
 }
 
-function getOneTopItem(_x26, _x27) {
+function getOneTopItem(_x27, _x28) {
   return _getOneTopItem.apply(this, arguments);
 }
 
 function _getOneTopItem() {
   _getOneTopItem = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee16(id, createdBy) {
+  regeneratorRuntime.mark(function _callee17(id, createdBy) {
     var response, topBD;
-    return regeneratorRuntime.wrap(function _callee16$(_context16) {
+    return regeneratorRuntime.wrap(function _callee17$(_context17) {
       while (1) {
-        switch (_context16.prev = _context16.next) {
+        switch (_context17.prev = _context17.next) {
           case 0:
-            _context16.prev = 0;
+            _context17.prev = 0;
             response = null;
             topBD = null;
-            _context16.next = 5;
+            _context17.next = 5;
             return TopItemDTO.findOne({
               where: {
                 id: id,
@@ -1662,53 +1900,53 @@ function _getOneTopItem() {
             });
 
           case 5:
-            topBD = _context16.sent;
+            topBD = _context17.sent;
 
             if (!topBD) {
-              _context16.next = 10;
+              _context17.next = 10;
               break;
             }
 
             response = (0, _common.buildContainer)(true, '', topBD, null);
-            _context16.next = 11;
+            _context17.next = 11;
             break;
 
           case 10:
             throw new Error("Top item no existe");
 
           case 11:
-            return _context16.abrupt("return", response);
+            return _context17.abrupt("return", response);
 
           case 14:
-            _context16.prev = 14;
-            _context16.t0 = _context16["catch"](0);
-            throw _context16.t0;
+            _context17.prev = 14;
+            _context17.t0 = _context17["catch"](0);
+            throw _context17.t0;
 
           case 17:
           case "end":
-            return _context16.stop();
+            return _context17.stop();
         }
       }
-    }, _callee16, null, [[0, 14]]);
+    }, _callee17, null, [[0, 14]]);
   }));
   return _getOneTopItem.apply(this, arguments);
 }
 
-function createdOrUpdatedTopItem(_x28) {
+function createdOrUpdatedTopItem(_x29) {
   return _createdOrUpdatedTopItem.apply(this, arguments);
 }
 
 function _createdOrUpdatedTopItem() {
   _createdOrUpdatedTopItem = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee17(objTopItem) {
+  regeneratorRuntime.mark(function _callee18(objTopItem) {
     var queryObject, dataValues, _ref7;
 
-    return regeneratorRuntime.wrap(function _callee17$(_context17) {
+    return regeneratorRuntime.wrap(function _callee18$(_context18) {
       while (1) {
-        switch (_context17.prev = _context17.next) {
+        switch (_context18.prev = _context18.next) {
           case 0:
-            _context17.prev = 0;
+            _context18.prev = 0;
             queryObject = {
               descripcion: objTopItem.descripcion,
               valoracion: objTopItem.valoracion,
@@ -1720,12 +1958,12 @@ function _createdOrUpdatedTopItem() {
             };
 
             if (!objTopItem.id) {
-              _context17.next = 9;
+              _context18.next = 9;
               break;
             }
 
             queryObject.updatedBy = objTopItem.createdBy;
-            _context17.next = 6;
+            _context18.next = 6;
             return TopItemDTO.update(queryObject, {
               where: {
                 id: objTopItem.id
@@ -1734,85 +1972,85 @@ function _createdOrUpdatedTopItem() {
 
           case 6:
             dataValues = objTopItem;
-            _context17.next = 15;
+            _context18.next = 15;
             break;
 
           case 9:
             queryObject.createdBy = objTopItem.createdBy;
             queryObject.createdAt = objTopItem.createdAt;
-            _context17.next = 13;
+            _context18.next = 13;
             return TopItemDTO.create(queryObject, {
               fields: ['descripcion', 'valoracion', 'LugarId', 'TopId', 'flagActive', 'flagEliminate', 'updatedAt', 'createdBy', 'createdAt']
             });
 
           case 13:
-            _ref7 = _context17.sent;
+            _ref7 = _context18.sent;
             dataValues = _ref7.dataValues;
 
           case 15:
-            return _context17.abrupt("return", (0, _common.buildContainer)(true, '', dataValues, null));
+            return _context18.abrupt("return", (0, _common.buildContainer)(true, '', dataValues, null));
 
           case 18:
-            _context17.prev = 18;
-            _context17.t0 = _context17["catch"](0);
-            throw _context17.t0;
+            _context18.prev = 18;
+            _context18.t0 = _context18["catch"](0);
+            throw _context18.t0;
 
           case 21:
           case "end":
-            return _context17.stop();
+            return _context18.stop();
         }
       }
-    }, _callee17, null, [[0, 18]]);
+    }, _callee18, null, [[0, 18]]);
   }));
   return _createdOrUpdatedTopItem.apply(this, arguments);
 }
 
-function eliminatedAndcreateOrUpdateTopItemDetalle(_x29, _x30, _x31, _x32, _x33, _x34, _x35) {
+function eliminatedAndcreateOrUpdateTopItemDetalle(_x30, _x31, _x32, _x33, _x34, _x35, _x36) {
   return _eliminatedAndcreateOrUpdateTopItemDetalle.apply(this, arguments);
 }
 
 function _eliminatedAndcreateOrUpdateTopItemDetalle() {
   _eliminatedAndcreateOrUpdateTopItemDetalle = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee18(TopId, createdBy, updatedAt, objListTopItemDetalle, files, idsEliminar, transact) {
-    var response, responseEliminarTopItemDetalle, _iteratorNormalCompletion6, _didIteratorError6, _iteratorError6, _iterator6, _step6, element, topItemDetalleBD, rutaImagen, id, queryObject, _queryObject2;
+  regeneratorRuntime.mark(function _callee19(TopId, createdBy, updatedAt, objListTopItemDetalle, files, idsEliminar, transact) {
+    var response, responseEliminarTopItemDetalle, _iteratorNormalCompletion7, _didIteratorError7, _iteratorError7, _iterator7, _step7, element, topItemDetalleBD, rutaImagen, id, queryObject, _queryObject2;
 
-    return regeneratorRuntime.wrap(function _callee18$(_context18) {
+    return regeneratorRuntime.wrap(function _callee19$(_context19) {
       while (1) {
-        switch (_context18.prev = _context18.next) {
+        switch (_context19.prev = _context19.next) {
           case 0:
-            _context18.prev = 0;
+            _context19.prev = 0;
             response = null;
 
             if (!objListTopItemDetalle) {
-              _context18.next = 50;
+              _context19.next = 50;
               break;
             }
 
-            _context18.next = 5;
+            _context19.next = 5;
             return eliminarTopItemDetalle(updatedAt, idsEliminar, transact);
 
           case 5:
-            responseEliminarTopItemDetalle = _context18.sent;
+            responseEliminarTopItemDetalle = _context19.sent;
 
             if (!responseEliminarTopItemDetalle.ok) {
-              _context18.next = 50;
+              _context19.next = 50;
               break;
             }
 
-            _iteratorNormalCompletion6 = true;
-            _didIteratorError6 = false;
-            _iteratorError6 = undefined;
-            _context18.prev = 10;
-            _iterator6 = objListTopItemDetalle[Symbol.iterator]();
+            _iteratorNormalCompletion7 = true;
+            _didIteratorError7 = false;
+            _iteratorError7 = undefined;
+            _context19.prev = 10;
+            _iterator7 = objListTopItemDetalle[Symbol.iterator]();
 
           case 12:
-            if (_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done) {
-              _context18.next = 36;
+            if (_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done) {
+              _context19.next = 36;
               break;
             }
 
-            element = _step6.value;
+            element = _step7.value;
             topItemDetalleBD = null; // const { name, size, mimetype } = file;
             // let key = `user/${id}/${path}/${name}`;
             // const { Location } = await uploadToS3(file, bucketName, key);
@@ -1821,7 +2059,7 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
             id = objListTopItemDetalle.id || 0;
 
             if (!id) {
-              _context18.next = 26;
+              _context19.next = 26;
               break;
             }
 
@@ -1842,12 +2080,12 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
               queryObject.transaction = transact;
             }
 
-            _context18.next = 23;
+            _context19.next = 23;
             return TopItemDetalleDTO.update(queryObject);
 
           case 23:
-            topItemDetalleBD = _context18.sent;
-            _context18.next = 32;
+            topItemDetalleBD = _context19.sent;
+            _context19.next = 32;
             break;
 
           case 26:
@@ -1867,11 +2105,11 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
               _queryObject2.transaction = transact;
             }
 
-            _context18.next = 31;
+            _context19.next = 31;
             return TopItemDetalleDTO.create(_queryObject2);
 
           case 31:
-            topItemDetalleBD = _context18.sent;
+            topItemDetalleBD = _context19.sent;
 
           case 32:
             if (topItemDetalleBD) {
@@ -1879,71 +2117,71 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
             }
 
           case 33:
-            _iteratorNormalCompletion6 = true;
-            _context18.next = 12;
+            _iteratorNormalCompletion7 = true;
+            _context19.next = 12;
             break;
 
           case 36:
-            _context18.next = 42;
+            _context19.next = 42;
             break;
 
           case 38:
-            _context18.prev = 38;
-            _context18.t0 = _context18["catch"](10);
-            _didIteratorError6 = true;
-            _iteratorError6 = _context18.t0;
+            _context19.prev = 38;
+            _context19.t0 = _context19["catch"](10);
+            _didIteratorError7 = true;
+            _iteratorError7 = _context19.t0;
 
           case 42:
-            _context18.prev = 42;
-            _context18.prev = 43;
+            _context19.prev = 42;
+            _context19.prev = 43;
 
-            if (!_iteratorNormalCompletion6 && _iterator6["return"] != null) {
-              _iterator6["return"]();
+            if (!_iteratorNormalCompletion7 && _iterator7["return"] != null) {
+              _iterator7["return"]();
             }
 
           case 45:
-            _context18.prev = 45;
+            _context19.prev = 45;
 
-            if (!_didIteratorError6) {
-              _context18.next = 48;
+            if (!_didIteratorError7) {
+              _context19.next = 48;
               break;
             }
 
-            throw _iteratorError6;
+            throw _iteratorError7;
 
           case 48:
-            return _context18.finish(45);
+            return _context19.finish(45);
 
           case 49:
-            return _context18.finish(42);
+            return _context19.finish(42);
 
           case 50:
             if (!(response === null)) {
-              _context18.next = 52;
+              _context19.next = 52;
               break;
             }
 
             throw new Error('No se pudo crear top item');
 
           case 52:
-            return _context18.abrupt("return", response);
+            return _context19.abrupt("return", response);
 
           case 55:
-            _context18.prev = 55;
-            _context18.t1 = _context18["catch"](0);
-            throw _context18.t1;
+            _context19.prev = 55;
+            _context19.t1 = _context19["catch"](0);
+            throw _context19.t1;
 
           case 58:
           case "end":
-            return _context18.stop();
+            return _context19.stop();
         }
       }
-    }, _callee18, null, [[0, 55], [10, 38, 42, 50], [43,, 45, 49]]);
+    }, _callee19, null, [[0, 55], [10, 38, 42, 50], [43,, 45, 49]]);
   }));
   return _eliminatedAndcreateOrUpdateTopItemDetalle.apply(this, arguments);
 }
 
-function eliminarTopItemDetalle(_x36, _x37, _x38) {
+function eliminarTopItemDetalle(_x37, _x38, _x39) {
   return _eliminarTopItemDetalle.apply(this, arguments);
 } // async function eliminarTopItem(id, updatedAt, createdBy) {
 //     try {
@@ -1977,13 +2215,13 @@ function eliminarTopItemDetalle(_x36, _x37, _x38) {
 function _eliminarTopItemDetalle() {
   _eliminarTopItemDetalle = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee19(updatedAt, idsEliminar, transact) {
+  regeneratorRuntime.mark(function _callee20(updatedAt, idsEliminar, transact) {
     var response, queryObject, topItemDetalleBd;
-    return regeneratorRuntime.wrap(function _callee19$(_context19) {
+    return regeneratorRuntime.wrap(function _callee20$(_context20) {
       while (1) {
-        switch (_context19.prev = _context19.next) {
+        switch (_context20.prev = _context20.next) {
           case 0:
-            _context19.prev = 0;
+            _context20.prev = 0;
             response = null;
             queryObject = {
               flagActive: false,
@@ -1999,56 +2237,56 @@ function _eliminarTopItemDetalle() {
               queryObject.transact = transact;
             }
 
-            _context19.next = 7;
+            _context20.next = 7;
             return TopItemDetalleDTO.update(queryObject);
 
           case 7:
-            topItemDetalleBd = _context19.sent;
+            topItemDetalleBd = _context20.sent;
 
             if (topItemDetalleBd) {
               response = (0, _common.buildContainer)(true, '', null, null);
             }
 
             if (!(response === null)) {
-              _context19.next = 11;
+              _context20.next = 11;
               break;
             }
 
             throw new Error('No se pudo eliminar top item detalle');
 
           case 11:
-            return _context19.abrupt("return", response);
+            return _context20.abrupt("return", response);
 
           case 14:
-            _context19.prev = 14;
-            _context19.t0 = _context19["catch"](0);
-            throw _context19.t0;
+            _context20.prev = 14;
+            _context20.t0 = _context20["catch"](0);
+            throw _context20.t0;
 
           case 17:
           case "end":
-            return _context19.stop();
+            return _context20.stop();
         }
       }
-    }, _callee19, null, [[0, 14]]);
+    }, _callee20, null, [[0, 14]]);
   }));
   return _eliminarTopItemDetalle.apply(this, arguments);
 }
 
-function obtenerTop(_x39) {
+function obtenerTop(_x40) {
   return _obtenerTop.apply(this, arguments);
 }
 
 function _obtenerTop() {
   _obtenerTop = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee20(id) {
+  regeneratorRuntime.mark(function _callee21(id) {
     var topBD;
-    return regeneratorRuntime.wrap(function _callee20$(_context20) {
+    return regeneratorRuntime.wrap(function _callee21$(_context21) {
       while (1) {
-        switch (_context20.prev = _context20.next) {
+        switch (_context21.prev = _context21.next) {
           case 0:
-            _context20.prev = 0;
-            _context20.next = 3;
+            _context21.prev = 0;
+            _context21.next = 3;
             return TopDTO.findOne({
               where: {
                 id: id
@@ -2056,43 +2294,43 @@ function _obtenerTop() {
             });
 
           case 3:
-            topBD = _context20.sent;
-            return _context20.abrupt("return", topBD);
+            topBD = _context21.sent;
+            return _context21.abrupt("return", topBD);
 
           case 7:
-            _context20.prev = 7;
-            _context20.t0 = _context20["catch"](0);
-            throw _context20.t0;
+            _context21.prev = 7;
+            _context21.t0 = _context21["catch"](0);
+            throw _context21.t0;
 
           case 10:
           case "end":
-            return _context20.stop();
+            return _context21.stop();
         }
       }
-    }, _callee20, null, [[0, 7]]);
+    }, _callee21, null, [[0, 7]]);
   }));
   return _obtenerTop.apply(this, arguments);
 }
 
-function listarTopItemPorUsuario(_x40, _x41) {
+function listarTopItemPorUsuario(_x41, _x42) {
   return _listarTopItemPorUsuario.apply(this, arguments);
 }
 
 function _listarTopItemPorUsuario() {
   _listarTopItemPorUsuario = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee21(createdBy, cantidad) {
+  regeneratorRuntime.mark(function _callee22(createdBy, cantidad) {
     var topBD, response;
-    return regeneratorRuntime.wrap(function _callee21$(_context21) {
+    return regeneratorRuntime.wrap(function _callee22$(_context22) {
       while (1) {
-        switch (_context21.prev = _context21.next) {
+        switch (_context22.prev = _context22.next) {
           case 0:
-            _context21.prev = 0;
+            _context22.prev = 0;
             topBD = null;
             response = null; // if (cantidad) {
             // } else {
 
-            _context21.next = 5;
+            _context22.next = 5;
             return TopDTO.findAll({
               where: {
                 createdBy: createdBy,
@@ -2114,41 +2352,41 @@ function _listarTopItemPorUsuario() {
             });
 
           case 5:
-            topBD = _context21.sent;
+            topBD = _context22.sent;
             // }
             response = (0, _common.buildContainer)(true, '', topBD, null);
-            return _context21.abrupt("return", response);
+            return _context22.abrupt("return", response);
 
           case 10:
-            _context21.prev = 10;
-            _context21.t0 = _context21["catch"](0);
-            throw _context21.t0;
+            _context22.prev = 10;
+            _context22.t0 = _context22["catch"](0);
+            throw _context22.t0;
 
           case 13:
           case "end":
-            return _context21.stop();
+            return _context22.stop();
         }
       }
-    }, _callee21, null, [[0, 10]]);
+    }, _callee22, null, [[0, 10]]);
   }));
   return _listarTopItemPorUsuario.apply(this, arguments);
 }
 
-function obtenerTopItemDetalle(_x42) {
+function obtenerTopItemDetalle(_x43) {
   return _obtenerTopItemDetalle.apply(this, arguments);
 }
 
 function _obtenerTopItemDetalle() {
   _obtenerTopItemDetalle = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee22(id) {
+  regeneratorRuntime.mark(function _callee23(id) {
     var topItemDetalleBD;
-    return regeneratorRuntime.wrap(function _callee22$(_context22) {
+    return regeneratorRuntime.wrap(function _callee23$(_context23) {
       while (1) {
-        switch (_context22.prev = _context22.next) {
+        switch (_context23.prev = _context23.next) {
           case 0:
-            _context22.prev = 0;
-            _context22.next = 3;
+            _context23.prev = 0;
+            _context23.next = 3;
             return TopItemDetalleDTO.findOne({
               where: {
                 id: id
@@ -2156,47 +2394,47 @@ function _obtenerTopItemDetalle() {
             });
 
           case 3:
-            topItemDetalleBD = _context22.sent;
-            return _context22.abrupt("return", topItemDetalleBD);
+            topItemDetalleBD = _context23.sent;
+            return _context23.abrupt("return", topItemDetalleBD);
 
           case 7:
-            _context22.prev = 7;
-            _context22.t0 = _context22["catch"](0);
-            throw _context22.t0;
+            _context23.prev = 7;
+            _context23.t0 = _context23["catch"](0);
+            throw _context23.t0;
 
           case 10:
           case "end":
-            return _context22.stop();
+            return _context23.stop();
         }
       }
-    }, _callee22, null, [[0, 7]]);
+    }, _callee23, null, [[0, 7]]);
   }));
   return _obtenerTopItemDetalle.apply(this, arguments);
 }
 
-function listarTopGeneral(_x43, _x44) {
+function listarTopGeneral(_x44, _x45) {
   return _listarTopGeneral.apply(this, arguments);
 }
 
 function _listarTopGeneral() {
   _listarTopGeneral = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee23(categoriaId, cantidad) {
+  regeneratorRuntime.mark(function _callee24(categoriaId, cantidad) {
     var response, topBD;
-    return regeneratorRuntime.wrap(function _callee23$(_context23) {
+    return regeneratorRuntime.wrap(function _callee24$(_context24) {
       while (1) {
-        switch (_context23.prev = _context23.next) {
+        switch (_context24.prev = _context24.next) {
           case 0:
-            _context23.prev = 0;
+            _context24.prev = 0;
             response = null;
             topBD = null;
 
             if (!cantidad) {
-              _context23.next = 9;
+              _context24.next = 9;
               break;
             }
 
-            _context23.next = 6;
+            _context24.next = 6;
             return TopDTO.findAll({
               where: {
                 categoriaId: categoriaId,
@@ -2217,12 +2455,12 @@ function _listarTopGeneral() {
             });
 
           case 6:
-            topBD = _context23.sent;
-            _context23.next = 12;
+            topBD = _context24.sent;
+            _context24.next = 12;
             break;
 
           case 9:
-            _context23.next = 11;
+            _context24.next = 11;
             return TopDTO.findAll({
               where: {
                 categoriaId: categoriaId,
@@ -2244,44 +2482,44 @@ function _listarTopGeneral() {
             });
 
           case 11:
-            topBD = _context23.sent;
+            topBD = _context24.sent;
 
           case 12:
             response = (0, _common.buildContainer)(true, '', topBD, null);
-            return _context23.abrupt("return", response);
+            return _context24.abrupt("return", response);
 
           case 16:
-            _context23.prev = 16;
-            _context23.t0 = _context23["catch"](0);
-            throw _context23.t0;
+            _context24.prev = 16;
+            _context24.t0 = _context24["catch"](0);
+            throw _context24.t0;
 
           case 19:
           case "end":
-            return _context23.stop();
+            return _context24.stop();
         }
       }
-    }, _callee23, null, [[0, 16]]);
+    }, _callee24, null, [[0, 16]]);
   }));
   return _listarTopGeneral.apply(this, arguments);
 }
 
-function listarTopByLugarByCategoria(_x45, _x46) {
+function listarTopByLugarByCategoria(_x46, _x47) {
   return _listarTopByLugarByCategoria.apply(this, arguments);
 }
 
 function _listarTopByLugarByCategoria() {
   _listarTopByLugarByCategoria = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee24(LugarId, categoriaId) {
+  regeneratorRuntime.mark(function _callee25(LugarId, categoriaId) {
     var response, topBD;
-    return regeneratorRuntime.wrap(function _callee24$(_context24) {
+    return regeneratorRuntime.wrap(function _callee25$(_context25) {
       while (1) {
-        switch (_context24.prev = _context24.next) {
+        switch (_context25.prev = _context25.next) {
           case 0:
-            _context24.prev = 0;
+            _context25.prev = 0;
             response = null;
             topBD = null;
-            _context24.next = 5;
+            _context25.next = 5;
             return TopDTO.findAll({
               where: {
                 LugarId: LugarId,
@@ -2307,41 +2545,41 @@ function _listarTopByLugarByCategoria() {
             });
 
           case 5:
-            topBD = _context24.sent;
+            topBD = _context25.sent;
             response = (0, _common.buildContainer)(true, '', topBD, null);
-            return _context24.abrupt("return", response);
+            return _context25.abrupt("return", response);
 
           case 10:
-            _context24.prev = 10;
-            _context24.t0 = _context24["catch"](0);
-            throw _context24.t0;
+            _context25.prev = 10;
+            _context25.t0 = _context25["catch"](0);
+            throw _context25.t0;
 
           case 13:
           case "end":
-            return _context24.stop();
+            return _context25.stop();
         }
       }
-    }, _callee24, null, [[0, 10]]);
+    }, _callee25, null, [[0, 10]]);
   }));
   return _listarTopByLugarByCategoria.apply(this, arguments);
 }
 
-function listarTopPorUsuarioPorCategoria(_x47, _x48) {
+function listarTopPorUsuarioPorCategoria(_x48, _x49) {
   return _listarTopPorUsuarioPorCategoria.apply(this, arguments);
 }
 
 function _listarTopPorUsuarioPorCategoria() {
   _listarTopPorUsuarioPorCategoria = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee25(categoriaId, createdBy) {
+  regeneratorRuntime.mark(function _callee26(categoriaId, createdBy) {
     var response, topBDListado;
-    return regeneratorRuntime.wrap(function _callee25$(_context25) {
+    return regeneratorRuntime.wrap(function _callee26$(_context26) {
       while (1) {
-        switch (_context25.prev = _context25.next) {
+        switch (_context26.prev = _context26.next) {
           case 0:
-            _context25.prev = 0;
+            _context26.prev = 0;
             response = null;
-            _context25.next = 4;
+            _context26.next = 4;
             return TopDTO.findAll({
               where: {
                 createdBy: createdBy,
@@ -2352,42 +2590,42 @@ function _listarTopPorUsuarioPorCategoria() {
             });
 
           case 4:
-            topBDListado = _context25.sent;
+            topBDListado = _context26.sent;
             // TODO obtener foto default
             response = (0, _common.buildContainer)(true, '', topBDListado, null);
-            return _context25.abrupt("return", response);
+            return _context26.abrupt("return", response);
 
           case 9:
-            _context25.prev = 9;
-            _context25.t0 = _context25["catch"](0);
-            throw _context25.t0;
+            _context26.prev = 9;
+            _context26.t0 = _context26["catch"](0);
+            throw _context26.t0;
 
           case 12:
           case "end":
-            return _context25.stop();
+            return _context26.stop();
         }
       }
-    }, _callee25, null, [[0, 9]]);
+    }, _callee26, null, [[0, 9]]);
   }));
   return _listarTopPorUsuarioPorCategoria.apply(this, arguments);
 }
 
-function listarTopPorUsuarioPorFiltro(_x49, _x50) {
+function listarTopPorUsuarioPorFiltro(_x50, _x51) {
   return _listarTopPorUsuarioPorFiltro.apply(this, arguments);
 }
 
 function _listarTopPorUsuarioPorFiltro() {
   _listarTopPorUsuarioPorFiltro = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee26(filtro, createdBy) {
+  regeneratorRuntime.mark(function _callee27(filtro, createdBy) {
     var response, topItemBDListado;
-    return regeneratorRuntime.wrap(function _callee26$(_context26) {
+    return regeneratorRuntime.wrap(function _callee27$(_context27) {
       while (1) {
-        switch (_context26.prev = _context26.next) {
+        switch (_context27.prev = _context27.next) {
           case 0:
-            _context26.prev = 0;
+            _context27.prev = 0;
             response = null;
-            _context26.next = 4;
+            _context27.next = 4;
             return TopItemDTO.findAll({
               where: _defineProperty({
                 flagActive: true
@@ -2407,53 +2645,9 @@ function _listarTopPorUsuarioPorFiltro() {
             });
 
           case 4:
-            topItemBDListado = _context26.sent;
+            topItemBDListado = _context27.sent;
             // TODO obtener foto default
             response = (0, _common.buildContainer)(true, '', topItemBDListado, null);
-            return _context26.abrupt("return", response);
-
-          case 9:
-            _context26.prev = 9;
-            _context26.t0 = _context26["catch"](0);
-            throw _context26.t0;
-
-          case 12:
-          case "end":
-            return _context26.stop();
-        }
-      }
-    }, _callee26, null, [[0, 9]]);
-  }));
-  return _listarTopPorUsuarioPorFiltro.apply(this, arguments);
-}
-
-function listarTopDetallePorTopItem(_x51) {
-  return _listarTopDetallePorTopItem.apply(this, arguments);
-}
-
-function _listarTopDetallePorTopItem() {
-  _listarTopDetallePorTopItem = _asyncToGenerator(
-  /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee27(id) {
-    var response, topItemDetalleBD;
-    return regeneratorRuntime.wrap(function _callee27$(_context27) {
-      while (1) {
-        switch (_context27.prev = _context27.next) {
-          case 0:
-            _context27.prev = 0;
-            response = null;
-            _context27.next = 4;
-            return TopItemDetalleDTO.findAll({
-              where: {
-                TopItemId: id,
-                flagActive: true
-              },
-              order: [['updatedAt', 'DESC']]
-            });
-
-          case 4:
-            topItemDetalleBD = _context27.sent;
-            response = (0, _common.buildContainer)(true, '', topItemDetalleBD, null);
             return _context27.abrupt("return", response);
 
           case 9:
@@ -2468,31 +2662,75 @@ function _listarTopDetallePorTopItem() {
       }
     }, _callee27, null, [[0, 9]]);
   }));
+  return _listarTopPorUsuarioPorFiltro.apply(this, arguments);
+}
+
+function listarTopDetallePorTopItem(_x52) {
   return _listarTopDetallePorTopItem.apply(this, arguments);
 }
 
-function eliminarTopDetallePorTopId(_x52, _x53) {
-  return _eliminarTopDetallePorTopId.apply(this, arguments);
-}
-
-function _eliminarTopDetallePorTopId() {
-  _eliminarTopDetallePorTopId = _asyncToGenerator(
+function _listarTopDetallePorTopItem() {
+  _listarTopDetallePorTopItem = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee28(id, updatedAt) {
-    var response;
+  regeneratorRuntime.mark(function _callee28(id) {
+    var response, topItemDetalleBD;
     return regeneratorRuntime.wrap(function _callee28$(_context28) {
       while (1) {
         switch (_context28.prev = _context28.next) {
           case 0:
             _context28.prev = 0;
             response = null;
+            _context28.next = 4;
+            return TopItemDetalleDTO.findAll({
+              where: {
+                TopItemId: id,
+                flagActive: true
+              },
+              order: [['updatedAt', 'DESC']]
+            });
+
+          case 4:
+            topItemDetalleBD = _context28.sent;
+            response = (0, _common.buildContainer)(true, '', topItemDetalleBD, null);
+            return _context28.abrupt("return", response);
+
+          case 9:
+            _context28.prev = 9;
+            _context28.t0 = _context28["catch"](0);
+            throw _context28.t0;
+
+          case 12:
+          case "end":
+            return _context28.stop();
+        }
+      }
+    }, _callee28, null, [[0, 9]]);
+  }));
+  return _listarTopDetallePorTopItem.apply(this, arguments);
+}
+
+function eliminarTopDetallePorTopId(_x53, _x54) {
+  return _eliminarTopDetallePorTopId.apply(this, arguments);
+}
+
+function _eliminarTopDetallePorTopId() {
+  _eliminarTopDetallePorTopId = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee29(id, updatedAt) {
+    var response;
+    return regeneratorRuntime.wrap(function _callee29$(_context29) {
+      while (1) {
+        switch (_context29.prev = _context29.next) {
+          case 0:
+            _context29.prev = 0;
+            response = null;
 
             if (!id) {
-              _context28.next = 6;
+              _context29.next = 6;
               break;
             }
 
-            _context28.next = 5;
+            _context29.next = 5;
             return TopItemDetalleDTO.update({
               flagActive: false,
               flagEliminate: true,
@@ -2508,81 +2746,81 @@ function _eliminarTopDetallePorTopId() {
 
           case 6:
             if (!(response === null)) {
-              _context28.next = 8;
+              _context29.next = 8;
               break;
             }
 
             throw new Error('No se pudo eliminar top detalle');
 
           case 8:
-            return _context28.abrupt("return", response);
+            return _context29.abrupt("return", response);
 
           case 11:
-            _context28.prev = 11;
-            _context28.t0 = _context28["catch"](0);
-            throw _context28.t0;
+            _context29.prev = 11;
+            _context29.t0 = _context29["catch"](0);
+            throw _context29.t0;
 
           case 14:
           case "end":
-            return _context28.stop();
+            return _context29.stop();
         }
       }
-    }, _callee28, null, [[0, 11]]);
+    }, _callee29, null, [[0, 11]]);
   }));
   return _eliminarTopDetallePorTopId.apply(this, arguments);
 }
 
-function createOrUpdateTopItemIgnore(_x54) {
+function createOrUpdateTopItemIgnore(_x55) {
   return _createOrUpdateTopItemIgnore.apply(this, arguments);
 }
 
 function _createOrUpdateTopItemIgnore() {
   _createOrUpdateTopItemIgnore = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee29(_ref3) {
+  regeneratorRuntime.mark(function _callee30(_ref3) {
     var objLugar, objTopItem, objListTopItemDetalle, files, response, responseLugar, responseTopItem;
-    return regeneratorRuntime.wrap(function _callee29$(_context29) {
+    return regeneratorRuntime.wrap(function _callee30$(_context30) {
       while (1) {
-        switch (_context29.prev = _context29.next) {
+        switch (_context30.prev = _context30.next) {
           case 0:
             objLugar = _ref3.objLugar, objTopItem = _ref3.objTopItem, objListTopItemDetalle = _ref3.objListTopItemDetalle, files = _ref3.files;
-            _context29.prev = 1;
+            _context30.prev = 1;
             response = null; // await models.sequelize.transaction(async transact => {
 
             if (!objLugar) {
-              _context29.next = 8;
+              _context30.next = 8;
               break;
             }
 
-            _context29.next = 6;
+            _context30.next = 6;
             return (0, _lugar.createdOrUpdatedLugar)(objLugar);
 
           case 6:
-            responseLugar = _context29.sent;
+            responseLugar = _context30.sent;
             objTopItem.LugarId = responseLugar.data.id;
 
           case 8:
-            _context29.next = 10;
+            _context30.next = 10;
             return createdOrUpdatedTopItem(objTopItem);
 
           case 10:
-            responseTopItem = _context29.sent;
+            responseTopItem = _context30.sent;
             // registrar Detalle
             response = (0, _common.buildContainer)(true, '', responseTopItem.data, null); // });
 
-            return _context29.abrupt("return", response);
+            return _context30.abrupt("return", response);
 
           case 15:
-            _context29.prev = 15;
-            _context29.t0 = _context29["catch"](1);
-            throw _context29.t0;
+            _context30.prev = 15;
+            _context30.t0 = _context30["catch"](1);
+            throw _context30.t0;
 
           case 18:
           case "end":
-            return _context29.stop();
+            return _context30.stop();
         }
       }
-    }, _callee29, null, [[1, 15]]);
+    }, _callee30, null, [[1, 15]]);
   }));
   return _createOrUpdateTopItemIgnore.apply(this, arguments);
 }
@@ -2607,5 +2845,6 @@ module.exports = {
   getOneTop: getOneTop,
   getOneTopItem: getOneTopItem,
   listarTopByLugarByCategoria: listarTopByLugarByCategoria,
-  listarTopPublicadoPorUsuario: listarTopPublicadoPorUsuario
+  listarTopPublicadoPorUsuario: listarTopPublicadoPorUsuario,
+  listarOptionsAutocomplete: listarOptionsAutocomplete
 };

@@ -155,11 +155,24 @@ async function listarTopItemAutocomplete(req, res) {
     try {
         existeJsonData(req, res);
 
-        let { keyword } = req.body.data;
-        let response = await controller.listarTopItemAutocomplete(keyword);
+        let { pageNumber, pageSize, keyword } = req.body.data;
+        let response = await controller.listarTopItemAutocomplete({ pageNumber, pageSize, keyword });
         return res.status(200).send(response);
     } catch (error) {
         controlError("listarTopItemAutocomplete", error);
+        res.status(500).send(buildContainer(false, error.message, null, null));
+    }
+}
+
+async function listarOptionsAutocomplete(req, res) {
+    try {
+        existeJsonData(req, res);
+
+        let { keyword } = req.body.data;
+        let response = await controller.listarOptionsAutocomplete(keyword);
+        return res.status(200).send(response);
+    } catch (error) {
+        controlError("listarOptionsAutocomplete", error);
         res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
@@ -242,6 +255,7 @@ async function listarTopGeneral(req, res) {
         res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
+
 module.exports = {
     createOrUpdateTop,
     listarTopPorUsuario,
@@ -254,6 +268,7 @@ module.exports = {
 
     uploadFileTopItemDetalle,
     listarTopItemAutocomplete,
+    listarOptionsAutocomplete,
     likesTopItem,
 
     listarTopPorUsuarioPorCategoria,
