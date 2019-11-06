@@ -137,14 +137,13 @@ function _listarTopPorUsuario() {
             };
 
             if (flagPublicado) {
-              whereConditions.flagPublicado = true;
-              whereConditions.createdBy = _defineProperty({}, Op.notIn, [createdBy]);
+              whereConditions.flagPublicado = true; // whereConditions.createdBy = { [Op.notIn]: [createdBy] }
             }
 
             if (CategoriaId) whereConditions.CategoriaId = CategoriaId;
             queryObject = {
               where: whereConditions,
-              attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedAt', 'updatedAtStr', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr'],
+              attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedAt', 'updatedAtStr', 'flagPublicado', 'fechaPublicado'],
               include: [{
                 model: _index["default"].Categoria,
                 as: 'Categoria',
@@ -513,8 +512,7 @@ function _listarTopPublicadoPorUsuario() {
             };
 
             if (flagPublicado) {
-              whereConditionsTop.flagPublicado = true;
-              whereConditionsTop.createdBy = _defineProperty({}, Op.notIn, [createdBy]);
+              whereConditionsTop.flagPublicado = true; // whereConditionsTop.createdBy = { [Op.notIn]: [createdBy] }
             }
 
             if (CategoriaId) whereConditionsTop.CategoriaId = CategoriaId;
@@ -524,7 +522,7 @@ function _listarTopPublicadoPorUsuario() {
               include: [{
                 model: TopDTO,
                 where: whereConditionsTop,
-                attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr'],
+                attributes: ['id', 'titulo', 'fechaPublicado', 'updatedAt'],
                 include: [{
                   required: true,
                   model: _index["default"].Categoria,

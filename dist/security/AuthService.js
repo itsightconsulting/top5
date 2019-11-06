@@ -88,40 +88,53 @@ function _existeToken() {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.prev = 0;
+
+            if (!(process.env.NODE_ENV == "production")) {
+              _context3.next = 16;
+              break;
+            }
+
             authorization = req.headers['authorization'];
 
             if (authorization) {
-              _context3.next = 4;
+              _context3.next = 5;
               break;
             }
 
             throw new Error("Es necesario el token de autenticación");
 
-          case 4:
+          case 5:
             token = authorization.split(' ')[1]; //Because Authorization is equals to a string like 'Bearer [jwt]'
 
-            _context3.next = 7;
+            _context3.next = 8;
             return jwt.verify(token, secret);
 
-          case 7:
+          case 8:
             decoded = _context3.sent;
 
             if (decoded) {
-              _context3.next = 12;
+              _context3.next = 13;
               break;
             }
 
             throw new Error("Token inválido");
 
-          case 12:
+          case 13:
             next();
 
-          case 13:
-            _context3.next = 18;
+          case 14:
+            _context3.next = 17;
             break;
 
-          case 15:
-            _context3.prev = 15;
+          case 16:
+            next();
+
+          case 17:
+            _context3.next = 22;
+            break;
+
+          case 19:
+            _context3.prev = 19;
             _context3.t0 = _context3["catch"](0);
             return _context3.abrupt("return", res.status(401).send({
               ok: false,
@@ -130,12 +143,12 @@ function _existeToken() {
               token: null
             }));
 
-          case 18:
+          case 22:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[0, 15]]);
+    }, _callee3, null, [[0, 19]]);
   }));
   return _existeToken.apply(this, arguments);
 }
