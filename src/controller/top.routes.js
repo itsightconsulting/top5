@@ -155,8 +155,8 @@ async function listarTopItemAutocomplete(req, res) {
     try {
         existeJsonData(req, res);
 
-        let { keyword } = req.body.data;
-        let response = await controller.listarTopItemAutocomplete(keyword);
+        let { pageNumber, pageSize, keyword } = req.body.data;
+        let response = await controller.listarTopItemAutocomplete({ pageNumber, pageSize, keyword });
         return res.status(200).send(response);
     } catch (error) {
         controlError("listarTopItemAutocomplete", error);

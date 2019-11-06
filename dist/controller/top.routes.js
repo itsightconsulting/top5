@@ -512,16 +512,21 @@ function _listarTopItemAutocomplete() {
   _listarTopItemAutocomplete = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee12(req, res) {
-    var keyword, response;
+    var _req$body$data9, pageNumber, pageSize, keyword, response;
+
     return regeneratorRuntime.wrap(function _callee12$(_context12) {
       while (1) {
         switch (_context12.prev = _context12.next) {
           case 0:
             _context12.prev = 0;
             (0, _common.existeJsonData)(req, res);
-            keyword = req.body.data.keyword;
+            _req$body$data9 = req.body.data, pageNumber = _req$body$data9.pageNumber, pageSize = _req$body$data9.pageSize, keyword = _req$body$data9.keyword;
             _context12.next = 5;
-            return _top["default"].listarTopItemAutocomplete(keyword);
+            return _top["default"].listarTopItemAutocomplete({
+              pageNumber: pageNumber,
+              pageSize: pageSize,
+              keyword: keyword
+            });
 
           case 5:
             response = _context12.sent;
@@ -590,7 +595,7 @@ function _listarTopByLugarByCategoria() {
   _listarTopByLugarByCategoria = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee14(req, res) {
-    var _req$body$data9, LugarId, categoriaId, response;
+    var _req$body$data10, LugarId, categoriaId, response;
 
     return regeneratorRuntime.wrap(function _callee14$(_context14) {
       while (1) {
@@ -598,7 +603,7 @@ function _listarTopByLugarByCategoria() {
           case 0:
             _context14.prev = 0;
             (0, _common.existeJsonData)(req, res);
-            _req$body$data9 = req.body.data, LugarId = _req$body$data9.LugarId, categoriaId = _req$body$data9.categoriaId;
+            _req$body$data10 = req.body.data, LugarId = _req$body$data10.LugarId, categoriaId = _req$body$data10.categoriaId;
             _context14.next = 5;
             return _top["default"].listarTopByLugarByCategoria(LugarId, categoriaId);
 
@@ -748,14 +753,14 @@ function _listarTopPorUsuarioPorCategoria() {
   _listarTopPorUsuarioPorCategoria = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee18(req, res) {
-    var _req$body$data10, categoriaId, correoElectronico, response;
+    var _req$body$data11, categoriaId, correoElectronico, response;
 
     return regeneratorRuntime.wrap(function _callee18$(_context18) {
       while (1) {
         switch (_context18.prev = _context18.next) {
           case 0:
             _context18.prev = 0;
-            _req$body$data10 = req.body.data, categoriaId = _req$body$data10.categoriaId, correoElectronico = _req$body$data10.correoElectronico;
+            _req$body$data11 = req.body.data, categoriaId = _req$body$data11.categoriaId, correoElectronico = _req$body$data11.correoElectronico;
             _context18.next = 4;
             return _top["default"].listarTopPorUsuarioPorCategoria(categoriaId, correoElectronico);
 
@@ -787,14 +792,14 @@ function _listarTopPorUsuarioPorFiltro() {
   _listarTopPorUsuarioPorFiltro = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee19(req, res) {
-    var _req$body$data11, filtro, correoElectronico, response;
+    var _req$body$data12, filtro, correoElectronico, response;
 
     return regeneratorRuntime.wrap(function _callee19$(_context19) {
       while (1) {
         switch (_context19.prev = _context19.next) {
           case 0:
             _context19.prev = 0;
-            _req$body$data11 = req.body.data, filtro = _req$body$data11.filtro, correoElectronico = _req$body$data11.correoElectronico;
+            _req$body$data12 = req.body.data, filtro = _req$body$data12.filtro, correoElectronico = _req$body$data12.correoElectronico;
             _context19.next = 4;
             return _top["default"].listarTopPorUsuarioPorFiltro(filtro, correoElectronico);
 
@@ -826,14 +831,14 @@ function _listarTopGeneral() {
   _listarTopGeneral = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee20(req, res) {
-    var _req$body$data12, categoriaId, cantidad, response;
+    var _req$body$data13, categoriaId, cantidad, response;
 
     return regeneratorRuntime.wrap(function _callee20$(_context20) {
       while (1) {
         switch (_context20.prev = _context20.next) {
           case 0:
             _context20.prev = 0;
-            _req$body$data12 = req.body.data, categoriaId = _req$body$data12.categoriaId, cantidad = _req$body$data12.cantidad;
+            _req$body$data13 = req.body.data, categoriaId = _req$body$data13.categoriaId, cantidad = _req$body$data13.cantidad;
             _context20.next = 4;
             return _top["default"].listarTopGeneral(categoriaId, cantidad);
 

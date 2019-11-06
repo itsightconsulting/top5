@@ -528,63 +528,99 @@ async function eliminarTopItemDetalleByTopItem(TopItemId, updatedAt, createdBy) 
 }
 
 
-async function listarTopItemAutocomplete(keyword = "") {
+async function listarTopItemAutocomplete(objParams) {
     try {
         let response = null;
         let topItemBD = null;
+        let { pageNumber, pageSize, keyword } = objParams;
 
-        let queryObject = {
-            attributes: ['id', 'descripcion'
-                , [models.Sequelize.col("Lugar.name"), "LugarName"]
-                , [models.Sequelize.col("Lugar.address"), "LugarAddress"]
-                , [models.Sequelize.col("Top.titulo"), "TopTitulo"]
-                // , [models.Sequelize.col("Top.Categoria.name"), "CategoriaName"]
-            ]
-            , include: [{
-                model: TopDTO
-                , where: { flagActive: true, flagPublicado: true }
-                , attributes: ['CategoriaId']
-                , include: [{
-                    model: models.Categoria
-                    , as: 'Categoria'
-                    , where: { flagActive: true }
-                    , attributes: ['name']
-                }]
-            }, {
-                model: models.Lugar,
-                attributes: []
-            }]
-            , where: {
-                flagActive: true
-                // , [Op.or]: [
-                //     { "$Lugar.name$": { [Op.like]: keyword } }
-                //     , { "$Lugar.address$": { [Op.like]: keyword } }
-                //     , { "$Top.titulo$": { [Op.like]: keyword } }
-                //     , { "descripcion": { [Op.like]: keyword } }
-                // ]
+        if (keyword != "") {
+            keyword = util.alwaysParseString(keyword);
+
+            var listTopItemBD = models.sequelize.query(`SELECT "Top"."id"
+            FROM "Top"
+            INNER JOIN "TopItem" ON "Top"."id" = "TopItem"."TopId"
+            INNER JOIN "Lugar" ON "TopItem"."LugarId" = "Lugar"."id"
+            INNER JOIN "Categoria" ON "Top"."CategoriaId" = "Categoria"."id"
+            WHERE
+            "Top"."flagPublicado" = true
+			AND "Top"."flagActive" = true
+            AND "TopItem"."flagActive" = true
+            AND "Lugar"."flagActive" = true
+            AND "Categoria"."flagActive" = true
+            AND 
+            (
+                REPLACE_FILTRO_BUSCADOR("Top"."titulo") LIKE :keyword
+                OR REPLACE_FILTRO_BUSCADOR("TopItem"."descripcion") LIKE :keyword
+                OR REPLACE_FILTRO_BUSCADOR("Lugar"."name") LIKE :keyword
+                OR REPLACE_FILTRO_BUSCADOR("Categoria"."name") LIKE :keyword
+             )
+             GROUP BY "Top"."id"`, {
+                replacements: { keyword: `%${keyword}%` },
+                type: models.sequelize.QueryTypes.SELECT
+            });
+            listTopItemBD = await listTopItemBD.map(x => x.id);
+
+            if (listTopItemBD.length > 0) {
+                console.log(listTopItemBD);
+                let queryObject = {
+                    where: { flagActive: true, id: listTopItemBD }
+                    , attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedAt', 'updatedAtStr']
+                    , include: [{
+                        model: TopDTO
+                        , where: { flagActive: true, flagPublicado: true }
+                        , attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt']
+                        , include: [{
+                            required: true
+                            , model: models.Categoria
+                            , as: 'Categoria'
+                            , where: { flagActive: true }
+                            , attributes: []
+                        }]
+                    }, {
+                        model: TopItemDetalleDTO,
+                        required: false,
+                        attributes: ['id', 'rutaImagen', 'flagImagenDefaultTop'],
+                        where: { flagActive: true }
+                    }, {
+                        model: models.Lugar,
+                        attributes: ['id', 'name', 'address', 'latitude', 'longitude']
+                    }, {
+                        required: false,
+                        where: { flagActive: true },
+                        model: TopItemLikeDTO,
+                        attributes: ['id', 'UsuarioId']
+                    }]
+                    , order: [['updatedAt', 'DESC']]
+                };
+
+                queryObject.offset = ((pageNumber - 1) * pageSize);
+                queryObject.limit = pageSize;
+                console.log(queryObject);
+                topItemBD = await TopItemDTO.findAll(queryObject);
+                let totalRows = topItemBD.length || 0;
+                if (totalRows) {
+                    for (const element of topItemBD) {
+                        let top = element.dataValues;
+                        let UsuarioBd = await models.Usuario.findOne({
+                            where: { id: top.createdBy, flagActive: true }
+                            , attributes: ['id', 'nombreCompleto', 'rutaImagenPerfil']
+                        });
+                        if (UsuarioBd) {
+                            top.Usuarios = UsuarioBd.dataValues;
+                        }
+                    }
+                    response = buildContainer(true, '', { dataValues: topItemBD, totalRows }, null);
+                } else {
+                    response = buildContainer(true, '', { dataValues: [], totalRows: 0 }, null);
+                }
+            } else {
+                response = buildContainer(true, '', { dataValues: [], totalRows: 0 }, null);
             }
-            , order: [['descripcion', 'ASC']]
-        };
 
-        topItemBD = await TopItemDTO.findAll(queryObject);
-        let totalRows = topItemBD.length || 0;
-        if (totalRows) {
-            if (keyword != "") {
 
-                keyword = util.alwaysParseString(keyword);
-
-                topItemBD = topItemBD.filter((x, i) => (
-                    util.alwaysParseString(x.dataValues.descripcion).includes(keyword)
-                    || util.alwaysParseString(x.dataValues.LugarName).includes(keyword)
-                    || util.alwaysParseString(x.dataValues.LugarAddress).includes(keyword)
-                    || util.alwaysParseString(x.dataValues.TopTitulo).includes(keyword)
-                    || util.alwaysParseString(x.dataValues.Top.Categoria.dataValues.name).includes(keyword)
-                    // || keyword == ""
-                ));
-            }
-            response = buildContainer(true, '', { dataValues: topItemBD }, null);
         } else {
-            response = buildContainer(true, '', { dataValues: [] }, null);
+            response = buildContainer(true, '', { dataValues: [], totalRows: 0 }, null);
         }
         return response;
     } catch (error) {
