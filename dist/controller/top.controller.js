@@ -143,7 +143,7 @@ function _listarTopPorUsuario() {
             if (CategoriaId) whereConditions.CategoriaId = CategoriaId;
             queryObject = {
               where: whereConditions,
-              attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedAt', 'updatedAtStr', 'flagPublicado', 'fechaPublicado'],
+              attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedAt', 'updatedAtStr', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr'],
               include: [{
                 model: _index["default"].Categoria,
                 as: 'Categoria',
@@ -522,7 +522,7 @@ function _listarTopPublicadoPorUsuario() {
               include: [{
                 model: TopDTO,
                 where: whereConditionsTop,
-                attributes: ['id', 'titulo', 'fechaPublicado', 'updatedAt'],
+                attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt'],
                 include: [{
                   required: true,
                   model: _index["default"].Categoria,
@@ -1695,7 +1695,7 @@ function _getOneTop() {
                 createdBy: createdBy,
                 flagActive: true
               },
-              attributes: ['id', 'titulo', 'flagPublicado', 'fechaPublicado', 'updatedAt', 'updatedAtStr'],
+              attributes: ['id', 'titulo', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt', 'updatedAtStr'],
               include: [{
                 model: _index["default"].Categoria,
                 as: 'Categoria',

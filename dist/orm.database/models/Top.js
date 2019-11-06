@@ -34,14 +34,7 @@ function CreateFieldObj(_dataTypes) {
       type: _dataTypes.VIRTUAL,
       get: function get() {
         var datePublicado = this.getDataValue('fechaPublicado');
-        var datePublicadoStr = "";
-
-        if (datePublicado) {
-          datePublicadoStr = (0, _utilitarios.formatoPublicacion)(datePublicado);
-        } // console.log("datePublicadoStr", datePublicadoStr);
-
-
-        return datePublicadoStr;
+        return (0, _utilitarios.formatoFechaStr)(datePublicado);
       }
     }
   };

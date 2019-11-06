@@ -100,6 +100,19 @@ function formatAMPM(date) {
   return strTime;
 }
 
+function formatoFechaStr(dateDb) {
+  var date = new Date(dateDb);
+  var dateStr = "";
+
+  if (date) {
+    var dateNow = new Date();
+    var hourFormat = formatAMPM(date);
+    if (dateNow.getFullYear() === date.getFullYear()) dateStr = date.getDate() + ' ' + monthNamefromDate(date) + ' ' + hourFormat;else dateStr = date.getDate() + ' ' + monthNamefromDate(date) + ' del ' + date.getFullYear() + ' ' + hourFormat;
+  }
+
+  return dateStr;
+}
+
 function monthNamefromDate(date) {
   var monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]; // var day = date.getDate();
 
@@ -188,5 +201,6 @@ module.exports = {
   formatAMPM: formatAMPM,
   formatoPublicacion: formatoPublicacion,
   alwaysParseString: alwaysParseString,
-  formatoMeEncanta: formatoMeEncanta
+  formatoMeEncanta: formatoMeEncanta,
+  formatoFechaStr: formatoFechaStr
 };
