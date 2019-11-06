@@ -94,7 +94,19 @@ function formatAMPM(date) {
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
 }
+function formatoFechaStr(dateDb) {
+    let date = new Date(dateDb);
+    let dateStr = "";
+    if (date) {
+        let dateNow = new Date();
+        let hourFormat = formatAMPM(date);
 
+        if (dateNow.getFullYear() === date.getFullYear())
+            dateStr = date.getDate() + ' ' + monthNamefromDate(date) + ' ' + hourFormat;
+        else dateStr = date.getDate() + ' ' + monthNamefromDate(date) + ' del ' + date.getFullYear() + ' ' + hourFormat;
+    }
+    return dateStr;
+}
 function monthNamefromDate(date) {
     var monthNames = [
         "Enero", "Febrero", "Marzo",
@@ -232,4 +244,5 @@ module.exports = {
     formatoPublicacion,
     alwaysParseString,
     formatoMeEncanta,
+    formatoFechaStr
 }

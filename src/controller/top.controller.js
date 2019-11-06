@@ -63,7 +63,7 @@ async function listarTopPorUsuario(objParams) {
 
         let queryObject = {
             where: whereConditions
-            , attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedAt', 'updatedAtStr', 'flagPublicado', 'fechaPublicado']
+            , attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedAt', 'updatedAtStr', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr']
             , include: [{
                 model: models.Categoria
                 , as: 'Categoria'
@@ -200,7 +200,7 @@ async function listarTopPublicadoPorUsuario(objParams) {
             , include: [{
                 model: TopDTO
                 , where: whereConditionsTop
-                , attributes: ['id', 'titulo', 'fechaPublicado', 'updatedAt']
+                , attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt']
                 , include: [{
                     required: true
                     , model: models.Categoria
@@ -645,7 +645,7 @@ async function getOneTop(id, createdBy) {
         let topBD = null;
         topBD = await TopDTO.findOne({
             where: { id, createdBy, flagActive: true }
-            , attributes: ['id', 'titulo', 'flagPublicado', 'fechaPublicado', 'updatedAt', 'updatedAtStr']
+            , attributes: ['id', 'titulo', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt', 'updatedAtStr']
             , include: [{
                 model: models.Categoria
                 , as: 'Categoria'
