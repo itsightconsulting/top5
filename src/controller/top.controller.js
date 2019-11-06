@@ -536,8 +536,7 @@ async function listarTopItemAutocomplete(objParams) {
 
         if (keyword != "") {
             keyword = util.alwaysParseString(keyword);
-
-            var listTopItemBD = models.sequelize.query(`SELECT "Top"."id"
+            var listTopItemBD = models.sequelize.query(`SELECT "TopItem"."id"
             FROM "Top"
             INNER JOIN "TopItem" ON "Top"."id" = "TopItem"."TopId"
             INNER JOIN "Lugar" ON "TopItem"."LugarId" = "Lugar"."id"
@@ -555,7 +554,7 @@ async function listarTopItemAutocomplete(objParams) {
                 OR REPLACE_FILTRO_BUSCADOR("Lugar"."name") LIKE :keyword
                 OR REPLACE_FILTRO_BUSCADOR("Categoria"."name") LIKE :keyword
              )
-             GROUP BY "Top"."id"`, {
+             GROUP BY "TopItem"."id"`, {
                 replacements: { keyword: `%${keyword}%` },
                 type: models.sequelize.QueryTypes.SELECT
             });
@@ -596,7 +595,7 @@ async function listarTopItemAutocomplete(objParams) {
 
                 queryObject.offset = ((pageNumber - 1) * pageSize);
                 queryObject.limit = pageSize;
-                console.log(queryObject);
+                // console.log(queryObject);
                 topItemBD = await TopItemDTO.findAll(queryObject);
                 let totalRows = topItemBD.length || 0;
                 if (totalRows) {

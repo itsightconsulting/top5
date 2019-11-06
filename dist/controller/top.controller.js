@@ -1481,12 +1481,12 @@ function _listarTopItemAutocomplete() {
             pageNumber = objParams.pageNumber, pageSize = objParams.pageSize, keyword = objParams.keyword;
 
             if (!(keyword != "")) {
-              _context14.next = 59;
+              _context14.next = 58;
               break;
             }
 
             keyword = _utilitarios["default"].alwaysParseString(keyword);
-            listTopItemBD = _index["default"].sequelize.query("SELECT \"Top\".\"id\"\n            FROM \"Top\"\n            INNER JOIN \"TopItem\" ON \"Top\".\"id\" = \"TopItem\".\"TopId\"\n            INNER JOIN \"Lugar\" ON \"TopItem\".\"LugarId\" = \"Lugar\".\"id\"\n            INNER JOIN \"Categoria\" ON \"Top\".\"CategoriaId\" = \"Categoria\".\"id\"\n            WHERE\n            \"Top\".\"flagPublicado\" = true\n\t\t\tAND \"Top\".\"flagActive\" = true\n            AND \"TopItem\".\"flagActive\" = true\n            AND \"Lugar\".\"flagActive\" = true\n            AND \"Categoria\".\"flagActive\" = true\n            AND \n            (\n                REPLACE_FILTRO_BUSCADOR(\"Top\".\"titulo\") LIKE :keyword\n                OR REPLACE_FILTRO_BUSCADOR(\"TopItem\".\"descripcion\") LIKE :keyword\n                OR REPLACE_FILTRO_BUSCADOR(\"Lugar\".\"name\") LIKE :keyword\n                OR REPLACE_FILTRO_BUSCADOR(\"Categoria\".\"name\") LIKE :keyword\n             )\n             GROUP BY \"Top\".\"id\"", {
+            listTopItemBD = _index["default"].sequelize.query("SELECT \"TopItem\".\"id\"\n            FROM \"Top\"\n            INNER JOIN \"TopItem\" ON \"Top\".\"id\" = \"TopItem\".\"TopId\"\n            INNER JOIN \"Lugar\" ON \"TopItem\".\"LugarId\" = \"Lugar\".\"id\"\n            INNER JOIN \"Categoria\" ON \"Top\".\"CategoriaId\" = \"Categoria\".\"id\"\n            WHERE\n            \"Top\".\"flagPublicado\" = true\n\t\t\tAND \"Top\".\"flagActive\" = true\n            AND \"TopItem\".\"flagActive\" = true\n            AND \"Lugar\".\"flagActive\" = true\n            AND \"Categoria\".\"flagActive\" = true\n            AND \n            (\n                REPLACE_FILTRO_BUSCADOR(\"Top\".\"titulo\") LIKE :keyword\n                OR REPLACE_FILTRO_BUSCADOR(\"TopItem\".\"descripcion\") LIKE :keyword\n                OR REPLACE_FILTRO_BUSCADOR(\"Lugar\".\"name\") LIKE :keyword\n                OR REPLACE_FILTRO_BUSCADOR(\"Categoria\".\"name\") LIKE :keyword\n             )\n             GROUP BY \"TopItem\".\"id\"", {
               replacements: {
                 keyword: "%".concat(keyword, "%")
               },
@@ -1501,7 +1501,7 @@ function _listarTopItemAutocomplete() {
             listTopItemBD = _context14.sent;
 
             if (!(listTopItemBD.length > 0)) {
-              _context14.next = 56;
+              _context14.next = 55;
               break;
             }
 
@@ -1549,35 +1549,35 @@ function _listarTopItemAutocomplete() {
               order: [['updatedAt', 'DESC']]
             };
             queryObject.offset = (pageNumber - 1) * pageSize;
-            queryObject.limit = pageSize;
-            console.log(queryObject);
-            _context14.next = 18;
+            queryObject.limit = pageSize; // console.log(queryObject);
+
+            _context14.next = 17;
             return TopItemDTO.findAll(queryObject);
 
-          case 18:
+          case 17:
             topItemBD = _context14.sent;
             totalRows = topItemBD.length || 0;
 
             if (!totalRows) {
-              _context14.next = 53;
+              _context14.next = 52;
               break;
             }
 
             _iteratorNormalCompletion6 = true;
             _didIteratorError6 = false;
             _iteratorError6 = undefined;
-            _context14.prev = 24;
+            _context14.prev = 23;
             _iterator6 = topItemBD[Symbol.iterator]();
 
-          case 26:
+          case 25:
             if (_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done) {
-              _context14.next = 36;
+              _context14.next = 35;
               break;
             }
 
             element = _step6.value;
             top = element.dataValues;
-            _context14.next = 31;
+            _context14.next = 30;
             return _index["default"].Usuario.findOne({
               where: {
                 id: top.createdBy,
@@ -1586,100 +1586,100 @@ function _listarTopItemAutocomplete() {
               attributes: ['id', 'nombreCompleto', 'rutaImagenPerfil']
             });
 
-          case 31:
+          case 30:
             UsuarioBd = _context14.sent;
 
             if (UsuarioBd) {
               top.Usuarios = UsuarioBd.dataValues;
             }
 
-          case 33:
+          case 32:
             _iteratorNormalCompletion6 = true;
-            _context14.next = 26;
+            _context14.next = 25;
             break;
 
-          case 36:
-            _context14.next = 42;
+          case 35:
+            _context14.next = 41;
             break;
 
-          case 38:
-            _context14.prev = 38;
-            _context14.t0 = _context14["catch"](24);
+          case 37:
+            _context14.prev = 37;
+            _context14.t0 = _context14["catch"](23);
             _didIteratorError6 = true;
             _iteratorError6 = _context14.t0;
 
-          case 42:
+          case 41:
+            _context14.prev = 41;
             _context14.prev = 42;
-            _context14.prev = 43;
 
             if (!_iteratorNormalCompletion6 && _iterator6["return"] != null) {
               _iterator6["return"]();
             }
 
-          case 45:
-            _context14.prev = 45;
+          case 44:
+            _context14.prev = 44;
 
             if (!_didIteratorError6) {
-              _context14.next = 48;
+              _context14.next = 47;
               break;
             }
 
             throw _iteratorError6;
 
+          case 47:
+            return _context14.finish(44);
+
           case 48:
-            return _context14.finish(45);
+            return _context14.finish(41);
 
           case 49:
-            return _context14.finish(42);
-
-          case 50:
             response = (0, _common.buildContainer)(true, '', {
               dataValues: topItemBD,
               totalRows: totalRows
             }, null);
-            _context14.next = 54;
+            _context14.next = 53;
             break;
+
+          case 52:
+            response = (0, _common.buildContainer)(true, '', {
+              dataValues: [],
+              totalRows: 0
+            }, null);
 
           case 53:
+            _context14.next = 56;
+            break;
+
+          case 55:
             response = (0, _common.buildContainer)(true, '', {
               dataValues: [],
               totalRows: 0
             }, null);
-
-          case 54:
-            _context14.next = 57;
-            break;
 
           case 56:
-            response = (0, _common.buildContainer)(true, '', {
-              dataValues: [],
-              totalRows: 0
-            }, null);
-
-          case 57:
-            _context14.next = 60;
+            _context14.next = 59;
             break;
 
-          case 59:
+          case 58:
             response = (0, _common.buildContainer)(true, '', {
               dataValues: [],
               totalRows: 0
             }, null);
 
-          case 60:
+          case 59:
             return _context14.abrupt("return", response);
 
-          case 63:
-            _context14.prev = 63;
+          case 62:
+            _context14.prev = 62;
             _context14.t1 = _context14["catch"](0);
             throw _context14.t1;
 
-          case 66:
+          case 65:
           case "end":
             return _context14.stop();
         }
       }
-    }, _callee14, null, [[0, 63], [24, 38, 42, 50], [43,, 45, 49]]);
+    }, _callee14, null, [[0, 62], [23, 37, 41, 49], [42,, 44, 48]]);
   }));
   return _listarTopItemAutocomplete.apply(this, arguments);
 }
