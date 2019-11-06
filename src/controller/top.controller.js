@@ -200,7 +200,7 @@ async function listarTopPublicadoPorUsuario(objParams) {
             , include: [{
                 model: TopDTO
                 , where: whereConditionsTop
-                , attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr']
+                , attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt']
                 , include: [{
                     required: true
                     , model: models.Categoria
@@ -595,7 +595,7 @@ async function listarTopItemAutocomplete(keyword = "") {
 async function listarOptionsAutocomplete(keyword = "") {
     try {
         let response = null;
-        
+
         // var obj = {
         //     order: [['descripcion', 'ASC']]
         // };
