@@ -16,7 +16,7 @@ async function obtenerTokenDecoded(token) {
 
 async function existeToken(req, res, next) {
     try {
-        if (process.env.NODE_ENV == "production") {
+        if (process.env.NODE_ENV == "production" || process.env.NODE_ENV == "test") {
             var authorization = req.headers['authorization']
             if (!authorization) {
                 throw new Error("Es necesario el token de autenticación");
@@ -29,7 +29,7 @@ async function existeToken(req, res, next) {
             } else {
                 next();
             }
-        } else {
+        } else if (process.env.NODE_ENV == "development") {
             next();
         }
 

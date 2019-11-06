@@ -89,7 +89,7 @@ function _existeToken() {
           case 0:
             _context3.prev = 0;
 
-            if (!(process.env.NODE_ENV == "production")) {
+            if (!(process.env.NODE_ENV == "production" || process.env.NODE_ENV == "test")) {
               _context3.next = 16;
               break;
             }
@@ -127,7 +127,9 @@ function _existeToken() {
             break;
 
           case 16:
-            next();
+            if (process.env.NODE_ENV == "development") {
+              next();
+            }
 
           case 17:
             _context3.next = 22;
