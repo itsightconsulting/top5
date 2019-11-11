@@ -15,12 +15,15 @@ async function validarEmail(correoElectronico, id = 0) {
         const usuario = await UsuarioDTO.findOne({
             where: {
                 correoElectronico: correoElectronico.toLowerCase(),
-                flagActive: true,
-                id: { [Op.notIn]: [id] }
-            }, attributes: ['correoElectronico']
+                flagActive: true
+            }, attributes: ['id', 'correoElectronico']
         });
-        let estadoExiste = usuario != null;
-        return buildContainer(true, null, estadoExiste, null);
+        let emailExiste = usuario !== null;
+        if (usuario) {
+            emailExiste = usuario.id === id ? false : true;
+        }
+        console.log(emailExiste, usuario.id, id);
+        return buildContainer(true, null, emailExiste, null);
     } catch (error) {
         throw error;
         // util.controlError("validarEmail", error);

@@ -14,8 +14,6 @@ var _parametro = require("../controller/parametro.controller");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -36,7 +34,7 @@ function _validarEmail() {
   regeneratorRuntime.mark(function _callee(correoElectronico) {
     var id,
         usuario,
-        estadoExiste,
+        emailExiste,
         _args = arguments;
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -48,28 +46,33 @@ function _validarEmail() {
             return UsuarioDTO.findOne({
               where: {
                 correoElectronico: correoElectronico.toLowerCase(),
-                flagActive: true,
-                id: _defineProperty({}, Op.notIn, [id])
+                flagActive: true
               },
-              attributes: ['correoElectronico']
+              attributes: ['id', 'correoElectronico']
             });
 
           case 4:
             usuario = _context.sent;
-            estadoExiste = usuario != null;
-            return _context.abrupt("return", (0, _common.buildContainer)(true, null, estadoExiste, null));
+            emailExiste = usuario !== null;
 
-          case 9:
-            _context.prev = 9;
+            if (usuario) {
+              emailExiste = usuario.id === id ? false : true;
+            }
+
+            console.log(emailExiste, usuario.id, id);
+            return _context.abrupt("return", (0, _common.buildContainer)(true, null, emailExiste, null));
+
+          case 11:
+            _context.prev = 11;
             _context.t0 = _context["catch"](1);
             throw _context.t0;
 
-          case 12:
+          case 14:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[1, 9]]);
+    }, _callee, null, [[1, 11]]);
   }));
   return _validarEmail.apply(this, arguments);
 }
