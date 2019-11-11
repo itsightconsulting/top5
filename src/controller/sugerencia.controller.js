@@ -20,7 +20,7 @@ async function createdOrUpdatedSugerencia(objSugerencia) {
             queryObject.createdAt = objSugerencia.createdAt;
 
             var { dataValues } = await SugerenciaDTO.create(queryObject, {
-                fields: ['descripcion', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt']
+                fields: ['descripcion', 'flagActive', 'flagEliminate', 'updatedAt', 'createdBy', 'createdAt']
             });
         }
         return buildContainer(true, '', dataValues, null);

@@ -57,7 +57,7 @@ function _createdOrUpdatedSugerencia() {
             queryObject.createdAt = objSugerencia.createdAt;
             _context.next = 13;
             return SugerenciaDTO.create(queryObject, {
-              fields: ['descripcion', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt']
+              fields: ['descripcion', 'flagActive', 'flagEliminate', 'updatedAt', 'createdBy', 'createdAt']
             });
 
           case 13:
