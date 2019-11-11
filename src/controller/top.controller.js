@@ -273,6 +273,11 @@ async function listarTopItemByTop(objParams) {
             }, {
                 model: models.Lugar,
                 attributes: ['id', 'name', 'address', 'latitude', 'longitude']
+            }, {
+                required: false,
+                where: { flagActive: true },
+                model: TopItemLikeDTO,
+                attributes: ['id', 'UsuarioId']
             }]
             , order: [['updatedAt', 'DESC']]
         };

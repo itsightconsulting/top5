@@ -703,6 +703,13 @@ function _listarTopItemByTop() {
               }, {
                 model: _index["default"].Lugar,
                 attributes: ['id', 'name', 'address', 'latitude', 'longitude']
+              }, {
+                required: false,
+                where: {
+                  flagActive: true
+                },
+                model: TopItemLikeDTO,
+                attributes: ['id', 'UsuarioId']
               }],
               order: [['updatedAt', 'DESC']]
             };
