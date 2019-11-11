@@ -8,13 +8,15 @@ import { obtenerParametro } from '../controller/parametro.controller';
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const UsuarioDTO = models.Usuario;
+const Op = models.Sequelize.Op;
 
-async function validarEmail(correoElectronico) {
+async function validarEmail(correoElectronico, id = 0) {
     try {
         const usuario = await UsuarioDTO.findOne({
             where: {
                 correoElectronico: correoElectronico.toLowerCase(),
-                flagActive: true
+                flagActive: true,
+                id: { [Op.notIn]: [id] }
             }, attributes: ['correoElectronico']
         });
         let estadoExiste = usuario != null;
