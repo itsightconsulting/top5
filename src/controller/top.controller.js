@@ -68,7 +68,7 @@ async function listarTopPorUsuario(objParams) {
                 model: models.Categoria
                 , as: 'Categoria'
                 , where: { flagActive: true }
-                , attributes: ['name']
+                , attributes: ['name', 'rutaImagenPrincipal']
             }]
             , order: [
                 ['fechaPublicado', 'DESC'],

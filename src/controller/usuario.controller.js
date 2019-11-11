@@ -22,7 +22,7 @@ async function validarEmail(correoElectronico, id = 0) {
         if (usuario) {
             emailExiste = usuario.id === id ? false : true;
         }
-        console.log(emailExiste, usuario.id, id);
+        // console.log(emailExiste, usuario.id, id);
         return buildContainer(true, null, emailExiste, null);
     } catch (error) {
         throw error;

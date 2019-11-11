@@ -57,22 +57,22 @@ function _validarEmail() {
 
             if (usuario) {
               emailExiste = usuario.id === id ? false : true;
-            }
+            } // console.log(emailExiste, usuario.id, id);
 
-            console.log(emailExiste, usuario.id, id);
+
             return _context.abrupt("return", (0, _common.buildContainer)(true, null, emailExiste, null));
 
-          case 11:
-            _context.prev = 11;
+          case 10:
+            _context.prev = 10;
             _context.t0 = _context["catch"](1);
             throw _context.t0;
 
-          case 14:
+          case 13:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[1, 11]]);
+    }, _callee, null, [[1, 10]]);
   }));
   return _validarEmail.apply(this, arguments);
 }
