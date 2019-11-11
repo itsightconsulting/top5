@@ -14,4 +14,5 @@ app.use('/api/usuario', require('./routes/usuario')); // cada que visiten, solo 
 app.use('/api/categoria', require('./routes/categoria'));
 app.use('/api/top', require('./routes/top'));
 app.use('/api/lugares', require('./routes/lugares'));
+app.use('/api/sugerencia', require('./routes/sugerencia'));
 export default app;

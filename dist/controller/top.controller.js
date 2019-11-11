@@ -1333,7 +1333,7 @@ function _createOrUpdateTopItemDetalle() {
   _createOrUpdateTopItemDetalle = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee12(TopItemDetalle) {
-    var queryObject, _ref5, dataValues, _ref6;
+    var queryObject, dataValues, _ref5;
 
     return regeneratorRuntime.wrap(function _callee12$(_context12) {
       while (1) {
@@ -1349,7 +1349,7 @@ function _createOrUpdateTopItemDetalle() {
             };
 
             if (!TopItemDetalle.id) {
-              _context12.next = 10;
+              _context12.next = 9;
               break;
             }
 
@@ -1362,38 +1362,37 @@ function _createOrUpdateTopItemDetalle() {
             });
 
           case 6:
-            _ref5 = _context12.sent;
-            dataValues = _ref5.dataValues;
-            _context12.next = 17;
+            dataValues = TopItemDetalle;
+            _context12.next = 16;
             break;
 
-          case 10:
+          case 9:
             queryObject.createdBy = TopItemDetalle.createdBy;
             queryObject.createdAt = TopItemDetalle.createdAt;
             queryObject.TopItemId = TopItemDetalle.TopItemId;
-            _context12.next = 15;
+            _context12.next = 14;
             return TopItemDetalleDTO.create(queryObject, {
               fields: ['rutaImagen', 'flagImagenDefaultTop', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt', 'TopItemId']
             });
 
-          case 15:
-            _ref6 = _context12.sent;
-            dataValues = _ref6.dataValues;
+          case 14:
+            _ref5 = _context12.sent;
+            dataValues = _ref5.dataValues;
 
-          case 17:
+          case 16:
             return _context12.abrupt("return", (0, _common.buildContainer)(true, '', dataValues, null));
 
-          case 20:
-            _context12.prev = 20;
+          case 19:
+            _context12.prev = 19;
             _context12.t0 = _context12["catch"](0);
             throw _context12.t0;
 
-          case 23:
+          case 22:
           case "end":
             return _context12.stop();
         }
       }
-    }, _callee12, null, [[0, 20]]);
+    }, _callee12, null, [[0, 19]]);
   }));
   return _createOrUpdateTopItemDetalle.apply(this, arguments);
 }
@@ -1940,7 +1939,7 @@ function _createdOrUpdatedTopItem() {
   _createdOrUpdatedTopItem = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee18(objTopItem) {
-    var queryObject, dataValues, _ref7;
+    var queryObject, dataValues, _ref6;
 
     return regeneratorRuntime.wrap(function _callee18$(_context18) {
       while (1) {
@@ -1984,8 +1983,8 @@ function _createdOrUpdatedTopItem() {
             });
 
           case 13:
-            _ref7 = _context18.sent;
-            dataValues = _ref7.dataValues;
+            _ref6 = _context18.sent;
+            dataValues = _ref6.dataValues;
 
           case 15:
             return _context18.abrupt("return", (0, _common.buildContainer)(true, '', dataValues, null));

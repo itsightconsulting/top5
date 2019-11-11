@@ -25,7 +25,7 @@ function _createdOrUpdatedLugar() {
   _createdOrUpdatedLugar = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee(objLugar) {
-    var queryObject, _ref, dataValues, _ref2;
+    var queryObject, dataValues, _ref;
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -43,7 +43,7 @@ function _createdOrUpdatedLugar() {
             };
 
             if (!objLugar.id) {
-              _context.next = 10;
+              _context.next = 9;
               break;
             }
 
@@ -56,37 +56,36 @@ function _createdOrUpdatedLugar() {
             });
 
           case 6:
-            _ref = _context.sent;
-            dataValues = _ref.dataValues;
-            _context.next = 16;
+            dataValues = objLugar;
+            _context.next = 15;
             break;
 
-          case 10:
+          case 9:
             queryObject.createdBy = objLugar.createdBy;
             queryObject.createdAt = objLugar.createdAt;
-            _context.next = 14;
+            _context.next = 13;
             return LugarDTO.create(queryObject, {
               fields: ['name', 'latitude', 'longitude', 'address', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt']
             });
 
-          case 14:
-            _ref2 = _context.sent;
-            dataValues = _ref2.dataValues;
+          case 13:
+            _ref = _context.sent;
+            dataValues = _ref.dataValues;
 
-          case 16:
+          case 15:
             return _context.abrupt("return", (0, _common.buildContainer)(true, '', dataValues, null));
 
-          case 19:
-            _context.prev = 19;
+          case 18:
+            _context.prev = 18;
             _context.t0 = _context["catch"](0);
             throw _context.t0;
 
-          case 22:
+          case 21:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 19]]);
+    }, _callee, null, [[0, 18]]);
   }));
   return _createdOrUpdatedLugar.apply(this, arguments);
 }
@@ -99,7 +98,7 @@ function _obtenerLugar() {
   _obtenerLugar = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee2(id, createdBy) {
-    var conditionObject, _ref3, dataValues, response;
+    var conditionObject, _ref2, dataValues, response;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -117,8 +116,8 @@ function _obtenerLugar() {
             });
 
           case 5:
-            _ref3 = _context2.sent;
-            dataValues = _ref3.dataValues;
+            _ref2 = _context2.sent;
+            dataValues = _ref2.dataValues;
             response = (0, _common.buildContainer)(true, '', dataValues, null);
             return _context2.abrupt("return", response);
 

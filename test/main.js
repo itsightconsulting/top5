@@ -7,7 +7,7 @@ async function Init() {
         // let millon = 10e6;
         // let rpta = formatoMeEncanta(millon);
         // console.log(rpta);
-        // await SincronizarModelo();
+        await SincronizarModelo();
     } catch (err) {
         console.error('Init ERROR:', err);
     }
