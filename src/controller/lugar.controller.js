@@ -18,7 +18,8 @@ async function createdOrUpdatedLugar(objLugar) {
 
         if (objLugar.id) {
             queryObject.updatedBy = objLugar.createdBy;
-            var { dataValues } = await LugarDTO.update(queryObject, { where: { id: objLugar.id } });
+            await LugarDTO.update(queryObject, { where: { id: objLugar.id } });
+            var dataValues = objLugar;
         } else {
             queryObject.createdBy = objLugar.createdBy;
             queryObject.createdAt = objLugar.createdAt;

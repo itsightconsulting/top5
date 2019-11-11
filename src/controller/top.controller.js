@@ -491,7 +491,8 @@ async function createOrUpdateTopItemDetalle(TopItemDetalle) {
 
         if (TopItemDetalle.id) {
             queryObject.updatedBy = TopItemDetalle.createdBy;
-            var { dataValues } = await TopItemDetalleDTO.update(queryObject, { where: { id: TopItemDetalle.id } });
+            await TopItemDetalleDTO.update(queryObject, { where: { id: TopItemDetalle.id } });
+            var dataValues = TopItemDetalle;
         } else {
             queryObject.createdBy = TopItemDetalle.createdBy;
             queryObject.createdAt = TopItemDetalle.createdAt;
