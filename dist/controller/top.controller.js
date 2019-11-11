@@ -150,7 +150,7 @@ function _listarTopPorUsuario() {
                 where: {
                   flagActive: true
                 },
-                attributes: ['name', 'rutaImagenPrincipal']
+                attributes: ['name', 'nroOrden']
               }],
               order: [['fechaPublicado', 'DESC'], ['updatedAt', 'DESC']]
             };
