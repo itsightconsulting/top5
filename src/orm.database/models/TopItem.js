@@ -29,6 +29,7 @@ export default (sequelize, DataTypes) => {
         'TopItem'
         , CreateFieldObj(DataTypes)
         , {
+            timestamps: false,
             freezeTableName: true
         });
 

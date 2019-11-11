@@ -26,11 +26,18 @@ function agregarCamposBaseAuditoria(object, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: true,
     };
-
-    object.updatedAtStr = {
+    object.createdDate = {
+        type: DataTypes.DATE,
+        allowNull: true
+    };
+    object.updatedDate = {
+        type: DataTypes.DATE,
+        allowNull: true
+    };
+    object.updatedDateStr = {
         type: DataTypes.VIRTUAL,
         get() {
-            let date = new Date(this.updatedAt);
+            let date = new Date(this.updatedDate);
             let dateStr = "";
             if (date) {
                 let dateNow = new Date();
@@ -43,14 +50,6 @@ function agregarCamposBaseAuditoria(object, DataTypes) {
             return dateStr;
         }
     };
-    // object.createdHourAt = {
-    //     type: DataTypes.DATE,
-    //     allowNull: false,
-    // };    
-    // object.updatedHourAt = {
-    //     type: DataTypes.DATE,
-    //     allowNull: true,
-    // };
     return object;
 }
 function agregarCamposBase(object, DataTypes) {
@@ -63,6 +62,14 @@ function agregarCamposBase(object, DataTypes) {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
+    };
+    object.createdDate = {
+        type: DataTypes.DATE,
+        allowNull: true
+    };
+    object.updatedDate = {
+        type: DataTypes.DATE,
+        allowNull: true
     };
     return object;
 }
@@ -158,16 +165,6 @@ function formatoPublicacion(datePublicadoStr = "") {
         return datePublicadoStr;
     }
 }
-function formatoMeEncanta(cant = 0) {
-    let formatoMeEncantaStr = "";
-    let millon = 10e5;
-    if (cant < millon) {
-        formatoMeEncantaStr = cant;
-    } else if (cant >= millon) {
-        formatoMeEncantaStr = (cant / millon) + " millones";
-    }
-    return formatoMeEncantaStr = formatoMeEncantaStr + " me encanta";
-}
 function alwaysParseString(word = "") {
     if (word) {
         return CleanWord(word).trim()
@@ -241,8 +238,6 @@ module.exports = {
     get_Date,
     monthNamefromDate,
     formatAMPM,
-    formatoPublicacion,
     alwaysParseString,
-    formatoMeEncanta,
     formatoFechaStr
 }

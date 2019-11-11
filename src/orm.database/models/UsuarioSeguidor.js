@@ -26,7 +26,7 @@ export default (sequelize, DataTypes) => {
         'UsuarioSeguidor'
         , CreateFieldObj(DataTypes)
         , { /*options*/
-            // timestamps: false
+            timestamps: false,
             freezeTableName: true,
         });
 

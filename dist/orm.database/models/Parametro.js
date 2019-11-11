@@ -31,7 +31,7 @@ function CreateFieldObj(_dataTypes) {
 var _default = function _default(sequelize, DataTypes) {
   var Parametro = sequelize.define('Parametro', CreateFieldObj(DataTypes), {
     /*options*/
-    // timestamps: false,
+    timestamps: false,
     freezeTableName: true
   });
 

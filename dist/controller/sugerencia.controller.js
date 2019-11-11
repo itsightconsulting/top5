@@ -31,7 +31,7 @@ function _createdOrUpdatedSugerencia() {
               descripcion: objSugerencia.descripcion,
               flagActive: true,
               flagEliminate: false,
-              updatedAt: objSugerencia.updatedAt
+              updatedDate: objSugerencia.updatedDate
             };
 
             if (!objSugerencia.id) {
@@ -54,10 +54,10 @@ function _createdOrUpdatedSugerencia() {
 
           case 9:
             queryObject.createdBy = objSugerencia.createdBy;
-            queryObject.createdAt = objSugerencia.createdAt;
+            queryObject.createdDate = objSugerencia.createdDate;
             _context.next = 13;
             return SugerenciaDTO.create(queryObject, {
-              fields: ['descripcion', 'flagActive', 'flagEliminate', 'updatedAt', 'createdBy', 'createdAt']
+              fields: ['descripcion', 'flagActive', 'flagEliminate', 'updatedDate', 'createdBy', 'createdDate']
             });
 
           case 13:

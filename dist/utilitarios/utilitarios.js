@@ -31,10 +31,18 @@ function agregarCamposBaseAuditoria(object, DataTypes) {
     type: DataTypes.INTEGER,
     allowNull: true
   };
-  object.updatedAtStr = {
+  object.createdDate = {
+    type: DataTypes.DATE,
+    allowNull: true
+  };
+  object.updatedDate = {
+    type: DataTypes.DATE,
+    allowNull: true
+  };
+  object.updatedDateStr = {
     type: DataTypes.VIRTUAL,
     get: function get() {
-      var date = new Date(this.updatedAt);
+      var date = new Date(this.updatedDate);
       var dateStr = "";
 
       if (date) {
@@ -45,15 +53,7 @@ function agregarCamposBaseAuditoria(object, DataTypes) {
 
       return dateStr;
     }
-  }; // object.createdHourAt = {
-  //     type: DataTypes.DATE,
-  //     allowNull: false,
-  // };    
-  // object.updatedHourAt = {
-  //     type: DataTypes.DATE,
-  //     allowNull: true,
-  // };
-
+  };
   return object;
 }
 
@@ -67,6 +67,14 @@ function agregarCamposBase(object, DataTypes) {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: false
+  };
+  object.createdDate = {
+    type: DataTypes.DATE,
+    allowNull: true
+  };
+  object.updatedDate = {
+    type: DataTypes.DATE,
+    allowNull: true
   };
   return object;
 }
@@ -159,20 +167,6 @@ function formatoPublicacion() {
   }
 }
 
-function formatoMeEncanta() {
-  var cant = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-  var formatoMeEncantaStr = "";
-  var millon = 10e5;
-
-  if (cant < millon) {
-    formatoMeEncantaStr = cant;
-  } else if (cant >= millon) {
-    formatoMeEncantaStr = cant / millon + " millones";
-  }
-
-  return formatoMeEncantaStr = formatoMeEncantaStr + " me encanta";
-}
-
 function alwaysParseString() {
   var word = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
 
@@ -199,8 +193,6 @@ module.exports = {
   get_Date: get_Date,
   monthNamefromDate: monthNamefromDate,
   formatAMPM: formatAMPM,
-  formatoPublicacion: formatoPublicacion,
   alwaysParseString: alwaysParseString,
-  formatoMeEncanta: formatoMeEncanta,
   formatoFechaStr: formatoFechaStr
 };

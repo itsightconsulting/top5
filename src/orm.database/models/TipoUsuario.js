@@ -22,7 +22,7 @@ export default (sequelize, DataTypes) => {
         'TipoUsuario'
         , CreateFieldObj(DataTypes)
         , { /*options*/
-            // timestamps: false
+            timestamps: false,
             freezeTableName: true,
         });
 

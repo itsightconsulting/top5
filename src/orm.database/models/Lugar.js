@@ -74,7 +74,7 @@ export default (sequelize, DataTypes) => {
         'Lugar'
         , CreateFieldObj(DataTypes)
         , { /*options*/
-            // timestamps: false
+            timestamps: false,
             freezeTableName: true,
         });
 

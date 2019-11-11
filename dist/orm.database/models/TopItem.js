@@ -33,6 +33,7 @@ function CreateFieldObj(_dataTypes) {
 
 var _default = function _default(sequelize, DataTypes) {
   var TopItem = sequelize.define('TopItem', CreateFieldObj(DataTypes), {
+    timestamps: false,
     freezeTableName: true
   });
 

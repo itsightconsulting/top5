@@ -16,7 +16,7 @@ export default (sequelize, DataTypes) => {
         'Sugerencia'
         , CreateFieldObj(DataTypes)
         , { /*options*/
-            // timestamps: false,
+            timestamps: false,
             freezeTableName: true,
         });
 

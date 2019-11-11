@@ -82,7 +82,7 @@ function CreateFieldObj(_dataTypes) {
 var _default = function _default(sequelize, DataTypes) {
   var Lugar = sequelize.define('Lugar', CreateFieldObj(DataTypes), {
     /*options*/
-    // timestamps: false
+    timestamps: false,
     freezeTableName: true
   });
 

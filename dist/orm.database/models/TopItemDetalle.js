@@ -26,7 +26,7 @@ function CreateFieldObj(_dataTypes) {
 var _default = function _default(sequelize, DataTypes) {
   var TopItemDetalle = sequelize.define('TopItemDetalle', CreateFieldObj(DataTypes), {
     /*options*/
-    // timestamps: false
+    timestamps: false,
     freezeTableName: true
   });
 

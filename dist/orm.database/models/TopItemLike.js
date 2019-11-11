@@ -15,6 +15,7 @@ function CreateFieldObj(_dataTypes) {
 
 var _default = function _default(sequelize, DataTypes) {
   var TopItemLike = sequelize.define('TopItemLike', CreateFieldObj(DataTypes), {
+    timestamps: false,
     freezeTableName: true
   });
 

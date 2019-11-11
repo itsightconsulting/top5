@@ -30,7 +30,7 @@ function CreateFieldObj(_dataTypes) {
 var _default = function _default(sequelize, DataTypes) {
   var UsuarioSeguidor = sequelize.define('UsuarioSeguidor', CreateFieldObj(DataTypes), {
     /*options*/
-    // timestamps: false
+    timestamps: false,
     freezeTableName: true
   });
 

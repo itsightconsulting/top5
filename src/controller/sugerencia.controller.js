@@ -8,7 +8,7 @@ async function createdOrUpdatedSugerencia(objSugerencia) {
             descripcion: objSugerencia.descripcion
             , flagActive: true
             , flagEliminate: false
-            , updatedAt: objSugerencia.updatedAt
+            , updatedDate: objSugerencia.updatedDate
         };
 
         if (objSugerencia.id) {
@@ -17,10 +17,10 @@ async function createdOrUpdatedSugerencia(objSugerencia) {
             var dataValues = objSugerencia;
         } else {
             queryObject.createdBy = objSugerencia.createdBy;
-            queryObject.createdAt = objSugerencia.createdAt;
+            queryObject.createdDate = objSugerencia.createdDate;
 
             var { dataValues } = await SugerenciaDTO.create(queryObject, {
-                fields: ['descripcion', 'flagActive', 'flagEliminate', 'updatedAt', 'createdBy', 'createdAt']
+                fields: ['descripcion', 'flagActive', 'flagEliminate', 'updatedDate', 'createdBy', 'createdDate']
             });
         }
         return buildContainer(true, '', dataValues, null);

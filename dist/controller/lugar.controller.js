@@ -39,7 +39,7 @@ function _createdOrUpdatedLugar() {
               address: objLugar.address,
               flagActive: true,
               flagEliminate: false,
-              updatedAt: objLugar.updatedAt
+              updatedDate: objLugar.updatedDate
             };
 
             if (!objLugar.id) {
@@ -62,10 +62,10 @@ function _createdOrUpdatedLugar() {
 
           case 9:
             queryObject.createdBy = objLugar.createdBy;
-            queryObject.createdAt = objLugar.createdAt;
+            queryObject.createdDate = objLugar.createdDate;
             _context.next = 13;
             return LugarDTO.create(queryObject, {
-              fields: ['name', 'latitude', 'longitude', 'address', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt']
+              fields: ['name', 'latitude', 'longitude', 'address', 'flagActive', 'flagEliminate', 'createdBy', 'createdDate', 'updatedDate']
             });
 
           case 13:
@@ -112,7 +112,7 @@ function _obtenerLugar() {
             _context2.next = 5;
             return LugarDTO.findOne({
               where: conditionObject,
-              attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedAt', 'updatedAtStr']
+              attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedDate', 'updatedDateStr']
             });
 
           case 5:
@@ -162,7 +162,7 @@ function _listarLugares() {
               where: {
                 flagActive: true
               },
-              attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedAt', 'updatedAtStr', [_index["default"].Sequelize.fn("COUNT", _index["default"].Sequelize.col("TopItems.id")), "CountTop"]],
+              attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedDate', 'updatedDateStr', [_index["default"].Sequelize.fn("COUNT", _index["default"].Sequelize.col("TopItems.id")), "CountTop"]],
               include: [{
                 model: _index["default"].TopItem,
                 where: conditionObject,
@@ -177,8 +177,8 @@ function _listarLugares() {
                   required: true
                 }]
               }],
-              group: ['Lugar.id', 'Lugar.name', 'Lugar.latitude', 'Lugar.longitude', 'Lugar.address', 'Lugar.updatedAt'],
-              order: [['updatedAt', 'DESC']]
+              group: ['Lugar.id', 'Lugar.name', 'Lugar.latitude', 'Lugar.longitude', 'Lugar.address', 'Lugar.updatedDate'],
+              order: [['updatedDate', 'DESC']]
             });
 
           case 6:
@@ -212,7 +212,7 @@ function eliminarLugar(_x5, _x6) {
 function _eliminarLugar() {
   _eliminarLugar = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee4(id, updatedAt) {
+  regeneratorRuntime.mark(function _callee4(id, updatedDate) {
     var response, lugarBd;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
@@ -231,7 +231,7 @@ function _eliminarLugar() {
             return lugarBd.update({
               flagActive: false,
               flagEliminate: true,
-              updatedAt: updatedAt
+              updatedDate: updatedDate
             });
 
           case 6:
@@ -285,7 +285,7 @@ function _obtenerLugarPorUbicacion() {
                 longitude: longitude,
                 flagActive: true
               },
-              order: [['updatedAt', 'DESC']]
+              order: [['updatedDate', 'DESC']]
             });
 
           case 4:

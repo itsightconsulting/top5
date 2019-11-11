@@ -1,4 +1,4 @@
-import { agregarCamposBaseAuditoria, formatoPublicacion, formatoFechaStr } from '../../utilitarios/utilitarios';
+import { agregarCamposBaseAuditoria, formatoFechaStr } from '../../utilitarios/utilitarios';
 function CreateFieldObj(_dataTypes) {
     let objEntidad = {
         titulo: {
@@ -40,6 +40,7 @@ export default (sequelize, DataTypes) => {
         'Top'
         , CreateFieldObj(DataTypes)
         , {
+            timestamps: false,
             freezeTableName: true
         });
 

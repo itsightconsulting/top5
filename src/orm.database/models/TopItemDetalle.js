@@ -21,7 +21,7 @@ export default (sequelize, DataTypes) => {
         'TopItemDetalle'
         , CreateFieldObj(DataTypes)
         , { /*options*/
-            // timestamps: false
+            timestamps: false,
             freezeTableName: true,
         });
 

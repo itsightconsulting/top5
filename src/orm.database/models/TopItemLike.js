@@ -13,6 +13,7 @@ export default (sequelize, DataTypes) => {
         'TopItemLike'
         , CreateFieldObj(DataTypes)
         , {
+            timestamps: false,
             freezeTableName: true
         });
 

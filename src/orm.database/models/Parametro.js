@@ -26,7 +26,7 @@ export default (sequelize, DataTypes) => {
         'Parametro'
         , CreateFieldObj(DataTypes)
         , { /*options*/
-            // timestamps: false,
+            timestamps: false,
             freezeTableName: true,
         });
 

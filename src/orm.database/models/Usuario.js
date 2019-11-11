@@ -56,7 +56,7 @@ export default (sequelize, DataTypes) => {
         'Usuario'
         , CreateFieldObj(DataTypes)
         , { /*options*/
-            // timestamps: false,
+            timestamps: false,
             freezeTableName: true,
         });
     Usuario.associate = (models) => {

@@ -13,7 +13,7 @@ async function createdOrUpdatedLugar(objLugar) {
             , address: objLugar.address
             , flagActive: true
             , flagEliminate: false
-            , updatedAt: objLugar.updatedAt
+            , updatedDate: objLugar.updatedDate
         };
 
         if (objLugar.id) {
@@ -22,10 +22,10 @@ async function createdOrUpdatedLugar(objLugar) {
             var dataValues = objLugar;
         } else {
             queryObject.createdBy = objLugar.createdBy;
-            queryObject.createdAt = objLugar.createdAt;
+            queryObject.createdDate = objLugar.createdDate;
 
             var { dataValues } = await LugarDTO.create(queryObject, {
-                fields: ['name', 'latitude', 'longitude', 'address', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt']
+                fields: ['name', 'latitude', 'longitude', 'address', 'flagActive', 'flagEliminate', 'createdBy', 'createdDate', 'updatedDate']
             });
         }
         return buildContainer(true, '', dataValues, null);
@@ -41,7 +41,7 @@ async function obtenerLugar(id, createdBy) {
         if (createdBy) conditionObject.createdBy = createdBy;
         let { dataValues } = await LugarDTO.findOne({
             where: conditionObject
-            , attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedAt', 'updatedAtStr']
+            , attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedDate', 'updatedDateStr']
         });
         let response = buildContainer(true, '', dataValues, null);
         return response;
@@ -57,7 +57,7 @@ async function listarLugares(createdBy) {
 
         let lugarBDList = await LugarDTO.findAll({
             where: { flagActive: true }
-            , attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedAt', 'updatedAtStr'
+            , attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedDate', 'updatedDateStr'
                 , [models.Sequelize.fn("COUNT", models.Sequelize.col("TopItems.id")), "CountTop"]]
             , include: [{
                 model: models.TopItem
@@ -70,8 +70,8 @@ async function listarLugares(createdBy) {
                     , required: true
                 }]
             }]
-            , group: ['Lugar.id', 'Lugar.name', 'Lugar.latitude', 'Lugar.longitude', 'Lugar.address', 'Lugar.updatedAt']
-            , order: [['updatedAt', 'DESC']]
+            , group: ['Lugar.id', 'Lugar.name', 'Lugar.latitude', 'Lugar.longitude', 'Lugar.address', 'Lugar.updatedDate']
+            , order: [['updatedDate', 'DESC']]
         });
         let data = { total: lugarBDList.length, datos: lugarBDList };
         response = buildContainer(true, null, data, null);
@@ -80,7 +80,7 @@ async function listarLugares(createdBy) {
         throw error;
     }
 }
-async function eliminarLugar(id, updatedAt) {
+async function eliminarLugar(id, updatedDate) {
     try {
         let response = null;
         let lugarBd = null;
@@ -90,7 +90,7 @@ async function eliminarLugar(id, updatedAt) {
             await lugarBd.update({
                 flagActive: false
                 , flagEliminate: true
-                , updatedAt
+                , updatedDate
             });
             response = buildContainer(true, 'Eliminado correctamente.', null, null);
             // }
@@ -111,7 +111,7 @@ async function obtenerLugarPorUbicacion(latitude, longitude) {
                 latitude,
                 longitude,
                 flagActive: true
-            }, order: [['updatedAt', 'DESC']]
+            }, order: [['updatedDate', 'DESC']]
         });
         let data = { total: lugarBdListado.length, datos: lugarBdListado };
         response = buildContainer(true, null, data, null);

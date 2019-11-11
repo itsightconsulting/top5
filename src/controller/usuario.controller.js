@@ -37,7 +37,7 @@ async function login(data) {
             where: {
                 correoElectronico: data.correoElectronico.toLowerCase(),
                 TipoUsuarioId: data.TipoUsuarioId
-            }, attributes: ['id', 'contrasenia', 'nombreCompleto', 'createdAt', 'rutaImagenPerfil']
+            }, attributes: ['id', 'contrasenia', 'nombreCompleto', 'createdDate', 'rutaImagenPerfil']
         });
         if (usuario === null) {
             return buildContainer(false, 'Email no existe.', null, null);
@@ -67,7 +67,7 @@ async function relogin(data) {
                 correoElectronico: data.correoElectronico.toLowerCase(),
                 TipoUsuarioId: data.TipoUsuarioId,
                 id: data.id,
-                // createdAt: data.createdAt,
+                // createdDate: data.createdDate,
                 flagActive: true,
                 flagEliminate: false
             }, attributes: ['id', 'correoElectronico']
@@ -81,7 +81,7 @@ async function relogin(data) {
 }
 async function crearUsuario(data) {
     try {
-        let { nombreCompleto, correoElectronico, contrasenia, TipoUsuarioId, createdAt, updatedAt } = data;
+        let { nombreCompleto, correoElectronico, contrasenia, TipoUsuarioId, createdDate, updatedDate } = data;
 
         let salt = await bcrypt.genSalt(saltRounds);
         let contraseniaEncrypt = await bcrypt.hash(contrasenia, salt);
@@ -93,10 +93,10 @@ async function crearUsuario(data) {
             , TipoUsuarioId
             , flagActive: true
             , flagEliminate: false
-            , createdAt
-            , updatedAt
+            , createdDate
+            , updatedDate
         }, {
-            fields: ['nombreCompleto', 'correoElectronico', 'contrasenia', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt']
+            fields: ['nombreCompleto', 'correoElectronico', 'contrasenia', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdDate', 'updatedDate']
         });
         if (newUsuario) {
             let objToken = ObjectToken({ correoElectronico: newUsuario.correoElectronico, id: newUsuario.id });
@@ -113,7 +113,7 @@ async function crearUsuario(data) {
 
 async function loginFacebook(data) {
     try {
-        let { nombreCompleto, correoElectronico, TipoUsuarioId, rutaImagenPerfil, createdAt, updatedAt } = data;
+        let { nombreCompleto, correoElectronico, TipoUsuarioId, rutaImagenPerfil, createdDate, updatedDate } = data;
 
         let usuario = await UsuarioDTO.findOne({
             where: {
@@ -130,7 +130,7 @@ async function loginFacebook(data) {
                 if (flagUpdate) {
                     await UsuarioDTO.update({
                         nombreCompleto
-                        , updatedAt
+                        , updatedDate
                     }, { where: { id: usuario.id } });
                 }
                 // updateRutaImagen
@@ -150,10 +150,10 @@ async function loginFacebook(data) {
                 , TipoUsuarioId
                 , flagActive: true
                 , flagEliminate: false
-                , createdAt
-                , updatedAt
+                , createdDate
+                , updatedDate
                 , rutaImagenPerfil
-            }, { fields: ['nombreCompleto', 'correoElectronico', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt', 'rutaImagenPerfil'] });
+            }, { fields: ['nombreCompleto', 'correoElectronico', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdDate', 'updatedDate', 'rutaImagenPerfil'] });
             if (newUsuario) {
                 objToken = ObjectToken({ correoElectronico: newUsuario.correoElectronico, id: newUsuario.id });
             }
@@ -184,7 +184,7 @@ async function getOneUsuario(id) {
 }
 async function updateUsuario(data, path, files) {
     try {
-        const { id, correoElectronico, nombreCompleto, updatedAt } = data;
+        const { id, correoElectronico, nombreCompleto, updatedDate } = data;
         // if (!id || !correoElectronico || !nombreCompleto) {
         //     throw new Error("No puede enviar data vacio");
         // }
@@ -196,7 +196,7 @@ async function updateUsuario(data, path, files) {
         await UsuarioDTO.update({
             nombreCompleto
             , correoElectronico
-            , updatedAt
+            , updatedDate
         }, { where: { id } });
 
         return buildContainer(true, '', null, null);

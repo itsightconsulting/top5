@@ -97,7 +97,7 @@ function _login() {
                 correoElectronico: data.correoElectronico.toLowerCase(),
                 TipoUsuarioId: data.TipoUsuarioId
               },
-              attributes: ['id', 'contrasenia', 'nombreCompleto', 'createdAt', 'rutaImagenPerfil']
+              attributes: ['id', 'contrasenia', 'nombreCompleto', 'createdDate', 'rutaImagenPerfil']
             });
 
           case 3:
@@ -172,7 +172,7 @@ function _relogin() {
                 correoElectronico: data.correoElectronico.toLowerCase(),
                 TipoUsuarioId: data.TipoUsuarioId,
                 id: data.id,
-                // createdAt: data.createdAt,
+                // createdDate: data.createdDate,
                 flagActive: true,
                 flagEliminate: false
               },
@@ -215,13 +215,13 @@ function _crearUsuario() {
   _crearUsuario = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee4(data) {
-    var nombreCompleto, correoElectronico, contrasenia, TipoUsuarioId, createdAt, updatedAt, salt, contraseniaEncrypt, newUsuario, objToken, token;
+    var nombreCompleto, correoElectronico, contrasenia, TipoUsuarioId, createdDate, updatedDate, salt, contraseniaEncrypt, newUsuario, objToken, token;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
             _context4.prev = 0;
-            nombreCompleto = data.nombreCompleto, correoElectronico = data.correoElectronico, contrasenia = data.contrasenia, TipoUsuarioId = data.TipoUsuarioId, createdAt = data.createdAt, updatedAt = data.updatedAt;
+            nombreCompleto = data.nombreCompleto, correoElectronico = data.correoElectronico, contrasenia = data.contrasenia, TipoUsuarioId = data.TipoUsuarioId, createdDate = data.createdDate, updatedDate = data.updatedDate;
             _context4.next = 4;
             return bcrypt.genSalt(saltRounds);
 
@@ -241,10 +241,10 @@ function _crearUsuario() {
               TipoUsuarioId: TipoUsuarioId,
               flagActive: true,
               flagEliminate: false,
-              createdAt: createdAt,
-              updatedAt: updatedAt
+              createdDate: createdDate,
+              updatedDate: updatedDate
             }, {
-              fields: ['nombreCompleto', 'correoElectronico', 'contrasenia', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt']
+              fields: ['nombreCompleto', 'correoElectronico', 'contrasenia', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdDate', 'updatedDate']
             });
 
           case 11:
@@ -296,13 +296,13 @@ function _loginFacebook() {
   _loginFacebook = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee5(data) {
-    var nombreCompleto, correoElectronico, TipoUsuarioId, rutaImagenPerfil, createdAt, updatedAt, usuario, objToken, flagExisteTipoUsuario, flagUpdate, flagCambiarRuta, newUsuario, token;
+    var nombreCompleto, correoElectronico, TipoUsuarioId, rutaImagenPerfil, createdDate, updatedDate, usuario, objToken, flagExisteTipoUsuario, flagUpdate, flagCambiarRuta, newUsuario, token;
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.prev = 0;
-            nombreCompleto = data.nombreCompleto, correoElectronico = data.correoElectronico, TipoUsuarioId = data.TipoUsuarioId, rutaImagenPerfil = data.rutaImagenPerfil, createdAt = data.createdAt, updatedAt = data.updatedAt;
+            nombreCompleto = data.nombreCompleto, correoElectronico = data.correoElectronico, TipoUsuarioId = data.TipoUsuarioId, rutaImagenPerfil = data.rutaImagenPerfil, createdDate = data.createdDate, updatedDate = data.updatedDate;
             _context5.next = 4;
             return UsuarioDTO.findOne({
               where: {
@@ -339,7 +339,7 @@ function _loginFacebook() {
             _context5.next = 13;
             return UsuarioDTO.update({
               nombreCompleto: nombreCompleto,
-              updatedAt: updatedAt
+              updatedDate: updatedDate
             }, {
               where: {
                 id: usuario.id
@@ -382,11 +382,11 @@ function _loginFacebook() {
               TipoUsuarioId: TipoUsuarioId,
               flagActive: true,
               flagEliminate: false,
-              createdAt: createdAt,
-              updatedAt: updatedAt,
+              createdDate: createdDate,
+              updatedDate: updatedDate,
               rutaImagenPerfil: rutaImagenPerfil
             }, {
-              fields: ['nombreCompleto', 'correoElectronico', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt', 'rutaImagenPerfil']
+              fields: ['nombreCompleto', 'correoElectronico', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdDate', 'updatedDate', 'rutaImagenPerfil']
             });
 
           case 26:
@@ -482,13 +482,13 @@ function _updateUsuario() {
   _updateUsuario = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee7(data, path, files) {
-    var id, correoElectronico, nombreCompleto, updatedAt;
+    var id, correoElectronico, nombreCompleto, updatedDate;
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
             _context7.prev = 0;
-            id = data.id, correoElectronico = data.correoElectronico, nombreCompleto = data.nombreCompleto, updatedAt = data.updatedAt; // if (!id || !correoElectronico || !nombreCompleto) {
+            id = data.id, correoElectronico = data.correoElectronico, nombreCompleto = data.nombreCompleto, updatedDate = data.updatedDate; // if (!id || !correoElectronico || !nombreCompleto) {
             //     throw new Error("No puede enviar data vacio");
             // }
             // if (files) {
@@ -500,7 +500,7 @@ function _updateUsuario() {
             return UsuarioDTO.update({
               nombreCompleto: nombreCompleto,
               correoElectronico: correoElectronico,
-              updatedAt: updatedAt
+              updatedDate: updatedDate
             }, {
               where: {
                 id: id

@@ -30,7 +30,7 @@ export default (sequelize, DataTypes) => {
         'Categoria'
         , CreateFieldObj(DataTypes)
         , { /*options*/
-            // timestamps: false
+            timestamps: false,
             freezeTableName: true,
         });
 

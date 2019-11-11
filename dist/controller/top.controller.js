@@ -38,15 +38,14 @@ function _createOrUpdateTop() {
           case 0:
             _context.prev = 0;
             response = null;
-            topBD = null;
-            console.log(objTop.updatedAt);
+            topBD = null; // console.log(objTop.updatedDate);
 
             if (!objTop.id) {
-              _context.next = 10;
+              _context.next = 9;
               break;
             }
 
-            _context.next = 7;
+            _context.next = 6;
             return TopDTO.update({
               titulo: objTop.titulo,
               flagPublicado: objTop.flagPublicado,
@@ -54,61 +53,61 @@ function _createOrUpdateTop() {
               flagActive: true,
               flagEliminate: false,
               updatedBy: objTop.createdBy,
-              updatedAt: objTop.updatedAt
+              updatedDate: objTop.updatedDate
             }, {
               where: {
                 id: objTop.id
               }
             });
 
-          case 7:
+          case 6:
             topBD = _context.sent;
-            _context.next = 13;
+            _context.next = 12;
             break;
 
-          case 10:
-            _context.next = 12;
+          case 9:
+            _context.next = 11;
             return TopDTO.create({
               titulo: objTop.titulo,
               CategoriaId: objTop.CategoriaId,
               flagActive: true,
               flagEliminate: false,
               createdBy: objTop.createdBy,
-              createdAt: objTop.createdAt,
-              updatedAt: objTop.updatedAt
+              createdDate: objTop.createdDate,
+              updatedDate: objTop.updatedDate
             }, {
-              fields: ['titulo', 'CategoriaId', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt']
+              fields: ['titulo', 'CategoriaId', 'flagActive', 'flagEliminate', 'createdBy', 'createdDate', 'updatedDate']
             });
 
-          case 12:
+          case 11:
             topBD = _context.sent;
 
-          case 13:
+          case 12:
             if (topBD) {
               response = (0, _common.buildContainer)(true, '', topBD, null);
             }
 
             if (!(response === null)) {
-              _context.next = 16;
+              _context.next = 15;
               break;
             }
 
             throw new Error('No se pudo crear top');
 
-          case 16:
+          case 15:
             return _context.abrupt("return", response);
 
-          case 19:
-            _context.prev = 19;
+          case 18:
+            _context.prev = 18;
             _context.t0 = _context["catch"](0);
             throw _context.t0;
 
-          case 22:
+          case 21:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 19]]);
+    }, _callee, null, [[0, 18]]);
   }));
   return _createOrUpdateTop.apply(this, arguments);
 }
@@ -143,7 +142,7 @@ function _listarTopPorUsuario() {
             if (CategoriaId) whereConditions.CategoriaId = CategoriaId;
             queryObject = {
               where: whereConditions,
-              attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedAt', 'updatedAtStr', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr'],
+              attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedDate', 'updatedDateStr', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr'],
               include: [{
                 model: _index["default"].Categoria,
                 as: 'Categoria',
@@ -152,7 +151,7 @@ function _listarTopPorUsuario() {
                 },
                 attributes: ['name', 'nroOrden']
               }],
-              order: [['fechaPublicado', 'DESC'], ['updatedAt', 'DESC']]
+              order: [['fechaPublicado', 'DESC'], ['updatedDate', 'DESC']]
             };
 
             if (pageNumber && pageSize) {
@@ -285,7 +284,7 @@ function publicarTop(_x3, _x4, _x5, _x6) {
 function _publicarTop() {
   _publicarTop = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee3(id, updatedAt, createdBy, flagPublicado) {
+  regeneratorRuntime.mark(function _callee3(id, updatedDate, createdBy, flagPublicado) {
     var response;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
@@ -302,8 +301,8 @@ function _publicarTop() {
             _context3.next = 5;
             return TopDTO.update({
               flagPublicado: flagPublicado,
-              fechaPublicado: updatedAt,
-              updatedAt: updatedAt
+              fechaPublicado: updatedDate,
+              updatedDate: updatedDate
             }, {
               where: {
                 id: id,
@@ -349,7 +348,7 @@ function eliminarTop(_x7, _x8, _x9) {
 function _eliminarTop() {
   _eliminarTop = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee4(id, updatedAt, createdBy) {
+  regeneratorRuntime.mark(function _callee4(id, updatedDate, createdBy) {
     var response, topBd;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
@@ -367,7 +366,7 @@ function _eliminarTop() {
             return TopDTO.update({
               flagActive: false,
               flagEliminate: true,
-              updatedAt: updatedAt,
+              updatedDate: updatedDate,
               updatedBy: createdBy
             }, {
               where: {
@@ -518,11 +517,11 @@ function _listarTopPublicadoPorUsuario() {
             if (CategoriaId) whereConditionsTop.CategoriaId = CategoriaId;
             queryObject = {
               where: whereConditions,
-              attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedAt', 'updatedAtStr'],
+              attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr'],
               include: [{
                 model: TopDTO,
                 where: whereConditionsTop,
-                attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt'],
+                attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedDate'],
                 include: [{
                   required: true,
                   model: _index["default"].Categoria,
@@ -548,7 +547,7 @@ function _listarTopPublicadoPorUsuario() {
                 model: TopItemLikeDTO,
                 attributes: ['id', 'UsuarioId']
               }],
-              order: [['updatedAt', 'DESC']]
+              order: [['updatedDate', 'DESC']]
             }; // if (pageNumber && pageSize) {
 
             queryObject.offset = (pageNumber - 1) * pageSize;
@@ -692,7 +691,7 @@ function _listarTopItemByTop() {
             if (TopId) whereConditions.TopId = TopId;
             queryObject = {
               where: whereConditions,
-              attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedAt', 'updatedAtStr', 'LugarId'],
+              attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedDate', 'updatedDateStr', 'LugarId'],
               include: [{
                 model: TopItemDetalleDTO,
                 required: false,
@@ -711,7 +710,7 @@ function _listarTopItemByTop() {
                 model: TopItemLikeDTO,
                 attributes: ['id', 'UsuarioId']
               }],
-              order: [['updatedAt', 'DESC']]
+              order: [['updatedDate', 'DESC']]
             };
 
             if (pageNumber && pageSize) {
@@ -861,7 +860,7 @@ function _listarTopItemByLugar() {
                 LugarId: lugarId,
                 TopId: _defineProperty({}, Op.ne, null)
               },
-              attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedAt', 'updatedAtStr'],
+              attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedDate', 'updatedDateStr'],
               include: [{
                 model: TopDTO,
                 attributes: [],
@@ -879,7 +878,7 @@ function _listarTopItemByLugar() {
               where: {
                 flagActive: true
               }
-            }]), _defineProperty(_queryObject, "order", [['updatedAt', 'DESC']]), _queryObject);
+            }]), _defineProperty(_queryObject, "order", [['updatedDate', 'DESC']]), _queryObject);
 
             if (pageNumber && pageSize) {
               queryObject.offset = (pageNumber - 1) * pageSize;
@@ -1006,7 +1005,7 @@ function eliminarTopItem(_x15, _x16, _x17) {
 function _eliminarTopItem() {
   _eliminarTopItem = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee9(id, updatedAt, createdBy) {
+  regeneratorRuntime.mark(function _callee9(id, updatedDate, createdBy) {
     var response, topBd, eliminarDetalle;
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
@@ -1024,7 +1023,7 @@ function _eliminarTopItem() {
             return TopItemDTO.update({
               flagActive: false,
               flagEliminate: true,
-              updatedAt: updatedAt,
+              updatedDate: updatedDate,
               updatedBy: createdBy
             }, {
               where: {
@@ -1088,7 +1087,7 @@ function _likesTopItem() {
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee10() {
     var TopItemId,
-        updatedAt,
+        updatedDate,
         createdBy,
         flagLike,
         response,
@@ -1101,7 +1100,7 @@ function _likesTopItem() {
         switch (_context10.prev = _context10.next) {
           case 0:
             TopItemId = _args10.length > 0 && _args10[0] !== undefined ? _args10[0] : 0;
-            updatedAt = _args10.length > 1 ? _args10[1] : undefined;
+            updatedDate = _args10.length > 1 ? _args10[1] : undefined;
             createdBy = _args10.length > 2 ? _args10[2] : undefined;
             flagLike = _args10.length > 3 && _args10[3] !== undefined ? _args10[3] : false;
             _context10.prev = 4;
@@ -1130,7 +1129,7 @@ function _likesTopItem() {
             }
 
             queryObject = {
-              updatedAt: updatedAt
+              updatedDate: updatedDate
             };
 
             if (flagLike) {
@@ -1159,10 +1158,10 @@ function _likesTopItem() {
               flagEliminate: false,
               TopItemId: TopItemId,
               UsuarioId: createdBy,
-              createdAt: updatedAt,
-              updatedAt: updatedAt
+              createdDate: updatedDate,
+              updatedDate: updatedDate
             }, {
-              fields: ['flagActive', 'flagEliminate', 'TopItemId', 'UsuarioId', 'createdAt', 'updatedAt']
+              fields: ['flagActive', 'flagEliminate', 'TopItemId', 'UsuarioId', 'createdDate', 'updatedDate']
             });
 
           case 19:
@@ -1205,7 +1204,7 @@ function _uploadFileTopItemDetalle() {
   _uploadFileTopItemDetalle = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee11(topItemDetalle, files) {
-    var response, bucketName, id, path, _topItemDetalle$nameI, nameImageDefault, updatedAt, createdBy, TopItemId, response_1, _iteratorNormalCompletion5, _didIteratorError5, _iteratorError5, _iterator5, _step5, file, name, size, mimetype, key, _ref4, Location, TopItemDetalle;
+    var response, bucketName, id, path, _topItemDetalle$nameI, nameImageDefault, updatedDate, createdBy, TopItemId, response_1, _iteratorNormalCompletion5, _didIteratorError5, _iteratorError5, _iterator5, _step5, file, name, size, mimetype, key, _ref4, Location, TopItemDetalle;
 
     return regeneratorRuntime.wrap(function _callee11$(_context11) {
       while (1) {
@@ -1220,11 +1219,11 @@ function _uploadFileTopItemDetalle() {
               break;
             }
 
-            id = topItemDetalle.id, path = topItemDetalle.path, _topItemDetalle$nameI = topItemDetalle.nameImageDefault, nameImageDefault = _topItemDetalle$nameI === void 0 ? "" : _topItemDetalle$nameI, updatedAt = topItemDetalle.updatedAt, createdBy = topItemDetalle.createdBy;
+            id = topItemDetalle.id, path = topItemDetalle.path, _topItemDetalle$nameI = topItemDetalle.nameImageDefault, nameImageDefault = _topItemDetalle$nameI === void 0 ? "" : _topItemDetalle$nameI, updatedDate = topItemDetalle.updatedDate, createdBy = topItemDetalle.createdBy;
             TopItemId = id; // eliminar imagenes anteriores
 
             _context11.next = 8;
-            return eliminarTopItemDetalleByTopItem(TopItemId, updatedAt, createdBy);
+            return eliminarTopItemDetalleByTopItem(TopItemId, updatedDate, createdBy);
 
           case 8:
             response_1 = _context11.sent;
@@ -1258,9 +1257,9 @@ function _uploadFileTopItemDetalle() {
             TopItemDetalle = {
               rutaImagen: Location,
               flagImagenDefaultTop: false,
-              updatedAt: updatedAt,
+              updatedDate: updatedDate,
               createdBy: createdBy,
-              createdAt: updatedAt,
+              createdDate: updatedDate,
               TopItemId: TopItemId
             };
 
@@ -1352,7 +1351,7 @@ function _createOrUpdateTopItemDetalle() {
               flagImagenDefaultTop: TopItemDetalle.flagImagenDefaultTop,
               flagActive: true,
               flagEliminate: false,
-              updatedAt: TopItemDetalle.updatedAt
+              updatedDate: TopItemDetalle.updatedDate
             };
 
             if (!TopItemDetalle.id) {
@@ -1375,11 +1374,11 @@ function _createOrUpdateTopItemDetalle() {
 
           case 9:
             queryObject.createdBy = TopItemDetalle.createdBy;
-            queryObject.createdAt = TopItemDetalle.createdAt;
+            queryObject.createdDate = TopItemDetalle.createdDate;
             queryObject.TopItemId = TopItemDetalle.TopItemId;
             _context12.next = 14;
             return TopItemDetalleDTO.create(queryObject, {
-              fields: ['rutaImagen', 'flagImagenDefaultTop', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt', 'TopItemId']
+              fields: ['rutaImagen', 'flagImagenDefaultTop', 'flagActive', 'flagEliminate', 'createdBy', 'createdDate', 'updatedDate', 'TopItemId']
             });
 
           case 14:
@@ -1411,7 +1410,7 @@ function eliminarTopItemDetalleByTopItem(_x21, _x22, _x23) {
 function _eliminarTopItemDetalleByTopItem() {
   _eliminarTopItemDetalleByTopItem = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee13(TopItemId, updatedAt, createdBy) {
+  regeneratorRuntime.mark(function _callee13(TopItemId, updatedDate, createdBy) {
     var response;
     return regeneratorRuntime.wrap(function _callee13$(_context13) {
       while (1) {
@@ -1429,7 +1428,7 @@ function _eliminarTopItemDetalleByTopItem() {
             return TopItemDetalleDTO.update({
               flagActive: false,
               flagEliminate: true,
-              updatedAt: updatedAt,
+              updatedDate: updatedDate,
               updatedBy: createdBy
             }, {
               where: {
@@ -1517,14 +1516,14 @@ function _listarTopItemAutocomplete() {
                 flagActive: true,
                 id: listTopItemBD
               },
-              attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedAt', 'updatedAtStr'],
+              attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr'],
               include: [{
                 model: TopDTO,
                 where: {
                   flagActive: true,
                   flagPublicado: true
                 },
-                attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt'],
+                attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedDate'],
                 include: [{
                   required: true,
                   model: _index["default"].Categoria,
@@ -1552,7 +1551,7 @@ function _listarTopItemAutocomplete() {
                 model: TopItemLikeDTO,
                 attributes: ['id', 'UsuarioId']
               }],
-              order: [['updatedAt', 'DESC']]
+              order: [['updatedDate', 'DESC']]
             };
             queryObject.offset = (pageNumber - 1) * pageSize;
             queryObject.limit = pageSize; // console.log(queryObject);
@@ -1827,16 +1826,16 @@ function _getOneTop() {
                 createdBy: createdBy,
                 flagActive: true
               },
-              attributes: ['id', 'titulo', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt', 'updatedAtStr'],
+              attributes: ['id', 'titulo', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr', 'updatedDate', 'updatedDateStr'],
               include: [{
                 model: _index["default"].Categoria,
                 as: 'Categoria',
                 where: {
                   flagActive: true
                 },
-                attributes: ['id', 'name', 'updatedAt']
+                attributes: ['id', 'name', 'updatedDate']
               }],
-              order: [['fechaPublicado', 'DESC'], ['updatedAt', 'DESC']]
+              order: [['fechaPublicado', 'DESC'], ['updatedDate', 'DESC']]
             });
 
           case 5:
@@ -1895,7 +1894,7 @@ function _getOneTopItem() {
                 createdBy: createdBy,
                 flagActive: true
               },
-              attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedAt', 'updatedAtStr'],
+              attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr'],
               include: [{
                 model: TopItemDetalleDTO,
                 where: {
@@ -1960,7 +1959,7 @@ function _createdOrUpdatedTopItem() {
               TopId: objTopItem.TopId,
               flagActive: true,
               flagEliminate: false,
-              updatedAt: objTopItem.updatedAt
+              updatedDate: objTopItem.updatedDate
             };
 
             if (!objTopItem.id) {
@@ -1983,10 +1982,10 @@ function _createdOrUpdatedTopItem() {
 
           case 9:
             queryObject.createdBy = objTopItem.createdBy;
-            queryObject.createdAt = objTopItem.createdAt;
+            queryObject.createdDate = objTopItem.createdDate;
             _context18.next = 13;
             return TopItemDTO.create(queryObject, {
-              fields: ['descripcion', 'valoracion', 'LugarId', 'TopId', 'flagActive', 'flagEliminate', 'updatedAt', 'createdBy', 'createdAt']
+              fields: ['descripcion', 'valoracion', 'LugarId', 'TopId', 'flagActive', 'flagEliminate', 'updatedDate', 'createdBy', 'createdDate']
             });
 
           case 13:
@@ -2018,7 +2017,7 @@ function eliminatedAndcreateOrUpdateTopItemDetalle(_x30, _x31, _x32, _x33, _x34,
 function _eliminatedAndcreateOrUpdateTopItemDetalle() {
   _eliminatedAndcreateOrUpdateTopItemDetalle = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee19(TopId, createdBy, updatedAt, objListTopItemDetalle, files, idsEliminar, transact) {
+  regeneratorRuntime.mark(function _callee19(TopId, createdBy, updatedDate, objListTopItemDetalle, files, idsEliminar, transact) {
     var response, responseEliminarTopItemDetalle, _iteratorNormalCompletion7, _didIteratorError7, _iteratorError7, _iterator7, _step7, element, topItemDetalleBD, rutaImagen, id, queryObject, _queryObject2;
 
     return regeneratorRuntime.wrap(function _callee19$(_context19) {
@@ -2034,7 +2033,7 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
             }
 
             _context19.next = 5;
-            return eliminarTopItemDetalle(updatedAt, idsEliminar, transact);
+            return eliminarTopItemDetalle(updatedDate, idsEliminar, transact);
 
           case 5:
             responseEliminarTopItemDetalle = _context19.sent;
@@ -2075,7 +2074,7 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
               flagActive: true,
               flagEliminate: false,
               updatedBy: createdBy,
-              updatedAt: updatedAt
+              updatedDate: updatedDate
             };
             queryObject.where = {
               id: id,
@@ -2102,10 +2101,10 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
               flagActive: true,
               flagEliminate: false,
               createdBy: element.createdBy,
-              createdAt: updatedAt,
-              updatedAt: updatedAt
+              createdDate: updatedDate,
+              updatedDate: updatedDate
             };
-            _queryObject2.fields = ['rutaImagen', 'flagImagenDefaultTop', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt'];
+            _queryObject2.fields = ['rutaImagen', 'flagImagenDefaultTop', 'flagActive', 'flagEliminate', 'createdBy', 'createdDate', 'updatedDate'];
 
             if (transact) {
               _queryObject2.transaction = transact;
@@ -2189,7 +2188,7 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
 
 function eliminarTopItemDetalle(_x37, _x38, _x39) {
   return _eliminarTopItemDetalle.apply(this, arguments);
-} // async function eliminarTopItem(id, updatedAt, createdBy) {
+} // async function eliminarTopItem(id, updatedDate, createdBy) {
 //     try {
 //         let response = null;
 //         let TopBd = null;
@@ -2197,7 +2196,7 @@ function eliminarTopItemDetalle(_x37, _x38, _x39) {
 //             await TopBd.update({
 //                 flagActive: false
 //                 , flagEliminate: true
-//                 , updatedAt
+//                 , updatedDate
 //             }, {
 //                 where: {
 //                     id, createdBy
@@ -2221,7 +2220,7 @@ function eliminarTopItemDetalle(_x37, _x38, _x39) {
 function _eliminarTopItemDetalle() {
   _eliminarTopItemDetalle = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee20(updatedAt, idsEliminar, transact) {
+  regeneratorRuntime.mark(function _callee20(updatedDate, idsEliminar, transact) {
     var response, queryObject, topItemDetalleBd;
     return regeneratorRuntime.wrap(function _callee20$(_context20) {
       while (1) {
@@ -2233,7 +2232,7 @@ function _eliminarTopItemDetalle() {
               flagActive: false,
               flagEliminate: true,
               flagImagenDefaultTop: false,
-              updatedAt: updatedAt
+              updatedDate: updatedDate
             };
             queryObject.where = {
               id: _defineProperty({}, Op["in"], [idsEliminar])
@@ -2354,7 +2353,7 @@ function _listarTopItemPorUsuario() {
                   }
                 }]
               }],
-              order: [['updatedAt', 'DESC']]
+              order: [['updatedDate', 'DESC']]
             });
 
           case 5:
@@ -2484,7 +2483,7 @@ function _listarTopGeneral() {
                   }
                 }]
               }],
-              order: [['updatedAt', 'DESC']]
+              order: [['updatedDate', 'DESC']]
             });
 
           case 11:
@@ -2532,7 +2531,7 @@ function _listarTopByLugarByCategoria() {
                 categoriaId: categoriaId,
                 flagActive: true
               },
-              attributes: ['id', 'LugarId', 'categoriaId', 'titulo', 'updatedAt'],
+              attributes: ['id', 'LugarId', 'categoriaId', 'titulo', 'updatedDate'],
               include: [{
                 model: TopItemDTO,
                 where: {
@@ -2547,7 +2546,7 @@ function _listarTopByLugarByCategoria() {
                 }],
                 attributes: ['id', 'descripcion', 'flagPublicado', 'valoracion']
               }],
-              order: [['updatedAt', 'DESC']]
+              order: [['updatedDate', 'DESC']]
             });
 
           case 5:
@@ -2592,7 +2591,7 @@ function _listarTopPorUsuarioPorCategoria() {
                 categoriaId: categoriaId,
                 flagActive: true
               },
-              order: [['updatedAt', 'DESC']]
+              order: [['updatedDate', 'DESC']]
             });
 
           case 4:
@@ -2647,7 +2646,7 @@ function _listarTopPorUsuarioPorFiltro() {
                   Descripcion: _defineProperty({}, Op.like, filtro)
                 }])
               }],
-              order: [['updatedAt', 'DESC']]
+              order: [['updatedDate', 'DESC']]
             });
 
           case 4:
@@ -2692,7 +2691,7 @@ function _listarTopDetallePorTopItem() {
                 TopItemId: id,
                 flagActive: true
               },
-              order: [['updatedAt', 'DESC']]
+              order: [['updatedDate', 'DESC']]
             });
 
           case 4:
@@ -2722,7 +2721,7 @@ function eliminarTopDetallePorTopId(_x53, _x54) {
 function _eliminarTopDetallePorTopId() {
   _eliminarTopDetallePorTopId = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee29(id, updatedAt) {
+  regeneratorRuntime.mark(function _callee29(id, updatedDate) {
     var response;
     return regeneratorRuntime.wrap(function _callee29$(_context29) {
       while (1) {
@@ -2740,7 +2739,7 @@ function _eliminarTopDetallePorTopId() {
             return TopItemDetalleDTO.update({
               flagActive: false,
               flagEliminate: true,
-              updatedAt: updatedAt
+              updatedDate: updatedDate
             }, {
               where: {
                 TopItemId: id

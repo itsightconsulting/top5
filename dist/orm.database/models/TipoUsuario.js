@@ -27,7 +27,7 @@ function CreateFieldObj(_dataTypes) {
 var _default = function _default(sequelize, DataTypes) {
   var TipoUsuario = sequelize.define('TipoUsuario', CreateFieldObj(DataTypes), {
     /*options*/
-    // timestamps: false
+    timestamps: false,
     freezeTableName: true
   });
 

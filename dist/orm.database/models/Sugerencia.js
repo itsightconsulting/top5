@@ -21,7 +21,7 @@ function CreateFieldObj(_dataTypes) {
 var _default = function _default(sequelize, DataTypes) {
   var Sugerencia = sequelize.define('Sugerencia', CreateFieldObj(DataTypes), {
     /*options*/
-    // timestamps: false,
+    timestamps: false,
     freezeTableName: true
   });
 

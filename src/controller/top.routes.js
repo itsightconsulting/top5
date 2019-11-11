@@ -44,8 +44,8 @@ async function listarTopPorUsuario(req, res) {
 async function publicarTop(req, res) {
     try {
         existeJsonData(req, res);
-        const { id, updatedAt, createdBy, flagPublicado } = req.body.data;
-        let response = await controller.publicarTop(id, updatedAt, createdBy, flagPublicado);
+        const { id, updatedDate, createdBy, flagPublicado } = req.body.data;
+        let response = await controller.publicarTop(id, updatedDate, createdBy, flagPublicado);
         return res.status(200).send(response);
     } catch (error) {
         controlError("publicarTop", error);
@@ -54,8 +54,8 @@ async function publicarTop(req, res) {
 }
 async function eliminarTop(req, res) {
     try {
-        const { id, updatedAt, createdBy } = req.body.data;
-        let response = await controller.eliminarTop(id, updatedAt, createdBy);
+        const { id, updatedDate, createdBy } = req.body.data;
+        let response = await controller.eliminarTop(id, updatedDate, createdBy);
         return res.status(200).send(response);
     } catch (error) {
         controlError("eliminarTop", error);
@@ -118,8 +118,8 @@ async function listarTopItemByLugar(req, res) {
 }
 async function eliminarTopItem(req, res) {
     try {
-        const { id, updatedAt, createdBy } = req.body.data;
-        let response = await controller.eliminarTopItem(id, updatedAt, createdBy);
+        const { id, updatedDate, createdBy } = req.body.data;
+        let response = await controller.eliminarTopItem(id, updatedDate, createdBy);
         return res.status(200).send(response);
     } catch (error) {
         controlError("eliminarTopItem", error);
@@ -129,8 +129,8 @@ async function eliminarTopItem(req, res) {
 async function likesTopItem(req, res) {
     try {
         existeJsonData(req, res);
-        const { id, updatedAt, createdBy, flagLike } = req.body.data;
-        let response = await controller.likesTopItem(id, updatedAt, createdBy, flagLike);
+        const { id, updatedDate, createdBy, flagLike } = req.body.data;
+        let response = await controller.likesTopItem(id, updatedDate, createdBy, flagLike);
         return res.status(200).send(response);
     } catch (error) {
         controlError("publicarTop", error);
@@ -141,9 +141,9 @@ async function likesTopItem(req, res) {
 async function uploadFileTopItemDetalle(req, res) {
     try {
         let files = req.files.image;
-        let { id, path, nameImageDefault, updatedAt, createdBy } = req.body;
+        let { id, path, nameImageDefault, updatedDate, createdBy } = req.body;
         files = [].concat(files);
-        let response = await controller.uploadFileTopItemDetalle({ id, path, nameImageDefault, updatedAt, createdBy }, files);
+        let response = await controller.uploadFileTopItemDetalle({ id, path, nameImageDefault, updatedDate, createdBy }, files);
         res.status(200).send(response);
     } catch (error) {
         controlError("uploadFileTopItemDetalle", error);
