@@ -312,22 +312,22 @@ async function listarTopItemByTop(objParams) {
 }
 async function listarTopItemByLugar(lugarId, { pageNumber, pageSize }) {
     try {
+        console.log("listarTopItemByLugar");
         let response = null;
         let topItemBD = null;
         let queryObject = {
             where: { flagActive: true, LugarId: lugarId, TopId: { [Op.ne]: null } }
-            , attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedDate', 'updatedDateStr']
+            , attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedDate', 'updatedDateStr', 'flagActive']
             , include: [{
                 model: TopDTO,
                 attributes: [],
                 where: { flagActive: true, flagPublicado: true },
                 required: true,
                 as: 'Top'
-            }]
-            , include: [{
+            }, {
                 model: TopItemDetalleDTO,
                 required: false,
-                attributes: ['id', 'rutaImagen', 'flagImagenDefaultTop'],
+                attributes: ['id', 'rutaImagen', 'flagImagenDefaultTop', 'flagActive'],
                 where: { flagActive: true }
             }]
             , order: [['updatedDate', 'DESC']]
