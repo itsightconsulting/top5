@@ -1,7 +1,7 @@
 # Don't track content of these folders
 node_modules/
 # dist/
-src/database/config/
+src/orm.database/config/
 *.env
 *.rar
 resumen.txt
