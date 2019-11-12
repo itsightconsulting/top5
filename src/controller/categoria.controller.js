@@ -9,7 +9,7 @@ async function listarCategoria() {
             where: {
                 flagActive: true,
                 flagEliminate: false,
-            }, attributes: ['id', 'name', 'rutaImagenPrincipal']
+            }, attributes: ['id', 'name', 'rutaImagenPrincipal', 'nroOrden']
             , order: [['nroOrden', 'ASC']]
         });
         let data = { total: categoriaBDList.length, datos: categoriaBDList };
