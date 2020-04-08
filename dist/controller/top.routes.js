@@ -512,16 +512,21 @@ function _listarTopItemAutocomplete() {
   _listarTopItemAutocomplete = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee12(req, res) {
-    var keyword, response;
+    var _req$body$data9, pageNumber, pageSize, keyword, response;
+
     return regeneratorRuntime.wrap(function _callee12$(_context12) {
       while (1) {
         switch (_context12.prev = _context12.next) {
           case 0:
             _context12.prev = 0;
             (0, _common.existeJsonData)(req, res);
-            keyword = req.body.data.keyword;
+            _req$body$data9 = req.body.data, pageNumber = _req$body$data9.pageNumber, pageSize = _req$body$data9.pageSize, keyword = _req$body$data9.keyword;
             _context12.next = 5;
-            return _top["default"].listarTopItemAutocomplete(keyword);
+            return _top["default"].listarTopItemAutocomplete({
+              pageNumber: pageNumber,
+              pageSize: pageSize,
+              keyword: keyword
+            });
 
           case 5:
             response = _context12.sent;
@@ -543,25 +548,24 @@ function _listarTopItemAutocomplete() {
   return _listarTopItemAutocomplete.apply(this, arguments);
 }
 
-function listarTopByLugarByCategoria(_x25, _x26) {
-  return _listarTopByLugarByCategoria.apply(this, arguments);
+function listarOptionsAutocomplete(_x25, _x26) {
+  return _listarOptionsAutocomplete.apply(this, arguments);
 }
 
-function _listarTopByLugarByCategoria() {
-  _listarTopByLugarByCategoria = _asyncToGenerator(
+function _listarOptionsAutocomplete() {
+  _listarOptionsAutocomplete = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee13(req, res) {
-    var _req$body$data9, LugarId, categoriaId, response;
-
+    var keyword, response;
     return regeneratorRuntime.wrap(function _callee13$(_context13) {
       while (1) {
         switch (_context13.prev = _context13.next) {
           case 0:
             _context13.prev = 0;
             (0, _common.existeJsonData)(req, res);
-            _req$body$data9 = req.body.data, LugarId = _req$body$data9.LugarId, categoriaId = _req$body$data9.categoriaId;
+            keyword = req.body.data.keyword;
             _context13.next = 5;
-            return _top["default"].listarTopByLugarByCategoria(LugarId, categoriaId);
+            return _top["default"].listarOptionsAutocomplete(keyword);
 
           case 5:
             response = _context13.sent;
@@ -570,7 +574,7 @@ function _listarTopByLugarByCategoria() {
           case 9:
             _context13.prev = 9;
             _context13.t0 = _context13["catch"](0);
-            (0, _common.controlError)("listarTopByLugarByCategoria", _context13.t0);
+            (0, _common.controlError)("listarOptionsAutocomplete", _context13.t0);
             res.status(500).send((0, _common.buildContainer)(false, _context13.t0.message, null, null));
 
           case 13:
@@ -580,55 +584,55 @@ function _listarTopByLugarByCategoria() {
       }
     }, _callee13, null, [[0, 9]]);
   }));
+  return _listarOptionsAutocomplete.apply(this, arguments);
+}
+
+function listarTopByLugarByCategoria(_x27, _x28) {
   return _listarTopByLugarByCategoria.apply(this, arguments);
 }
 
-function getOneTop(_x27, _x28) {
-  return _getOneTop.apply(this, arguments);
-}
-
-function _getOneTop() {
-  _getOneTop = _asyncToGenerator(
+function _listarTopByLugarByCategoria() {
+  _listarTopByLugarByCategoria = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee14(req, res) {
-    var id, createdBy, response;
+    var _req$body$data10, LugarId, categoriaId, response;
+
     return regeneratorRuntime.wrap(function _callee14$(_context14) {
       while (1) {
         switch (_context14.prev = _context14.next) {
           case 0:
             _context14.prev = 0;
             (0, _common.existeJsonData)(req, res);
-            id = req.params.id;
-            createdBy = req.body.data.createdBy;
-            _context14.next = 6;
-            return _top["default"].getOneTop(id, createdBy);
+            _req$body$data10 = req.body.data, LugarId = _req$body$data10.LugarId, categoriaId = _req$body$data10.categoriaId;
+            _context14.next = 5;
+            return _top["default"].listarTopByLugarByCategoria(LugarId, categoriaId);
 
-          case 6:
+          case 5:
             response = _context14.sent;
             return _context14.abrupt("return", res.status(200).send(response));
 
-          case 10:
-            _context14.prev = 10;
+          case 9:
+            _context14.prev = 9;
             _context14.t0 = _context14["catch"](0);
-            (0, _common.controlError)("listarTopGeneral", _context14.t0);
+            (0, _common.controlError)("listarTopByLugarByCategoria", _context14.t0);
             res.status(500).send((0, _common.buildContainer)(false, _context14.t0.message, null, null));
 
-          case 14:
+          case 13:
           case "end":
             return _context14.stop();
         }
       }
-    }, _callee14, null, [[0, 10]]);
+    }, _callee14, null, [[0, 9]]);
   }));
+  return _listarTopByLugarByCategoria.apply(this, arguments);
+}
+
+function getOneTop(_x29, _x30) {
   return _getOneTop.apply(this, arguments);
 }
 
-function getOneTopItem(_x29, _x30) {
-  return _getOneTopItem.apply(this, arguments);
-}
-
-function _getOneTopItem() {
-  _getOneTopItem = _asyncToGenerator(
+function _getOneTop() {
+  _getOneTop = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee15(req, res) {
     var id, createdBy, response;
@@ -641,7 +645,7 @@ function _getOneTopItem() {
             id = req.params.id;
             createdBy = req.body.data.createdBy;
             _context15.next = 6;
-            return _top["default"].getOneTopItem(id, createdBy);
+            return _top["default"].getOneTop(id, createdBy);
 
           case 6:
             response = _context15.sent;
@@ -650,7 +654,7 @@ function _getOneTopItem() {
           case 10:
             _context15.prev = 10;
             _context15.t0 = _context15["catch"](0);
-            (0, _common.controlError)("getOneTopItem", _context15.t0);
+            (0, _common.controlError)("listarTopGeneral", _context15.t0);
             res.status(500).send((0, _common.buildContainer)(false, _context15.t0.message, null, null));
 
           case 14:
@@ -660,65 +664,66 @@ function _getOneTopItem() {
       }
     }, _callee15, null, [[0, 10]]);
   }));
+  return _getOneTop.apply(this, arguments);
+}
+
+function getOneTopItem(_x31, _x32) {
   return _getOneTopItem.apply(this, arguments);
 }
 
-function listarTopDetallePorTop(_x31, _x32) {
+function _getOneTopItem() {
+  _getOneTopItem = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee16(req, res) {
+    var id, createdBy, response;
+    return regeneratorRuntime.wrap(function _callee16$(_context16) {
+      while (1) {
+        switch (_context16.prev = _context16.next) {
+          case 0:
+            _context16.prev = 0;
+            (0, _common.existeJsonData)(req, res);
+            id = req.params.id;
+            createdBy = req.body.data.createdBy;
+            _context16.next = 6;
+            return _top["default"].getOneTopItem(id, createdBy);
+
+          case 6:
+            response = _context16.sent;
+            return _context16.abrupt("return", res.status(200).send(response));
+
+          case 10:
+            _context16.prev = 10;
+            _context16.t0 = _context16["catch"](0);
+            (0, _common.controlError)("getOneTopItem", _context16.t0);
+            res.status(500).send((0, _common.buildContainer)(false, _context16.t0.message, null, null));
+
+          case 14:
+          case "end":
+            return _context16.stop();
+        }
+      }
+    }, _callee16, null, [[0, 10]]);
+  }));
+  return _getOneTopItem.apply(this, arguments);
+}
+
+function listarTopDetallePorTop(_x33, _x34) {
   return _listarTopDetallePorTop.apply(this, arguments);
 }
 
 function _listarTopDetallePorTop() {
   _listarTopDetallePorTop = _asyncToGenerator(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee16(req, res) {
-    var id, response;
-    return regeneratorRuntime.wrap(function _callee16$(_context16) {
-      while (1) {
-        switch (_context16.prev = _context16.next) {
-          case 0:
-            _context16.prev = 0;
-            id = req.body.data.id;
-            _context16.next = 4;
-            return _top["default"].listarTopDetallePorTop(id);
-
-          case 4:
-            response = _context16.sent;
-            return _context16.abrupt("return", res.status(200).send(response));
-
-          case 8:
-            _context16.prev = 8;
-            _context16.t0 = _context16["catch"](0);
-            (0, _common.controlError)("listarTopDetallePorTop", _context16.t0);
-            res.status(500).send((0, _common.buildContainer)(false, _context16.t0.message, null, null));
-
-          case 12:
-          case "end":
-            return _context16.stop();
-        }
-      }
-    }, _callee16, null, [[0, 8]]);
-  }));
-  return _listarTopDetallePorTop.apply(this, arguments);
-}
-
-function listarTopPorUsuarioPorCategoria(_x33, _x34) {
-  return _listarTopPorUsuarioPorCategoria.apply(this, arguments);
-}
-
-function _listarTopPorUsuarioPorCategoria() {
-  _listarTopPorUsuarioPorCategoria = _asyncToGenerator(
-  /*#__PURE__*/
   regeneratorRuntime.mark(function _callee17(req, res) {
-    var _req$body$data10, categoriaId, correoElectronico, response;
-
+    var id, response;
     return regeneratorRuntime.wrap(function _callee17$(_context17) {
       while (1) {
         switch (_context17.prev = _context17.next) {
           case 0:
             _context17.prev = 0;
-            _req$body$data10 = req.body.data, categoriaId = _req$body$data10.categoriaId, correoElectronico = _req$body$data10.correoElectronico;
+            id = req.body.data.id;
             _context17.next = 4;
-            return _top["default"].listarTopPorUsuarioPorCategoria(categoriaId, correoElectronico);
+            return _top["default"].listarTopDetallePorTop(id);
 
           case 4:
             response = _context17.sent;
@@ -727,7 +732,7 @@ function _listarTopPorUsuarioPorCategoria() {
           case 8:
             _context17.prev = 8;
             _context17.t0 = _context17["catch"](0);
-            (0, _common.controlError)("listarTopPorUsuarioPorCategoria", _context17.t0);
+            (0, _common.controlError)("listarTopDetallePorTop", _context17.t0);
             res.status(500).send((0, _common.buildContainer)(false, _context17.t0.message, null, null));
 
           case 12:
@@ -737,27 +742,27 @@ function _listarTopPorUsuarioPorCategoria() {
       }
     }, _callee17, null, [[0, 8]]);
   }));
+  return _listarTopDetallePorTop.apply(this, arguments);
+}
+
+function listarTopPorUsuarioPorCategoria(_x35, _x36) {
   return _listarTopPorUsuarioPorCategoria.apply(this, arguments);
 }
 
-function listarTopPorUsuarioPorFiltro(_x35, _x36) {
-  return _listarTopPorUsuarioPorFiltro.apply(this, arguments);
-}
-
-function _listarTopPorUsuarioPorFiltro() {
-  _listarTopPorUsuarioPorFiltro = _asyncToGenerator(
+function _listarTopPorUsuarioPorCategoria() {
+  _listarTopPorUsuarioPorCategoria = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee18(req, res) {
-    var _req$body$data11, filtro, correoElectronico, response;
+    var _req$body$data11, categoriaId, correoElectronico, response;
 
     return regeneratorRuntime.wrap(function _callee18$(_context18) {
       while (1) {
         switch (_context18.prev = _context18.next) {
           case 0:
             _context18.prev = 0;
-            _req$body$data11 = req.body.data, filtro = _req$body$data11.filtro, correoElectronico = _req$body$data11.correoElectronico;
+            _req$body$data11 = req.body.data, categoriaId = _req$body$data11.categoriaId, correoElectronico = _req$body$data11.correoElectronico;
             _context18.next = 4;
-            return _top["default"].listarTopPorUsuarioPorFiltro(filtro, correoElectronico);
+            return _top["default"].listarTopPorUsuarioPorCategoria(categoriaId, correoElectronico);
 
           case 4:
             response = _context18.sent;
@@ -766,7 +771,7 @@ function _listarTopPorUsuarioPorFiltro() {
           case 8:
             _context18.prev = 8;
             _context18.t0 = _context18["catch"](0);
-            (0, _common.controlError)("listarTopPorUsuarioPorFiltro", _context18.t0);
+            (0, _common.controlError)("listarTopPorUsuarioPorCategoria", _context18.t0);
             res.status(500).send((0, _common.buildContainer)(false, _context18.t0.message, null, null));
 
           case 12:
@@ -776,27 +781,27 @@ function _listarTopPorUsuarioPorFiltro() {
       }
     }, _callee18, null, [[0, 8]]);
   }));
+  return _listarTopPorUsuarioPorCategoria.apply(this, arguments);
+}
+
+function listarTopPorUsuarioPorFiltro(_x37, _x38) {
   return _listarTopPorUsuarioPorFiltro.apply(this, arguments);
 }
 
-function listarTopGeneral(_x37, _x38) {
-  return _listarTopGeneral.apply(this, arguments);
-}
-
-function _listarTopGeneral() {
-  _listarTopGeneral = _asyncToGenerator(
+function _listarTopPorUsuarioPorFiltro() {
+  _listarTopPorUsuarioPorFiltro = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee19(req, res) {
-    var _req$body$data12, categoriaId, cantidad, response;
+    var _req$body$data12, filtro, correoElectronico, response;
 
     return regeneratorRuntime.wrap(function _callee19$(_context19) {
       while (1) {
         switch (_context19.prev = _context19.next) {
           case 0:
             _context19.prev = 0;
-            _req$body$data12 = req.body.data, categoriaId = _req$body$data12.categoriaId, cantidad = _req$body$data12.cantidad;
+            _req$body$data12 = req.body.data, filtro = _req$body$data12.filtro, correoElectronico = _req$body$data12.correoElectronico;
             _context19.next = 4;
-            return _top["default"].listarTopGeneral(categoriaId, cantidad);
+            return _top["default"].listarTopPorUsuarioPorFiltro(filtro, correoElectronico);
 
           case 4:
             response = _context19.sent;
@@ -805,7 +810,7 @@ function _listarTopGeneral() {
           case 8:
             _context19.prev = 8;
             _context19.t0 = _context19["catch"](0);
-            (0, _common.controlError)("listarTopGeneral", _context19.t0);
+            (0, _common.controlError)("listarTopPorUsuarioPorFiltro", _context19.t0);
             res.status(500).send((0, _common.buildContainer)(false, _context19.t0.message, null, null));
 
           case 12:
@@ -814,6 +819,45 @@ function _listarTopGeneral() {
         }
       }
     }, _callee19, null, [[0, 8]]);
+  }));
+  return _listarTopPorUsuarioPorFiltro.apply(this, arguments);
+}
+
+function listarTopGeneral(_x39, _x40) {
+  return _listarTopGeneral.apply(this, arguments);
+}
+
+function _listarTopGeneral() {
+  _listarTopGeneral = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee20(req, res) {
+    var _req$body$data13, categoriaId, cantidad, response;
+
+    return regeneratorRuntime.wrap(function _callee20$(_context20) {
+      while (1) {
+        switch (_context20.prev = _context20.next) {
+          case 0:
+            _context20.prev = 0;
+            _req$body$data13 = req.body.data, categoriaId = _req$body$data13.categoriaId, cantidad = _req$body$data13.cantidad;
+            _context20.next = 4;
+            return _top["default"].listarTopGeneral(categoriaId, cantidad);
+
+          case 4:
+            response = _context20.sent;
+            return _context20.abrupt("return", res.status(200).send(response));
+
+          case 8:
+            _context20.prev = 8;
+            _context20.t0 = _context20["catch"](0);
+            (0, _common.controlError)("listarTopGeneral", _context20.t0);
+            res.status(500).send((0, _common.buildContainer)(false, _context20.t0.message, null, null));
+
+          case 12:
+          case "end":
+            return _context20.stop();
+        }
+      }
+    }, _callee20, null, [[0, 8]]);
   }));
   return _listarTopGeneral.apply(this, arguments);
 }
@@ -828,6 +872,7 @@ module.exports = {
   eliminarTopItem: eliminarTopItem,
   uploadFileTopItemDetalle: uploadFileTopItemDetalle,
   listarTopItemAutocomplete: listarTopItemAutocomplete,
+  listarOptionsAutocomplete: listarOptionsAutocomplete,
   likesTopItem: likesTopItem,
   listarTopPorUsuarioPorCategoria: listarTopPorUsuarioPorCategoria,
   listarTopPorUsuarioPorFiltro: listarTopPorUsuarioPorFiltro,

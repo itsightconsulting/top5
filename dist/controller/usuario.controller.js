@@ -295,7 +295,7 @@ function _loginFacebook() {
             _context5.next = 4;
             return UsuarioDTO.findOne({
               where: {
-                correoElectronico: correoElectronico,
+                correoElectronico: correoElectronico.toLowerCase(),
                 flagActive: true
               },
               attributes: ['correoElectronico', 'id', 'TipoUsuarioId', 'rutaImagenPerfil']
@@ -363,7 +363,7 @@ function _loginFacebook() {
             break;
 
           case 23:
-            correoElectronico = correoElectronico.toLower();
+            correoElectronico = correoElectronico.toLowerCase();
             _context5.next = 26;
             return UsuarioDTO.create({
               nombreCompleto: nombreCompleto,

@@ -94,7 +94,19 @@ function formatAMPM(date) {
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
 }
+function formatoFechaStr(dateDb) {
+    let date = new Date(dateDb);
+    let dateStr = "";
+    if (date) {
+        let dateNow = new Date();
+        let hourFormat = formatAMPM(date);
 
+        if (dateNow.getFullYear() === date.getFullYear())
+            dateStr = date.getDate() + ' ' + monthNamefromDate(date) + ' ' + hourFormat;
+        else dateStr = date.getDate() + ' ' + monthNamefromDate(date) + ' del ' + date.getFullYear() + ' ' + hourFormat;
+    }
+    return dateStr;
+}
 function monthNamefromDate(date) {
     var monthNames = [
         "Enero", "Febrero", "Marzo",
@@ -131,10 +143,10 @@ function formatoPublicacion(datePublicadoStr = "") {
         const durationMinutes = Math.round((dateNow.getTime() - datePublicado.getTime()) / _MS_PER_MINUTE);
 
         // console.log(durationDays, durationHours, durationMinutes);
-        if (durationDays > 0) {
+        if (durationDays > 0 && durationHours >= 24) {
             // SI se registro hace más de un día en el formato: Publicado hace x días
             datePublicadoStr = `Publicado hace ${durationDays} día${durationDays == 1 ? "" : "s"}`;
-        } else if (durationHours > 0) {
+        } else if (durationHours > 0 && durationMinutes >= 60) {
             datePublicadoStr = `Publicado hace ${durationHours} hora${durationHours == 1 ? "" : "s"}`;
         } else if (durationMinutes > 0) {
             // Si se registro hace menos de una hora en el formato: Publicado hace x minutos
@@ -157,8 +169,72 @@ function formatoMeEncanta(cant = 0) {
     return formatoMeEncantaStr = formatoMeEncantaStr + " me encanta";
 }
 function alwaysParseString(word = "") {
-    return `${word}`;
+    if (word) {
+        return CleanWord(word).trim()
+    } else {
+        return "";
+    }
 };
+function CleanWord(filtro) {
+    return replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+        replace(replace(replace(replace(replace(replace(replace(replace(
+            replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+                replace(filtro.toLowerCase(), 'Á', 'A'),
+                'á', 'a'),
+                'à', 'a'),
+                'â', 'a'),
+                'ä', 'a'),
+                'ã', 'a'),
+                'å', 'a'),
+                'À', 'A'),
+                'Â', 'A'),
+                'Ä', 'A'),
+                'Ã', 'A'),
+                'Å', 'A'),
+                'É', 'E'),
+                'ò', 'o'),
+                'ô', 'o'),
+                'ö', 'o'),
+                'õ', 'o'),
+                'Ú', 'U'),
+                'Ù', 'U'),
+                'Û', 'U'),
+                'Ü', 'U'),
+                'ú', 'u'),
+                'ù', 'u'),
+                'û', 'u'),
+                'ü', 'u'),
+                'Ý', 'Y'),
+                'ý', 'y'),
+                'ÿ', 'y'),
+                'ñ', 'n'),
+            'Ñ', 'N'),
+            'È', 'E'),
+            'Ê', 'E'),
+            'Ë', 'E'),
+            'é', 'e'),
+            'è', 'e'),
+            'ê', 'e'),
+            'ë', 'e'),
+        'Í', 'I'),
+        'Ì', 'I'),
+        'Î', 'I'),
+        'Ï', 'I'),
+        'í', 'i'),
+        'ì', 'i'),
+        'î', 'i'),
+        'ï', 'i'),
+        'ó', 'o'),
+        'Ó', 'O'),
+        'Ò', 'O'),
+        'Ô', 'O'),
+        'Ö', 'O'),
+        'Õ', 'O')
+
+}
+function replace(filtro, char, newChar) {
+    return filtro.replace(char, newChar);
+}
 module.exports = {
     agregarCamposBaseAuditoria,
     agregarCamposBase,
@@ -167,5 +243,6 @@ module.exports = {
     formatAMPM,
     formatoPublicacion,
     alwaysParseString,
-    formatoMeEncanta
+    formatoMeEncanta,
+    formatoFechaStr
 }

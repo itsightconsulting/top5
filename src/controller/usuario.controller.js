@@ -112,7 +112,7 @@ async function loginFacebook(data) {
 
         let usuario = await UsuarioDTO.findOne({
             where: {
-                correoElectronico: correoElectronico,
+                correoElectronico: correoElectronico.toLowerCase(),
                 flagActive: true
             }, attributes: ['correoElectronico', 'id', 'TipoUsuarioId', 'rutaImagenPerfil']
         });
@@ -138,7 +138,7 @@ async function loginFacebook(data) {
                 return buildContainer(false, 'Email ya se encuentra registrado', null, null);
             }
         } else {
-            correoElectronico = correoElectronico.toLower();
+            correoElectronico = correoElectronico.toLowerCase();
             let newUsuario = await UsuarioDTO.create({
                 nombreCompleto
                 , correoElectronico
