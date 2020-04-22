@@ -86,7 +86,7 @@ async function listarTopPorUsuario(objParams) {
 
         let queryObject = {
             where: whereConditions
-            , attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedDate', 'updatedDateStr', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr']
+            , attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedDate', 'updatedDateStr', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr', 'orderItems']
             , include: [{
                 model: models.Categoria
                 , as: 'Categoria'

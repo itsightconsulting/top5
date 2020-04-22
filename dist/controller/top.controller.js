@@ -208,7 +208,7 @@ function _listarTopPorUsuario() {
             if (CategoriaId) whereConditions.CategoriaId = CategoriaId;
             queryObject = {
               where: whereConditions,
-              attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedDate', 'updatedDateStr', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr'],
+              attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedDate', 'updatedDateStr', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr', 'orderItems'],
               include: [{
                 model: _index["default"].Categoria,
                 as: 'Categoria',
