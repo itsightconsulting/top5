@@ -113,7 +113,11 @@ function _publicarTop() {
   _publicarTop = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee3(req, res) {
+<<<<<<< HEAD
     var _req$body$data, id, updatedDate, createdBy, flagPublicado, response;
+=======
+    var _req$body$data, id, updatedAt, createdBy, flagPublicado, response;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
@@ -121,9 +125,15 @@ function _publicarTop() {
           case 0:
             _context3.prev = 0;
             (0, _common.existeJsonData)(req, res);
+<<<<<<< HEAD
             _req$body$data = req.body.data, id = _req$body$data.id, updatedDate = _req$body$data.updatedDate, createdBy = _req$body$data.createdBy, flagPublicado = _req$body$data.flagPublicado;
             _context3.next = 5;
             return _top["default"].publicarTop(id, updatedDate, createdBy, flagPublicado);
+=======
+            _req$body$data = req.body.data, id = _req$body$data.id, updatedAt = _req$body$data.updatedAt, createdBy = _req$body$data.createdBy, flagPublicado = _req$body$data.flagPublicado;
+            _context3.next = 5;
+            return _top["default"].publicarTop(id, updatedAt, createdBy, flagPublicado);
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
           case 5:
             response = _context3.sent;
@@ -153,16 +163,26 @@ function _eliminarTop() {
   _eliminarTop = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee4(req, res) {
+<<<<<<< HEAD
     var _req$body$data2, id, updatedDate, createdBy, response;
+=======
+    var _req$body$data2, id, updatedAt, createdBy, response;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
             _context4.prev = 0;
+<<<<<<< HEAD
             _req$body$data2 = req.body.data, id = _req$body$data2.id, updatedDate = _req$body$data2.updatedDate, createdBy = _req$body$data2.createdBy;
             _context4.next = 4;
             return _top["default"].eliminarTop(id, updatedDate, createdBy);
+=======
+            _req$body$data2 = req.body.data, id = _req$body$data2.id, updatedAt = _req$body$data2.updatedAt, createdBy = _req$body$data2.createdBy;
+            _context4.next = 4;
+            return _top["default"].eliminarTop(id, updatedAt, createdBy);
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
           case 4:
             response = _context4.sent;
@@ -384,16 +404,26 @@ function _eliminarTopItem() {
   _eliminarTopItem = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee9(req, res) {
+<<<<<<< HEAD
     var _req$body$data7, id, updatedDate, createdBy, response;
+=======
+    var _req$body$data7, id, updatedAt, createdBy, response;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
             _context9.prev = 0;
+<<<<<<< HEAD
             _req$body$data7 = req.body.data, id = _req$body$data7.id, updatedDate = _req$body$data7.updatedDate, createdBy = _req$body$data7.createdBy;
             _context9.next = 4;
             return _top["default"].eliminarTopItem(id, updatedDate, createdBy);
+=======
+            _req$body$data7 = req.body.data, id = _req$body$data7.id, updatedAt = _req$body$data7.updatedAt, createdBy = _req$body$data7.createdBy;
+            _context9.next = 4;
+            return _top["default"].eliminarTopItem(id, updatedAt, createdBy);
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
           case 4:
             response = _context9.sent;
@@ -423,7 +453,11 @@ function _likesTopItem() {
   _likesTopItem = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee10(req, res) {
+<<<<<<< HEAD
     var _req$body$data8, id, updatedDate, createdBy, flagLike, response;
+=======
+    var _req$body$data8, id, updatedAt, createdBy, flagLike, response;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
     return regeneratorRuntime.wrap(function _callee10$(_context10) {
       while (1) {
@@ -431,9 +465,15 @@ function _likesTopItem() {
           case 0:
             _context10.prev = 0;
             (0, _common.existeJsonData)(req, res);
+<<<<<<< HEAD
             _req$body$data8 = req.body.data, id = _req$body$data8.id, updatedDate = _req$body$data8.updatedDate, createdBy = _req$body$data8.createdBy, flagLike = _req$body$data8.flagLike;
             _context10.next = 5;
             return _top["default"].likesTopItem(id, updatedDate, createdBy, flagLike);
+=======
+            _req$body$data8 = req.body.data, id = _req$body$data8.id, updatedAt = _req$body$data8.updatedAt, createdBy = _req$body$data8.createdBy, flagLike = _req$body$data8.flagLike;
+            _context10.next = 5;
+            return _top["default"].likesTopItem(id, updatedAt, createdBy, flagLike);
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
           case 5:
             response = _context10.sent;
@@ -463,7 +503,11 @@ function _uploadFileTopItemDetalle() {
   _uploadFileTopItemDetalle = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee11(req, res) {
+<<<<<<< HEAD
     var files, _req$body, id, path, nameImageDefault, updatedDate, createdBy, response;
+=======
+    var files, _req$body, id, path, nameImageDefault, updatedAt, createdBy, response;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
     return regeneratorRuntime.wrap(function _callee11$(_context11) {
       while (1) {
@@ -471,14 +515,22 @@ function _uploadFileTopItemDetalle() {
           case 0:
             _context11.prev = 0;
             files = req.files.image;
+<<<<<<< HEAD
             _req$body = req.body, id = _req$body.id, path = _req$body.path, nameImageDefault = _req$body.nameImageDefault, updatedDate = _req$body.updatedDate, createdBy = _req$body.createdBy;
+=======
+            _req$body = req.body, id = _req$body.id, path = _req$body.path, nameImageDefault = _req$body.nameImageDefault, updatedAt = _req$body.updatedAt, createdBy = _req$body.createdBy;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             files = [].concat(files);
             _context11.next = 6;
             return _top["default"].uploadFileTopItemDetalle({
               id: id,
               path: path,
               nameImageDefault: nameImageDefault,
+<<<<<<< HEAD
               updatedDate: updatedDate,
+=======
+              updatedAt: updatedAt,
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               createdBy: createdBy
             }, files);
 

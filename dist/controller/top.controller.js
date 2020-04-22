@@ -38,6 +38,7 @@ function _createOrUpdateTop() {
           case 0:
             _context.prev = 0;
             response = null;
+<<<<<<< HEAD
             topBD = null; // console.log(objTop.updatedDate);
 
             if (!objTop.id) {
@@ -46,6 +47,17 @@ function _createOrUpdateTop() {
             }
 
             _context.next = 6;
+=======
+            topBD = null;
+            console.log(objTop.updatedAt);
+
+            if (!objTop.id) {
+              _context.next = 10;
+              break;
+            }
+
+            _context.next = 7;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             return TopDTO.update({
               titulo: objTop.titulo,
               flagPublicado: objTop.flagPublicado,
@@ -53,13 +65,18 @@ function _createOrUpdateTop() {
               flagActive: true,
               flagEliminate: false,
               updatedBy: objTop.createdBy,
+<<<<<<< HEAD
               updatedDate: objTop.updatedDate
+=======
+              updatedAt: objTop.updatedAt
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             }, {
               where: {
                 id: objTop.id
               }
             });
 
+<<<<<<< HEAD
           case 6:
             topBD = _context.sent;
             _context.next = 12;
@@ -67,12 +84,22 @@ function _createOrUpdateTop() {
 
           case 9:
             _context.next = 11;
+=======
+          case 7:
+            topBD = _context.sent;
+            _context.next = 13;
+            break;
+
+          case 10:
+            _context.next = 12;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             return TopDTO.create({
               titulo: objTop.titulo,
               CategoriaId: objTop.CategoriaId,
               flagActive: true,
               flagEliminate: false,
               createdBy: objTop.createdBy,
+<<<<<<< HEAD
               createdDate: objTop.createdDate,
               updatedDate: objTop.updatedDate
             }, {
@@ -83,17 +110,34 @@ function _createOrUpdateTop() {
             topBD = _context.sent;
 
           case 12:
+=======
+              createdAt: objTop.createdAt,
+              updatedAt: objTop.updatedAt
+            }, {
+              fields: ['titulo', 'CategoriaId', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt']
+            });
+
+          case 12:
+            topBD = _context.sent;
+
+          case 13:
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             if (topBD) {
               response = (0, _common.buildContainer)(true, '', topBD, null);
             }
 
             if (!(response === null)) {
+<<<<<<< HEAD
               _context.next = 15;
+=======
+              _context.next = 16;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               break;
             }
 
             throw new Error('No se pudo crear top');
 
+<<<<<<< HEAD
           case 15:
             return _context.abrupt("return", response);
 
@@ -103,11 +147,26 @@ function _createOrUpdateTop() {
             throw _context.t0;
 
           case 21:
+=======
+          case 16:
+            return _context.abrupt("return", response);
+
+          case 19:
+            _context.prev = 19;
+            _context.t0 = _context["catch"](0);
+            throw _context.t0;
+
+          case 22:
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
           case "end":
             return _context.stop();
         }
       }
+<<<<<<< HEAD
     }, _callee, null, [[0, 18]]);
+=======
+    }, _callee, null, [[0, 19]]);
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
   }));
   return _createOrUpdateTop.apply(this, arguments);
 }
@@ -142,16 +201,26 @@ function _listarTopPorUsuario() {
             if (CategoriaId) whereConditions.CategoriaId = CategoriaId;
             queryObject = {
               where: whereConditions,
+<<<<<<< HEAD
               attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedDate', 'updatedDateStr', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr'],
+=======
+              attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedAt', 'updatedAtStr', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr'],
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               include: [{
                 model: _index["default"].Categoria,
                 as: 'Categoria',
                 where: {
                   flagActive: true
                 },
+<<<<<<< HEAD
                 attributes: ['name', 'nroOrden']
               }],
               order: [['fechaPublicado', 'DESC'], ['updatedDate', 'DESC']]
+=======
+                attributes: ['name']
+              }],
+              order: [['fechaPublicado', 'DESC'], ['updatedAt', 'DESC']]
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             };
 
             if (pageNumber && pageSize) {
@@ -284,7 +353,11 @@ function publicarTop(_x3, _x4, _x5, _x6) {
 function _publicarTop() {
   _publicarTop = _asyncToGenerator(
   /*#__PURE__*/
+<<<<<<< HEAD
   regeneratorRuntime.mark(function _callee3(id, updatedDate, createdBy, flagPublicado) {
+=======
+  regeneratorRuntime.mark(function _callee3(id, updatedAt, createdBy, flagPublicado) {
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     var response;
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
@@ -301,8 +374,13 @@ function _publicarTop() {
             _context3.next = 5;
             return TopDTO.update({
               flagPublicado: flagPublicado,
+<<<<<<< HEAD
               fechaPublicado: updatedDate,
               updatedDate: updatedDate
+=======
+              fechaPublicado: updatedAt,
+              updatedAt: updatedAt
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             }, {
               where: {
                 id: id,
@@ -348,7 +426,11 @@ function eliminarTop(_x7, _x8, _x9) {
 function _eliminarTop() {
   _eliminarTop = _asyncToGenerator(
   /*#__PURE__*/
+<<<<<<< HEAD
   regeneratorRuntime.mark(function _callee4(id, updatedDate, createdBy) {
+=======
+  regeneratorRuntime.mark(function _callee4(id, updatedAt, createdBy) {
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     var response, topBd;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
@@ -366,7 +448,11 @@ function _eliminarTop() {
             return TopDTO.update({
               flagActive: false,
               flagEliminate: true,
+<<<<<<< HEAD
               updatedDate: updatedDate,
+=======
+              updatedAt: updatedAt,
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               updatedBy: createdBy
             }, {
               where: {
@@ -517,11 +603,19 @@ function _listarTopPublicadoPorUsuario() {
             if (CategoriaId) whereConditionsTop.CategoriaId = CategoriaId;
             queryObject = {
               where: whereConditions,
+<<<<<<< HEAD
               attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr'],
               include: [{
                 model: TopDTO,
                 where: whereConditionsTop,
                 attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedDate'],
+=======
+              attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedAt', 'updatedAtStr'],
+              include: [{
+                model: TopDTO,
+                where: whereConditionsTop,
+                attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt'],
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
                 include: [{
                   required: true,
                   model: _index["default"].Categoria,
@@ -547,7 +641,11 @@ function _listarTopPublicadoPorUsuario() {
                 model: TopItemLikeDTO,
                 attributes: ['id', 'UsuarioId']
               }],
+<<<<<<< HEAD
               order: [['updatedDate', 'DESC']]
+=======
+              order: [['updatedAt', 'DESC']]
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             }; // if (pageNumber && pageSize) {
 
             queryObject.offset = (pageNumber - 1) * pageSize;
@@ -691,7 +789,11 @@ function _listarTopItemByTop() {
             if (TopId) whereConditions.TopId = TopId;
             queryObject = {
               where: whereConditions,
+<<<<<<< HEAD
               attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedDate', 'updatedDateStr', 'LugarId'],
+=======
+              attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedAt', 'updatedAtStr', 'LugarId'],
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               include: [{
                 model: TopItemDetalleDTO,
                 required: false,
@@ -702,6 +804,7 @@ function _listarTopItemByTop() {
               }, {
                 model: _index["default"].Lugar,
                 attributes: ['id', 'name', 'address', 'latitude', 'longitude']
+<<<<<<< HEAD
               }, {
                 required: false,
                 where: {
@@ -711,6 +814,10 @@ function _listarTopItemByTop() {
                 attributes: ['id', 'UsuarioId']
               }],
               order: [['updatedDate', 'DESC']]
+=======
+              }],
+              order: [['updatedAt', 'DESC']]
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             };
 
             if (pageNumber && pageSize) {
@@ -844,7 +951,11 @@ function _listarTopItemByLugar() {
   _listarTopItemByLugar = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee8(lugarId, _ref2) {
+<<<<<<< HEAD
     var pageNumber, pageSize, response, topItemBD, queryObject, totalRows, _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, element, topItem, UsuarioBd;
+=======
+    var pageNumber, pageSize, _queryObject, response, topItemBD, queryObject, totalRows, _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, element, topItem, UsuarioBd;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
     return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
@@ -852,16 +963,26 @@ function _listarTopItemByLugar() {
           case 0:
             pageNumber = _ref2.pageNumber, pageSize = _ref2.pageSize;
             _context8.prev = 1;
+<<<<<<< HEAD
             console.log("listarTopItemByLugar");
             response = null;
             topItemBD = null;
             queryObject = {
+=======
+            response = null;
+            topItemBD = null;
+            queryObject = (_queryObject = {
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               where: {
                 flagActive: true,
                 LugarId: lugarId,
                 TopId: _defineProperty({}, Op.ne, null)
               },
+<<<<<<< HEAD
               attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedDate', 'updatedDateStr', 'flagActive'],
+=======
+              attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedAt', 'updatedAtStr'],
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               include: [{
                 model: TopDTO,
                 attributes: [],
@@ -871,6 +992,7 @@ function _listarTopItemByLugar() {
                 },
                 required: true,
                 as: 'Top'
+<<<<<<< HEAD
               }, {
                 model: TopItemDetalleDTO,
                 required: false,
@@ -881,39 +1003,74 @@ function _listarTopItemByLugar() {
               }],
               order: [['updatedDate', 'DESC']]
             };
+=======
+              }]
+            }, _defineProperty(_queryObject, "include", [{
+              model: TopItemDetalleDTO,
+              required: false,
+              attributes: ['id', 'rutaImagen', 'flagImagenDefaultTop'],
+              where: {
+                flagActive: true
+              }
+            }]), _defineProperty(_queryObject, "order", [['updatedAt', 'DESC']]), _queryObject);
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
             if (pageNumber && pageSize) {
               queryObject.offset = (pageNumber - 1) * pageSize;
               queryObject.limit = pageSize;
             }
 
+<<<<<<< HEAD
             _context8.next = 9;
             return TopItemDTO.findAll(queryObject);
 
           case 9:
+=======
+            _context8.next = 8;
+            return TopItemDTO.findAll(queryObject);
+
+          case 8:
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             topItemBD = _context8.sent;
             totalRows = topItemBD.length || 0;
 
             if (!(totalRows > 0)) {
+<<<<<<< HEAD
               _context8.next = 44;
+=======
+              _context8.next = 43;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               break;
             }
 
             _iteratorNormalCompletion4 = true;
             _didIteratorError4 = false;
             _iteratorError4 = undefined;
+<<<<<<< HEAD
             _context8.prev = 15;
             _iterator4 = topItemBD[Symbol.iterator]();
 
           case 17:
             if (_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done) {
               _context8.next = 27;
+=======
+            _context8.prev = 14;
+            _iterator4 = topItemBD[Symbol.iterator]();
+
+          case 16:
+            if (_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done) {
+              _context8.next = 26;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               break;
             }
 
             element = _step4.value;
             topItem = element.dataValues;
+<<<<<<< HEAD
             _context8.next = 22;
+=======
+            _context8.next = 21;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             return _index["default"].Usuario.findOne({
               where: {
                 id: topItem.createdBy,
@@ -922,13 +1079,18 @@ function _listarTopItemByLugar() {
               attributes: ['id', 'nombreCompleto', 'rutaImagenPerfil']
             });
 
+<<<<<<< HEAD
           case 22:
+=======
+          case 21:
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             UsuarioBd = _context8.sent;
 
             if (UsuarioBd) {
               topItem.Usuarios = UsuarioBd.dataValues;
             }
 
+<<<<<<< HEAD
           case 24:
             _iteratorNormalCompletion4 = true;
             _context8.next = 17;
@@ -947,21 +1109,50 @@ function _listarTopItemByLugar() {
           case 33:
             _context8.prev = 33;
             _context8.prev = 34;
+=======
+          case 23:
+            _iteratorNormalCompletion4 = true;
+            _context8.next = 16;
+            break;
+
+          case 26:
+            _context8.next = 32;
+            break;
+
+          case 28:
+            _context8.prev = 28;
+            _context8.t0 = _context8["catch"](14);
+            _didIteratorError4 = true;
+            _iteratorError4 = _context8.t0;
+
+          case 32:
+            _context8.prev = 32;
+            _context8.prev = 33;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
             if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
               _iterator4["return"]();
             }
 
+<<<<<<< HEAD
           case 36:
             _context8.prev = 36;
 
             if (!_didIteratorError4) {
               _context8.next = 39;
+=======
+          case 35:
+            _context8.prev = 35;
+
+            if (!_didIteratorError4) {
+              _context8.next = 38;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               break;
             }
 
             throw _iteratorError4;
 
+<<<<<<< HEAD
           case 39:
             return _context8.finish(36);
 
@@ -969,19 +1160,36 @@ function _listarTopItemByLugar() {
             return _context8.finish(33);
 
           case 41:
+=======
+          case 38:
+            return _context8.finish(35);
+
+          case 39:
+            return _context8.finish(32);
+
+          case 40:
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             response = (0, _common.buildContainer)(true, '', {
               dataValues: topItemBD,
               totalRows: totalRows
             }, null);
+<<<<<<< HEAD
             _context8.next = 45;
             break;
 
           case 44:
+=======
+            _context8.next = 44;
+            break;
+
+          case 43:
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             response = (0, _common.buildContainer)(true, '', {
               dataValues: [],
               totalRows: totalRows
             }, null);
 
+<<<<<<< HEAD
           case 45:
             return _context8.abrupt("return", response);
 
@@ -991,11 +1199,26 @@ function _listarTopItemByLugar() {
             throw _context8.t1;
 
           case 51:
+=======
+          case 44:
+            return _context8.abrupt("return", response);
+
+          case 47:
+            _context8.prev = 47;
+            _context8.t1 = _context8["catch"](1);
+            throw _context8.t1;
+
+          case 50:
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
           case "end":
             return _context8.stop();
         }
       }
+<<<<<<< HEAD
     }, _callee8, null, [[1, 48], [15, 29, 33, 41], [34,, 36, 40]]);
+=======
+    }, _callee8, null, [[1, 47], [14, 28, 32, 40], [33,, 35, 39]]);
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
   }));
   return _listarTopItemByLugar.apply(this, arguments);
 }
@@ -1007,7 +1230,11 @@ function eliminarTopItem(_x15, _x16, _x17) {
 function _eliminarTopItem() {
   _eliminarTopItem = _asyncToGenerator(
   /*#__PURE__*/
+<<<<<<< HEAD
   regeneratorRuntime.mark(function _callee9(id, updatedDate, createdBy) {
+=======
+  regeneratorRuntime.mark(function _callee9(id, updatedAt, createdBy) {
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     var response, topBd, eliminarDetalle;
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
@@ -1025,7 +1252,11 @@ function _eliminarTopItem() {
             return TopItemDTO.update({
               flagActive: false,
               flagEliminate: true,
+<<<<<<< HEAD
               updatedDate: updatedDate,
+=======
+              updatedAt: updatedAt,
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               updatedBy: createdBy
             }, {
               where: {
@@ -1089,7 +1320,11 @@ function _likesTopItem() {
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee10() {
     var TopItemId,
+<<<<<<< HEAD
         updatedDate,
+=======
+        updatedAt,
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         createdBy,
         flagLike,
         response,
@@ -1102,7 +1337,11 @@ function _likesTopItem() {
         switch (_context10.prev = _context10.next) {
           case 0:
             TopItemId = _args10.length > 0 && _args10[0] !== undefined ? _args10[0] : 0;
+<<<<<<< HEAD
             updatedDate = _args10.length > 1 ? _args10[1] : undefined;
+=======
+            updatedAt = _args10.length > 1 ? _args10[1] : undefined;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             createdBy = _args10.length > 2 ? _args10[2] : undefined;
             flagLike = _args10.length > 3 && _args10[3] !== undefined ? _args10[3] : false;
             _context10.prev = 4;
@@ -1131,7 +1370,11 @@ function _likesTopItem() {
             }
 
             queryObject = {
+<<<<<<< HEAD
               updatedDate: updatedDate
+=======
+              updatedAt: updatedAt
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             };
 
             if (flagLike) {
@@ -1160,10 +1403,17 @@ function _likesTopItem() {
               flagEliminate: false,
               TopItemId: TopItemId,
               UsuarioId: createdBy,
+<<<<<<< HEAD
               createdDate: updatedDate,
               updatedDate: updatedDate
             }, {
               fields: ['flagActive', 'flagEliminate', 'TopItemId', 'UsuarioId', 'createdDate', 'updatedDate']
+=======
+              createdAt: updatedAt,
+              updatedAt: updatedAt
+            }, {
+              fields: ['flagActive', 'flagEliminate', 'TopItemId', 'UsuarioId', 'createdAt', 'updatedAt']
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
 
           case 19:
@@ -1206,7 +1456,11 @@ function _uploadFileTopItemDetalle() {
   _uploadFileTopItemDetalle = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee11(topItemDetalle, files) {
+<<<<<<< HEAD
     var response, bucketName, id, path, _topItemDetalle$nameI, nameImageDefault, updatedDate, createdBy, TopItemId, response_1, _iteratorNormalCompletion5, _didIteratorError5, _iteratorError5, _iterator5, _step5, file, name, size, mimetype, key, _ref4, Location, TopItemDetalle;
+=======
+    var response, bucketName, id, path, _topItemDetalle$nameI, nameImageDefault, updatedAt, createdBy, TopItemId, response_1, _iteratorNormalCompletion5, _didIteratorError5, _iteratorError5, _iterator5, _step5, file, name, size, mimetype, key, _ref4, Location, TopItemDetalle;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
     return regeneratorRuntime.wrap(function _callee11$(_context11) {
       while (1) {
@@ -1221,11 +1475,19 @@ function _uploadFileTopItemDetalle() {
               break;
             }
 
+<<<<<<< HEAD
             id = topItemDetalle.id, path = topItemDetalle.path, _topItemDetalle$nameI = topItemDetalle.nameImageDefault, nameImageDefault = _topItemDetalle$nameI === void 0 ? "" : _topItemDetalle$nameI, updatedDate = topItemDetalle.updatedDate, createdBy = topItemDetalle.createdBy;
             TopItemId = id; // eliminar imagenes anteriores
 
             _context11.next = 8;
             return eliminarTopItemDetalleByTopItem(TopItemId, updatedDate, createdBy);
+=======
+            id = topItemDetalle.id, path = topItemDetalle.path, _topItemDetalle$nameI = topItemDetalle.nameImageDefault, nameImageDefault = _topItemDetalle$nameI === void 0 ? "" : _topItemDetalle$nameI, updatedAt = topItemDetalle.updatedAt, createdBy = topItemDetalle.createdBy;
+            TopItemId = id; // eliminar imagenes anteriores
+
+            _context11.next = 8;
+            return eliminarTopItemDetalleByTopItem(TopItemId, updatedAt, createdBy);
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
           case 8:
             response_1 = _context11.sent;
@@ -1259,9 +1521,15 @@ function _uploadFileTopItemDetalle() {
             TopItemDetalle = {
               rutaImagen: Location,
               flagImagenDefaultTop: false,
+<<<<<<< HEAD
               updatedDate: updatedDate,
               createdBy: createdBy,
               createdDate: updatedDate,
+=======
+              updatedAt: updatedAt,
+              createdBy: createdBy,
+              createdAt: updatedAt,
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               TopItemId: TopItemId
             };
 
@@ -1341,7 +1609,11 @@ function _createOrUpdateTopItemDetalle() {
   _createOrUpdateTopItemDetalle = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee12(TopItemDetalle) {
+<<<<<<< HEAD
     var queryObject, dataValues, _ref5;
+=======
+    var queryObject, _ref5, dataValues, _ref6;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
     return regeneratorRuntime.wrap(function _callee12$(_context12) {
       while (1) {
@@ -1353,11 +1625,19 @@ function _createOrUpdateTopItemDetalle() {
               flagImagenDefaultTop: TopItemDetalle.flagImagenDefaultTop,
               flagActive: true,
               flagEliminate: false,
+<<<<<<< HEAD
               updatedDate: TopItemDetalle.updatedDate
             };
 
             if (!TopItemDetalle.id) {
               _context12.next = 9;
+=======
+              updatedAt: TopItemDetalle.updatedAt
+            };
+
+            if (!TopItemDetalle.id) {
+              _context12.next = 10;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               break;
             }
 
@@ -1370,6 +1650,7 @@ function _createOrUpdateTopItemDetalle() {
             });
 
           case 6:
+<<<<<<< HEAD
             dataValues = TopItemDetalle;
             _context12.next = 16;
             break;
@@ -1396,11 +1677,44 @@ function _createOrUpdateTopItemDetalle() {
             throw _context12.t0;
 
           case 22:
+=======
+            _ref5 = _context12.sent;
+            dataValues = _ref5.dataValues;
+            _context12.next = 17;
+            break;
+
+          case 10:
+            queryObject.createdBy = TopItemDetalle.createdBy;
+            queryObject.createdAt = TopItemDetalle.createdAt;
+            queryObject.TopItemId = TopItemDetalle.TopItemId;
+            _context12.next = 15;
+            return TopItemDetalleDTO.create(queryObject, {
+              fields: ['rutaImagen', 'flagImagenDefaultTop', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt', 'TopItemId']
+            });
+
+          case 15:
+            _ref6 = _context12.sent;
+            dataValues = _ref6.dataValues;
+
+          case 17:
+            return _context12.abrupt("return", (0, _common.buildContainer)(true, '', dataValues, null));
+
+          case 20:
+            _context12.prev = 20;
+            _context12.t0 = _context12["catch"](0);
+            throw _context12.t0;
+
+          case 23:
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
           case "end":
             return _context12.stop();
         }
       }
+<<<<<<< HEAD
     }, _callee12, null, [[0, 19]]);
+=======
+    }, _callee12, null, [[0, 20]]);
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
   }));
   return _createOrUpdateTopItemDetalle.apply(this, arguments);
 }
@@ -1412,7 +1726,11 @@ function eliminarTopItemDetalleByTopItem(_x21, _x22, _x23) {
 function _eliminarTopItemDetalleByTopItem() {
   _eliminarTopItemDetalleByTopItem = _asyncToGenerator(
   /*#__PURE__*/
+<<<<<<< HEAD
   regeneratorRuntime.mark(function _callee13(TopItemId, updatedDate, createdBy) {
+=======
+  regeneratorRuntime.mark(function _callee13(TopItemId, updatedAt, createdBy) {
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     var response;
     return regeneratorRuntime.wrap(function _callee13$(_context13) {
       while (1) {
@@ -1430,7 +1748,11 @@ function _eliminarTopItemDetalleByTopItem() {
             return TopItemDetalleDTO.update({
               flagActive: false,
               flagEliminate: true,
+<<<<<<< HEAD
               updatedDate: updatedDate,
+=======
+              updatedAt: updatedAt,
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               updatedBy: createdBy
             }, {
               where: {
@@ -1518,14 +1840,22 @@ function _listarTopItemAutocomplete() {
                 flagActive: true,
                 id: listTopItemBD
               },
+<<<<<<< HEAD
               attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr'],
+=======
+              attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedAt', 'updatedAtStr'],
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               include: [{
                 model: TopDTO,
                 where: {
                   flagActive: true,
                   flagPublicado: true
                 },
+<<<<<<< HEAD
                 attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedDate'],
+=======
+                attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt'],
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
                 include: [{
                   required: true,
                   model: _index["default"].Categoria,
@@ -1553,7 +1883,11 @@ function _listarTopItemAutocomplete() {
                 model: TopItemLikeDTO,
                 attributes: ['id', 'UsuarioId']
               }],
+<<<<<<< HEAD
               order: [['updatedDate', 'DESC']]
+=======
+              order: [['updatedAt', 'DESC']]
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             };
             queryObject.offset = (pageNumber - 1) * pageSize;
             queryObject.limit = pageSize; // console.log(queryObject);
@@ -1828,16 +2162,26 @@ function _getOneTop() {
                 createdBy: createdBy,
                 flagActive: true
               },
+<<<<<<< HEAD
               attributes: ['id', 'titulo', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr', 'updatedDate', 'updatedDateStr'],
+=======
+              attributes: ['id', 'titulo', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt', 'updatedAtStr'],
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               include: [{
                 model: _index["default"].Categoria,
                 as: 'Categoria',
                 where: {
                   flagActive: true
                 },
+<<<<<<< HEAD
                 attributes: ['id', 'name', 'updatedDate']
               }],
               order: [['fechaPublicado', 'DESC'], ['updatedDate', 'DESC']]
+=======
+                attributes: ['id', 'name', 'updatedAt']
+              }],
+              order: [['fechaPublicado', 'DESC'], ['updatedAt', 'DESC']]
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
 
           case 5:
@@ -1896,7 +2240,11 @@ function _getOneTopItem() {
                 createdBy: createdBy,
                 flagActive: true
               },
+<<<<<<< HEAD
               attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr'],
+=======
+              attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedAt', 'updatedAtStr'],
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               include: [{
                 model: TopItemDetalleDTO,
                 where: {
@@ -1947,7 +2295,11 @@ function _createdOrUpdatedTopItem() {
   _createdOrUpdatedTopItem = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee18(objTopItem) {
+<<<<<<< HEAD
     var queryObject, dataValues, _ref6;
+=======
+    var queryObject, dataValues, _ref7;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
     return regeneratorRuntime.wrap(function _callee18$(_context18) {
       while (1) {
@@ -1961,7 +2313,11 @@ function _createdOrUpdatedTopItem() {
               TopId: objTopItem.TopId,
               flagActive: true,
               flagEliminate: false,
+<<<<<<< HEAD
               updatedDate: objTopItem.updatedDate
+=======
+              updatedAt: objTopItem.updatedAt
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             };
 
             if (!objTopItem.id) {
@@ -1984,6 +2340,7 @@ function _createdOrUpdatedTopItem() {
 
           case 9:
             queryObject.createdBy = objTopItem.createdBy;
+<<<<<<< HEAD
             queryObject.createdDate = objTopItem.createdDate;
             _context18.next = 13;
             return TopItemDTO.create(queryObject, {
@@ -1993,6 +2350,17 @@ function _createdOrUpdatedTopItem() {
           case 13:
             _ref6 = _context18.sent;
             dataValues = _ref6.dataValues;
+=======
+            queryObject.createdAt = objTopItem.createdAt;
+            _context18.next = 13;
+            return TopItemDTO.create(queryObject, {
+              fields: ['descripcion', 'valoracion', 'LugarId', 'TopId', 'flagActive', 'flagEliminate', 'updatedAt', 'createdBy', 'createdAt']
+            });
+
+          case 13:
+            _ref7 = _context18.sent;
+            dataValues = _ref7.dataValues;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
           case 15:
             return _context18.abrupt("return", (0, _common.buildContainer)(true, '', dataValues, null));
@@ -2019,8 +2387,13 @@ function eliminatedAndcreateOrUpdateTopItemDetalle(_x30, _x31, _x32, _x33, _x34,
 function _eliminatedAndcreateOrUpdateTopItemDetalle() {
   _eliminatedAndcreateOrUpdateTopItemDetalle = _asyncToGenerator(
   /*#__PURE__*/
+<<<<<<< HEAD
   regeneratorRuntime.mark(function _callee19(TopId, createdBy, updatedDate, objListTopItemDetalle, files, idsEliminar, transact) {
     var response, responseEliminarTopItemDetalle, _iteratorNormalCompletion7, _didIteratorError7, _iteratorError7, _iterator7, _step7, element, topItemDetalleBD, rutaImagen, id, queryObject, _queryObject;
+=======
+  regeneratorRuntime.mark(function _callee19(TopId, createdBy, updatedAt, objListTopItemDetalle, files, idsEliminar, transact) {
+    var response, responseEliminarTopItemDetalle, _iteratorNormalCompletion7, _didIteratorError7, _iteratorError7, _iterator7, _step7, element, topItemDetalleBD, rutaImagen, id, queryObject, _queryObject2;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
     return regeneratorRuntime.wrap(function _callee19$(_context19) {
       while (1) {
@@ -2035,7 +2408,11 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
             }
 
             _context19.next = 5;
+<<<<<<< HEAD
             return eliminarTopItemDetalle(updatedDate, idsEliminar, transact);
+=======
+            return eliminarTopItemDetalle(updatedAt, idsEliminar, transact);
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
           case 5:
             responseEliminarTopItemDetalle = _context19.sent;
@@ -2076,7 +2453,11 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
               flagActive: true,
               flagEliminate: false,
               updatedBy: createdBy,
+<<<<<<< HEAD
               updatedDate: updatedDate
+=======
+              updatedAt: updatedAt
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             };
             queryObject.where = {
               id: id,
@@ -2096,13 +2477,18 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
             break;
 
           case 26:
+<<<<<<< HEAD
             _queryObject = {
+=======
+            _queryObject2 = {
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               rutaImagen: rutaImagen,
               flagImagenDefaultTop: element.flagImagenDefaultTop,
               TopId: TopId,
               flagActive: true,
               flagEliminate: false,
               createdBy: element.createdBy,
+<<<<<<< HEAD
               createdDate: updatedDate,
               updatedDate: updatedDate
             };
@@ -2114,6 +2500,19 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
 
             _context19.next = 31;
             return TopItemDetalleDTO.create(_queryObject);
+=======
+              createdAt: updatedAt,
+              updatedAt: updatedAt
+            };
+            _queryObject2.fields = ['rutaImagen', 'flagImagenDefaultTop', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt'];
+
+            if (transact) {
+              _queryObject2.transaction = transact;
+            }
+
+            _context19.next = 31;
+            return TopItemDetalleDTO.create(_queryObject2);
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
           case 31:
             topItemDetalleBD = _context19.sent;
@@ -2190,7 +2589,11 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
 
 function eliminarTopItemDetalle(_x37, _x38, _x39) {
   return _eliminarTopItemDetalle.apply(this, arguments);
+<<<<<<< HEAD
 } // async function eliminarTopItem(id, updatedDate, createdBy) {
+=======
+} // async function eliminarTopItem(id, updatedAt, createdBy) {
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 //     try {
 //         let response = null;
 //         let TopBd = null;
@@ -2198,7 +2601,11 @@ function eliminarTopItemDetalle(_x37, _x38, _x39) {
 //             await TopBd.update({
 //                 flagActive: false
 //                 , flagEliminate: true
+<<<<<<< HEAD
 //                 , updatedDate
+=======
+//                 , updatedAt
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 //             }, {
 //                 where: {
 //                     id, createdBy
@@ -2222,7 +2629,11 @@ function eliminarTopItemDetalle(_x37, _x38, _x39) {
 function _eliminarTopItemDetalle() {
   _eliminarTopItemDetalle = _asyncToGenerator(
   /*#__PURE__*/
+<<<<<<< HEAD
   regeneratorRuntime.mark(function _callee20(updatedDate, idsEliminar, transact) {
+=======
+  regeneratorRuntime.mark(function _callee20(updatedAt, idsEliminar, transact) {
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     var response, queryObject, topItemDetalleBd;
     return regeneratorRuntime.wrap(function _callee20$(_context20) {
       while (1) {
@@ -2234,7 +2645,11 @@ function _eliminarTopItemDetalle() {
               flagActive: false,
               flagEliminate: true,
               flagImagenDefaultTop: false,
+<<<<<<< HEAD
               updatedDate: updatedDate
+=======
+              updatedAt: updatedAt
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             };
             queryObject.where = {
               id: _defineProperty({}, Op["in"], [idsEliminar])
@@ -2355,7 +2770,11 @@ function _listarTopItemPorUsuario() {
                   }
                 }]
               }],
+<<<<<<< HEAD
               order: [['updatedDate', 'DESC']]
+=======
+              order: [['updatedAt', 'DESC']]
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
 
           case 5:
@@ -2485,7 +2904,11 @@ function _listarTopGeneral() {
                   }
                 }]
               }],
+<<<<<<< HEAD
               order: [['updatedDate', 'DESC']]
+=======
+              order: [['updatedAt', 'DESC']]
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
 
           case 11:
@@ -2533,7 +2956,11 @@ function _listarTopByLugarByCategoria() {
                 categoriaId: categoriaId,
                 flagActive: true
               },
+<<<<<<< HEAD
               attributes: ['id', 'LugarId', 'categoriaId', 'titulo', 'updatedDate'],
+=======
+              attributes: ['id', 'LugarId', 'categoriaId', 'titulo', 'updatedAt'],
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               include: [{
                 model: TopItemDTO,
                 where: {
@@ -2548,7 +2975,11 @@ function _listarTopByLugarByCategoria() {
                 }],
                 attributes: ['id', 'descripcion', 'flagPublicado', 'valoracion']
               }],
+<<<<<<< HEAD
               order: [['updatedDate', 'DESC']]
+=======
+              order: [['updatedAt', 'DESC']]
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
 
           case 5:
@@ -2593,7 +3024,11 @@ function _listarTopPorUsuarioPorCategoria() {
                 categoriaId: categoriaId,
                 flagActive: true
               },
+<<<<<<< HEAD
               order: [['updatedDate', 'DESC']]
+=======
+              order: [['updatedAt', 'DESC']]
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
 
           case 4:
@@ -2648,7 +3083,11 @@ function _listarTopPorUsuarioPorFiltro() {
                   Descripcion: _defineProperty({}, Op.like, filtro)
                 }])
               }],
+<<<<<<< HEAD
               order: [['updatedDate', 'DESC']]
+=======
+              order: [['updatedAt', 'DESC']]
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
 
           case 4:
@@ -2693,7 +3132,11 @@ function _listarTopDetallePorTopItem() {
                 TopItemId: id,
                 flagActive: true
               },
+<<<<<<< HEAD
               order: [['updatedDate', 'DESC']]
+=======
+              order: [['updatedAt', 'DESC']]
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
 
           case 4:
@@ -2723,7 +3166,11 @@ function eliminarTopDetallePorTopId(_x53, _x54) {
 function _eliminarTopDetallePorTopId() {
   _eliminarTopDetallePorTopId = _asyncToGenerator(
   /*#__PURE__*/
+<<<<<<< HEAD
   regeneratorRuntime.mark(function _callee29(id, updatedDate) {
+=======
+  regeneratorRuntime.mark(function _callee29(id, updatedAt) {
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     var response;
     return regeneratorRuntime.wrap(function _callee29$(_context29) {
       while (1) {
@@ -2741,7 +3188,11 @@ function _eliminarTopDetallePorTopId() {
             return TopItemDetalleDTO.update({
               flagActive: false,
               flagEliminate: true,
+<<<<<<< HEAD
               updatedDate: updatedDate
+=======
+              updatedAt: updatedAt
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             }, {
               where: {
                 TopItemId: id

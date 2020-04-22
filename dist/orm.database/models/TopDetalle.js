@@ -24,21 +24,16 @@ function CreateFieldObj(_dataTypes) {
 }
 
 var _default = function _default(sequelize, DataTypes) {
-  var TopItemDetalle = sequelize.define('TopItemDetalle', CreateFieldObj(DataTypes), {
-    /*options*/
-<<<<<<< HEAD
-    timestamps: false,
-=======
-    // timestamps: false
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
+  var TopDetalle = sequelize.define('TopDetalle', CreateFieldObj(DataTypes), {
     freezeTableName: true
   });
 
-  TopItemDetalle.associate = function (models) {// associations can be defined here
-    // TopDetalle.belongsTo(models.Top);
+  TopDetalle.associate = function (models) {
+    // associations can be defined here
+    TopDetalle.belongsTo(models.Top);
   };
 
-  return TopItemDetalle;
+  return TopDetalle;
 };
 
 exports["default"] = _default;

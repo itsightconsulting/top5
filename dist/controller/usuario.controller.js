@@ -22,7 +22,10 @@ var bcrypt = require('bcrypt');
 
 var saltRounds = 10;
 var UsuarioDTO = _index["default"].Usuario;
+<<<<<<< HEAD
 var Op = _index["default"].Sequelize.Op;
+=======
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
 function validarEmail(_x) {
   return _validarEmail.apply(this, arguments);
@@ -32,22 +35,32 @@ function _validarEmail() {
   _validarEmail = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee(correoElectronico) {
+<<<<<<< HEAD
     var id,
         usuario,
         emailExiste,
         _args = arguments;
+=======
+    var usuario, estadoExiste;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+<<<<<<< HEAD
             id = _args.length > 1 && _args[1] !== undefined ? _args[1] : 0;
             _context.prev = 1;
             _context.next = 4;
+=======
+            _context.prev = 0;
+            _context.next = 3;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             return UsuarioDTO.findOne({
               where: {
                 correoElectronico: correoElectronico.toLowerCase(),
                 flagActive: true
               },
+<<<<<<< HEAD
               attributes: ['id', 'correoElectronico']
             });
 
@@ -68,11 +81,31 @@ function _validarEmail() {
             throw _context.t0;
 
           case 13:
+=======
+              attributes: ['correoElectronico']
+            });
+
+          case 3:
+            usuario = _context.sent;
+            estadoExiste = usuario != null;
+            return _context.abrupt("return", (0, _common.buildContainer)(true, null, estadoExiste, null));
+
+          case 8:
+            _context.prev = 8;
+            _context.t0 = _context["catch"](0);
+            throw _context.t0;
+
+          case 11:
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
           case "end":
             return _context.stop();
         }
       }
+<<<<<<< HEAD
     }, _callee, null, [[1, 10]]);
+=======
+    }, _callee, null, [[0, 8]]);
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
   }));
   return _validarEmail.apply(this, arguments);
 }
@@ -97,7 +130,11 @@ function _login() {
                 correoElectronico: data.correoElectronico.toLowerCase(),
                 TipoUsuarioId: data.TipoUsuarioId
               },
+<<<<<<< HEAD
               attributes: ['id', 'contrasenia', 'nombreCompleto', 'createdDate', 'rutaImagenPerfil']
+=======
+              attributes: ['id', 'contrasenia', 'nombreCompleto', 'createdAt', 'rutaImagenPerfil']
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
 
           case 3:
@@ -172,7 +209,11 @@ function _relogin() {
                 correoElectronico: data.correoElectronico.toLowerCase(),
                 TipoUsuarioId: data.TipoUsuarioId,
                 id: data.id,
+<<<<<<< HEAD
                 // createdDate: data.createdDate,
+=======
+                // createdAt: data.createdAt,
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
                 flagActive: true,
                 flagEliminate: false
               },
@@ -215,13 +256,21 @@ function _crearUsuario() {
   _crearUsuario = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee4(data) {
+<<<<<<< HEAD
     var nombreCompleto, correoElectronico, contrasenia, TipoUsuarioId, createdDate, updatedDate, salt, contraseniaEncrypt, newUsuario, objToken, token;
+=======
+    var nombreCompleto, correoElectronico, contrasenia, TipoUsuarioId, createdAt, updatedAt, salt, contraseniaEncrypt, newUsuario, objToken, token;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
             _context4.prev = 0;
+<<<<<<< HEAD
             nombreCompleto = data.nombreCompleto, correoElectronico = data.correoElectronico, contrasenia = data.contrasenia, TipoUsuarioId = data.TipoUsuarioId, createdDate = data.createdDate, updatedDate = data.updatedDate;
+=======
+            nombreCompleto = data.nombreCompleto, correoElectronico = data.correoElectronico, contrasenia = data.contrasenia, TipoUsuarioId = data.TipoUsuarioId, createdAt = data.createdAt, updatedAt = data.updatedAt;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             _context4.next = 4;
             return bcrypt.genSalt(saltRounds);
 
@@ -241,10 +290,17 @@ function _crearUsuario() {
               TipoUsuarioId: TipoUsuarioId,
               flagActive: true,
               flagEliminate: false,
+<<<<<<< HEAD
               createdDate: createdDate,
               updatedDate: updatedDate
             }, {
               fields: ['nombreCompleto', 'correoElectronico', 'contrasenia', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdDate', 'updatedDate']
+=======
+              createdAt: createdAt,
+              updatedAt: updatedAt
+            }, {
+              fields: ['nombreCompleto', 'correoElectronico', 'contrasenia', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt']
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
 
           case 11:
@@ -296,13 +352,21 @@ function _loginFacebook() {
   _loginFacebook = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee5(data) {
+<<<<<<< HEAD
     var nombreCompleto, correoElectronico, TipoUsuarioId, rutaImagenPerfil, createdDate, updatedDate, usuario, objToken, flagExisteTipoUsuario, flagUpdate, flagCambiarRuta, newUsuario, token;
+=======
+    var nombreCompleto, correoElectronico, TipoUsuarioId, rutaImagenPerfil, createdAt, updatedAt, usuario, objToken, flagExisteTipoUsuario, flagUpdate, flagCambiarRuta, newUsuario, token;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.prev = 0;
+<<<<<<< HEAD
             nombreCompleto = data.nombreCompleto, correoElectronico = data.correoElectronico, TipoUsuarioId = data.TipoUsuarioId, rutaImagenPerfil = data.rutaImagenPerfil, createdDate = data.createdDate, updatedDate = data.updatedDate;
+=======
+            nombreCompleto = data.nombreCompleto, correoElectronico = data.correoElectronico, TipoUsuarioId = data.TipoUsuarioId, rutaImagenPerfil = data.rutaImagenPerfil, createdAt = data.createdAt, updatedAt = data.updatedAt;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             _context5.next = 4;
             return UsuarioDTO.findOne({
               where: {
@@ -339,7 +403,11 @@ function _loginFacebook() {
             _context5.next = 13;
             return UsuarioDTO.update({
               nombreCompleto: nombreCompleto,
+<<<<<<< HEAD
               updatedDate: updatedDate
+=======
+              updatedAt: updatedAt
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             }, {
               where: {
                 id: usuario.id
@@ -382,11 +450,19 @@ function _loginFacebook() {
               TipoUsuarioId: TipoUsuarioId,
               flagActive: true,
               flagEliminate: false,
+<<<<<<< HEAD
               createdDate: createdDate,
               updatedDate: updatedDate,
               rutaImagenPerfil: rutaImagenPerfil
             }, {
               fields: ['nombreCompleto', 'correoElectronico', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdDate', 'updatedDate', 'rutaImagenPerfil']
+=======
+              createdAt: createdAt,
+              updatedAt: updatedAt,
+              rutaImagenPerfil: rutaImagenPerfil
+            }, {
+              fields: ['nombreCompleto', 'correoElectronico', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt', 'rutaImagenPerfil']
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
 
           case 26:
@@ -482,13 +558,21 @@ function _updateUsuario() {
   _updateUsuario = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee7(data, path, files) {
+<<<<<<< HEAD
     var id, correoElectronico, nombreCompleto, updatedDate;
+=======
+    var id, correoElectronico, nombreCompleto, updatedAt;
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
             _context7.prev = 0;
+<<<<<<< HEAD
             id = data.id, correoElectronico = data.correoElectronico, nombreCompleto = data.nombreCompleto, updatedDate = data.updatedDate; // if (!id || !correoElectronico || !nombreCompleto) {
+=======
+            id = data.id, correoElectronico = data.correoElectronico, nombreCompleto = data.nombreCompleto, updatedAt = data.updatedAt; // if (!id || !correoElectronico || !nombreCompleto) {
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             //     throw new Error("No puede enviar data vacio");
             // }
             // if (files) {
@@ -500,7 +584,11 @@ function _updateUsuario() {
             return UsuarioDTO.update({
               nombreCompleto: nombreCompleto,
               correoElectronico: correoElectronico,
+<<<<<<< HEAD
               updatedDate: updatedDate
+=======
+              updatedAt: updatedAt
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             }, {
               where: {
                 id: id

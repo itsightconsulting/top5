@@ -1,7 +1,12 @@
 const jwt = require('jsonwebtoken');
 const secret = process.env.jwtsecret || 's3cr3t'; //Never set up in static files as it but process.env.secret
+<<<<<<< HEAD
 const _expiresIn = '7d';// 60 * 60 * 1; //expires in 1 hours
 // const _expiresIn = '20d';
+=======
+// const _expiresIn = '7d';// 60 * 60 * 1; //expires in 1 hours
+const _expiresIn = '90d';
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
 async function generateToken(_data) {
     let tokenData = _data
@@ -16,7 +21,11 @@ async function obtenerTokenDecoded(token) {
 
 async function existeToken(req, res, next) {
     try {
+<<<<<<< HEAD
         if (process.env.NODE_ENV == "production" || process.env.NODE_ENV == "test") {
+=======
+        if (process.env.NODE_ENV == "production") {
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             var authorization = req.headers['authorization']
             if (!authorization) {
                 throw new Error("Es necesario el token de autenticación");
@@ -29,7 +38,11 @@ async function existeToken(req, res, next) {
             } else {
                 next();
             }
+<<<<<<< HEAD
         } else if (process.env.NODE_ENV == "development") {
+=======
+        } else {
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             next();
         }
 

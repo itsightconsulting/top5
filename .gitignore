@@ -1,7 +1,13 @@
 # Don't track content of these folders
 node_modules/
 # dist/
+<<<<<<< HEAD
 src/database/config.js
+=======
+dist/
+src/orm.database/config/config.js
+src/orm.database/config/config.json
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 *.env
 *.rar
 resumen.txt

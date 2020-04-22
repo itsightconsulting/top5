@@ -26,6 +26,7 @@ function agregarCamposBaseAuditoria(object, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: true,
     };
+<<<<<<< HEAD
     object.createdDate = {
         type: DataTypes.DATE,
         allowNull: true
@@ -38,6 +39,13 @@ function agregarCamposBaseAuditoria(object, DataTypes) {
         type: DataTypes.VIRTUAL,
         get() {
             let date = new Date(this.updatedDate);
+=======
+
+    object.updatedAtStr = {
+        type: DataTypes.VIRTUAL,
+        get() {
+            let date = new Date(this.updatedAt);
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             let dateStr = "";
             if (date) {
                 let dateNow = new Date();
@@ -50,6 +58,17 @@ function agregarCamposBaseAuditoria(object, DataTypes) {
             return dateStr;
         }
     };
+<<<<<<< HEAD
+=======
+    // object.createdHourAt = {
+    //     type: DataTypes.DATE,
+    //     allowNull: false,
+    // };    
+    // object.updatedHourAt = {
+    //     type: DataTypes.DATE,
+    //     allowNull: true,
+    // };
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     return object;
 }
 function agregarCamposBase(object, DataTypes) {
@@ -63,6 +82,7 @@ function agregarCamposBase(object, DataTypes) {
         allowNull: false,
         defaultValue: false
     };
+<<<<<<< HEAD
     object.createdDate = {
         type: DataTypes.DATE,
         allowNull: true
@@ -71,6 +91,8 @@ function agregarCamposBase(object, DataTypes) {
         type: DataTypes.DATE,
         allowNull: true
     };
+=======
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     return object;
 }
 function get_Date() {
@@ -165,6 +187,19 @@ function formatoPublicacion(datePublicadoStr = "") {
         return datePublicadoStr;
     }
 }
+<<<<<<< HEAD
+=======
+function formatoMeEncanta(cant = 0) {
+    let formatoMeEncantaStr = "";
+    let millon = 10e5;
+    if (cant < millon) {
+        formatoMeEncantaStr = cant;
+    } else if (cant >= millon) {
+        formatoMeEncantaStr = (cant / millon) + " millones";
+    }
+    return formatoMeEncantaStr = formatoMeEncantaStr + " me encanta";
+}
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 function alwaysParseString(word = "") {
     if (word) {
         return CleanWord(word).trim()
@@ -238,6 +273,12 @@ module.exports = {
     get_Date,
     monthNamefromDate,
     formatAMPM,
+<<<<<<< HEAD
     alwaysParseString,
+=======
+    formatoPublicacion,
+    alwaysParseString,
+    formatoMeEncanta,
+>>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     formatoFechaStr
 }
