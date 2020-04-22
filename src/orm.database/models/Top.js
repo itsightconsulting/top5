@@ -5,19 +5,15 @@ function CreateFieldObj(_dataTypes) {
             type: _dataTypes.STRING(200),
             allowNull: false,
         },
-        // rutaImagen: {
-        //     type: _dataTypes.STRING(500),
-        //     allowNull: true,
-        // },
+        orderItems: {
+            type: _dataTypes.STRING(200),
+            allowNull: true
+        },
         flagPublicado: {
             type: _dataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false
         },
-        // valoracion: {
-        //     type: _dataTypes.INTEGER,
-        //     allowNull: true,
-        // },
         fechaPublicado: {
             type: _dataTypes.DATE,
             allowNull: true
