@@ -1894,7 +1894,7 @@ function _getOneTop() {
                 createdBy: createdBy,
                 flagActive: true
               },
-              attributes: ['id', 'titulo', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr', 'updatedDate', 'updatedDateStr'],
+              attributes: ['id', 'titulo', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr', 'updatedDate', 'updatedDateStr', 'orderItems'],
               include: [{
                 model: _index["default"].Categoria,
                 as: 'Categoria',
