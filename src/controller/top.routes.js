@@ -23,6 +23,17 @@ async function createOrUpdateTop(req, res) {
         res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
+async function updateOrderItems(req, res) {
+    try {
+        existeJsonData(req, res);
+        let data = req.body.data;
+        let response = await controller.updateOrderItems(data);
+        return res.status(200).send(response);
+    } catch (error) {
+        controlError("updateOrderItems", error);
+        res.status(500).send(buildContainer(false, error.message, null, null));
+    }
+}
 async function listarTopPorUsuario(req, res) {
     try {
         existeJsonData(req, res);
@@ -258,6 +269,7 @@ async function listarTopGeneral(req, res) {
 
 module.exports = {
     createOrUpdateTop,
+    updateOrderItems,
     listarTopPorUsuario,
     listarTopDetallePorTop,
     eliminarTop,

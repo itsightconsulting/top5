@@ -48,6 +48,28 @@ async function createOrUpdateTop(objTop) {
         throw error;
     }
 }
+async function updateOrderItems(objTop) {
+    try {
+        let response = null;
+        let topBD = null;
+        if (objTop.id) {
+            topBD = await TopDTO.update({
+                orderItems: objTop.orderItems
+                , updatedBy: objTop.createdBy
+                , updatedAt: objTop.updatedAt
+            }, { where: { id: objTop.id } });
+        }
+        if (topBD) {
+            response = buildContainer(true, '', topBD, null);
+        }
+        if (response === null) {
+            throw new Error('No se pudo actualizar el orden de items del top');
+        }
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
 async function listarTopPorUsuario(objParams) {
     try {
         let response = null;
@@ -1090,6 +1112,7 @@ async function createOrUpdateTopItemIgnore({ objLugar, objTopItem, objListTopIte
 
 module.exports = {
     createOrUpdateTop,
+    updateOrderItems,
     listarTopPorUsuario,
     listarTopDetallePorTopItem,
     eliminarTop,

@@ -4,6 +4,7 @@ const { existeToken } = require('../security/AuthService');
 import routes from '../controller/top.routes';
 
 router.post('/', existeToken, routes.createOrUpdateTop);
+router.post('/orderItems', existeToken, routes.updateOrderItems);
 router.post('/list/byUsuario', existeToken, routes.listarTopPorUsuario);
 router.post('/publish', existeToken, routes.publicarTop);
 router.post('/invalidate', existeToken, routes.eliminarTop);
