@@ -25,11 +25,7 @@ function _createdOrUpdatedLugar() {
   _createdOrUpdatedLugar = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee(objLugar) {
-<<<<<<< HEAD
     var queryObject, dataValues, _ref;
-=======
-    var queryObject, _ref, dataValues, _ref2;
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
@@ -43,19 +39,11 @@ function _createdOrUpdatedLugar() {
               address: objLugar.address,
               flagActive: true,
               flagEliminate: false,
-<<<<<<< HEAD
               updatedDate: objLugar.updatedDate
             };
 
             if (!objLugar.id) {
               _context.next = 9;
-=======
-              updatedAt: objLugar.updatedAt
-            };
-
-            if (!objLugar.id) {
-              _context.next = 10;
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               break;
             }
 
@@ -68,7 +56,6 @@ function _createdOrUpdatedLugar() {
             });
 
           case 6:
-<<<<<<< HEAD
             dataValues = objLugar;
             _context.next = 15;
             break;
@@ -94,43 +81,11 @@ function _createdOrUpdatedLugar() {
             throw _context.t0;
 
           case 21:
-=======
-            _ref = _context.sent;
-            dataValues = _ref.dataValues;
-            _context.next = 16;
-            break;
-
-          case 10:
-            queryObject.createdBy = objLugar.createdBy;
-            queryObject.createdAt = objLugar.createdAt;
-            _context.next = 14;
-            return LugarDTO.create(queryObject, {
-              fields: ['name', 'latitude', 'longitude', 'address', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt']
-            });
-
-          case 14:
-            _ref2 = _context.sent;
-            dataValues = _ref2.dataValues;
-
-          case 16:
-            return _context.abrupt("return", (0, _common.buildContainer)(true, '', dataValues, null));
-
-          case 19:
-            _context.prev = 19;
-            _context.t0 = _context["catch"](0);
-            throw _context.t0;
-
-          case 22:
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
           case "end":
             return _context.stop();
         }
       }
-<<<<<<< HEAD
     }, _callee, null, [[0, 18]]);
-=======
-    }, _callee, null, [[0, 19]]);
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
   }));
   return _createdOrUpdatedLugar.apply(this, arguments);
 }
@@ -143,11 +98,7 @@ function _obtenerLugar() {
   _obtenerLugar = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee2(id, createdBy) {
-<<<<<<< HEAD
     var conditionObject, _ref2, dataValues, response;
-=======
-    var conditionObject, _ref3, dataValues, response;
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -161,21 +112,12 @@ function _obtenerLugar() {
             _context2.next = 5;
             return LugarDTO.findOne({
               where: conditionObject,
-<<<<<<< HEAD
               attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedDate', 'updatedDateStr']
             });
 
           case 5:
             _ref2 = _context2.sent;
             dataValues = _ref2.dataValues;
-=======
-              attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedAt', 'updatedAtStr']
-            });
-
-          case 5:
-            _ref3 = _context2.sent;
-            dataValues = _ref3.dataValues;
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             response = (0, _common.buildContainer)(true, '', dataValues, null);
             return _context2.abrupt("return", response);
 
@@ -220,11 +162,7 @@ function _listarLugares() {
               where: {
                 flagActive: true
               },
-<<<<<<< HEAD
               attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedDate', 'updatedDateStr', [_index["default"].Sequelize.fn("COUNT", _index["default"].Sequelize.col("TopItems.id")), "CountTop"]],
-=======
-              attributes: ['id', 'name', 'latitude', 'longitude', 'address', 'updatedAt', 'updatedAtStr', [_index["default"].Sequelize.fn("COUNT", _index["default"].Sequelize.col("TopItems.id")), "CountTop"]],
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               include: [{
                 model: _index["default"].TopItem,
                 where: conditionObject,
@@ -239,13 +177,8 @@ function _listarLugares() {
                   required: true
                 }]
               }],
-<<<<<<< HEAD
               group: ['Lugar.id', 'Lugar.name', 'Lugar.latitude', 'Lugar.longitude', 'Lugar.address', 'Lugar.updatedDate'],
               order: [['updatedDate', 'DESC']]
-=======
-              group: ['Lugar.id', 'Lugar.name', 'Lugar.latitude', 'Lugar.longitude', 'Lugar.address', 'Lugar.updatedAt'],
-              order: [['updatedAt', 'DESC']]
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
 
           case 6:
@@ -279,11 +212,7 @@ function eliminarLugar(_x5, _x6) {
 function _eliminarLugar() {
   _eliminarLugar = _asyncToGenerator(
   /*#__PURE__*/
-<<<<<<< HEAD
   regeneratorRuntime.mark(function _callee4(id, updatedDate) {
-=======
-  regeneratorRuntime.mark(function _callee4(id, updatedAt) {
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     var response, lugarBd;
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
@@ -302,11 +231,7 @@ function _eliminarLugar() {
             return lugarBd.update({
               flagActive: false,
               flagEliminate: true,
-<<<<<<< HEAD
               updatedDate: updatedDate
-=======
-              updatedAt: updatedAt
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
 
           case 6:
@@ -360,11 +285,7 @@ function _obtenerLugarPorUbicacion() {
                 longitude: longitude,
                 flagActive: true
               },
-<<<<<<< HEAD
               order: [['updatedDate', 'DESC']]
-=======
-              order: [['updatedAt', 'DESC']]
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
 
           case 4:

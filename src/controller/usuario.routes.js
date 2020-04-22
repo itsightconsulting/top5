@@ -56,13 +56,8 @@ async function validarEmail(req, res) {
     try {
         existeJsonData(req, res);
         // let { data } = req.body;
-<<<<<<< HEAD
         let { correoElectronico, id } = req.body.data;
         let response = await usuarioController.validarEmail(correoElectronico, id);
-=======
-        let { correoElectronico } = req.body.data;
-        let response = await usuarioController.validarEmail(correoElectronico);
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         res.status(200).send(response);
     } catch (error) {
         controlError("validarEmail", error);

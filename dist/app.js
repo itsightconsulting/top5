@@ -35,9 +35,6 @@ app.use('/api/usuario', require('./routes/usuario')); // cada que visiten, solo 
 app.use('/api/categoria', require('./routes/categoria'));
 app.use('/api/top', require('./routes/top'));
 app.use('/api/lugares', require('./routes/lugares'));
-<<<<<<< HEAD
 app.use('/api/sugerencia', require('./routes/sugerencia'));
-=======
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 var _default = app;
 exports["default"] = _default;

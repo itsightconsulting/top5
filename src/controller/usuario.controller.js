@@ -8,20 +8,14 @@ import { obtenerParametro } from '../controller/parametro.controller';
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const UsuarioDTO = models.Usuario;
-<<<<<<< HEAD
 const Op = models.Sequelize.Op;
 
 async function validarEmail(correoElectronico, id = 0) {
-=======
-
-async function validarEmail(correoElectronico) {
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     try {
         const usuario = await UsuarioDTO.findOne({
             where: {
                 correoElectronico: correoElectronico.toLowerCase(),
                 flagActive: true
-<<<<<<< HEAD
             }, attributes: ['id', 'correoElectronico']
         });
         let emailExiste = usuario !== null;
@@ -30,12 +24,6 @@ async function validarEmail(correoElectronico) {
         }
         // console.log(emailExiste, usuario.id, id);
         return buildContainer(true, null, emailExiste, null);
-=======
-            }, attributes: ['correoElectronico']
-        });
-        let estadoExiste = usuario != null;
-        return buildContainer(true, null, estadoExiste, null);
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     } catch (error) {
         throw error;
         // util.controlError("validarEmail", error);
@@ -49,11 +37,7 @@ async function login(data) {
             where: {
                 correoElectronico: data.correoElectronico.toLowerCase(),
                 TipoUsuarioId: data.TipoUsuarioId
-<<<<<<< HEAD
             }, attributes: ['id', 'contrasenia', 'nombreCompleto', 'createdDate', 'rutaImagenPerfil']
-=======
-            }, attributes: ['id', 'contrasenia', 'nombreCompleto', 'createdAt', 'rutaImagenPerfil']
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         });
         if (usuario === null) {
             return buildContainer(false, 'Email no existe.', null, null);
@@ -83,11 +67,7 @@ async function relogin(data) {
                 correoElectronico: data.correoElectronico.toLowerCase(),
                 TipoUsuarioId: data.TipoUsuarioId,
                 id: data.id,
-<<<<<<< HEAD
                 // createdDate: data.createdDate,
-=======
-                // createdAt: data.createdAt,
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
                 flagActive: true,
                 flagEliminate: false
             }, attributes: ['id', 'correoElectronico']
@@ -101,11 +81,7 @@ async function relogin(data) {
 }
 async function crearUsuario(data) {
     try {
-<<<<<<< HEAD
         let { nombreCompleto, correoElectronico, contrasenia, TipoUsuarioId, createdDate, updatedDate } = data;
-=======
-        let { nombreCompleto, correoElectronico, contrasenia, TipoUsuarioId, createdAt, updatedAt } = data;
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
         let salt = await bcrypt.genSalt(saltRounds);
         let contraseniaEncrypt = await bcrypt.hash(contrasenia, salt);
@@ -117,17 +93,10 @@ async function crearUsuario(data) {
             , TipoUsuarioId
             , flagActive: true
             , flagEliminate: false
-<<<<<<< HEAD
             , createdDate
             , updatedDate
         }, {
             fields: ['nombreCompleto', 'correoElectronico', 'contrasenia', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdDate', 'updatedDate']
-=======
-            , createdAt
-            , updatedAt
-        }, {
-            fields: ['nombreCompleto', 'correoElectronico', 'contrasenia', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt']
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         });
         if (newUsuario) {
             let objToken = ObjectToken({ correoElectronico: newUsuario.correoElectronico, id: newUsuario.id });
@@ -144,11 +113,7 @@ async function crearUsuario(data) {
 
 async function loginFacebook(data) {
     try {
-<<<<<<< HEAD
         let { nombreCompleto, correoElectronico, TipoUsuarioId, rutaImagenPerfil, createdDate, updatedDate } = data;
-=======
-        let { nombreCompleto, correoElectronico, TipoUsuarioId, rutaImagenPerfil, createdAt, updatedAt } = data;
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
         let usuario = await UsuarioDTO.findOne({
             where: {
@@ -165,11 +130,7 @@ async function loginFacebook(data) {
                 if (flagUpdate) {
                     await UsuarioDTO.update({
                         nombreCompleto
-<<<<<<< HEAD
                         , updatedDate
-=======
-                        , updatedAt
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
                     }, { where: { id: usuario.id } });
                 }
                 // updateRutaImagen
@@ -189,17 +150,10 @@ async function loginFacebook(data) {
                 , TipoUsuarioId
                 , flagActive: true
                 , flagEliminate: false
-<<<<<<< HEAD
                 , createdDate
                 , updatedDate
                 , rutaImagenPerfil
             }, { fields: ['nombreCompleto', 'correoElectronico', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdDate', 'updatedDate', 'rutaImagenPerfil'] });
-=======
-                , createdAt
-                , updatedAt
-                , rutaImagenPerfil
-            }, { fields: ['nombreCompleto', 'correoElectronico', 'TipoUsuarioId', 'flagActive', 'flagEliminate', 'createdAt', 'updatedAt', 'rutaImagenPerfil'] });
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             if (newUsuario) {
                 objToken = ObjectToken({ correoElectronico: newUsuario.correoElectronico, id: newUsuario.id });
             }
@@ -230,11 +184,7 @@ async function getOneUsuario(id) {
 }
 async function updateUsuario(data, path, files) {
     try {
-<<<<<<< HEAD
         const { id, correoElectronico, nombreCompleto, updatedDate } = data;
-=======
-        const { id, correoElectronico, nombreCompleto, updatedAt } = data;
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         // if (!id || !correoElectronico || !nombreCompleto) {
         //     throw new Error("No puede enviar data vacio");
         // }
@@ -246,11 +196,7 @@ async function updateUsuario(data, path, files) {
         await UsuarioDTO.update({
             nombreCompleto
             , correoElectronico
-<<<<<<< HEAD
             , updatedDate
-=======
-            , updatedAt
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         }, { where: { id } });
 
         return buildContainer(true, '', null, null);

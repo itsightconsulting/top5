@@ -12,11 +12,7 @@ async function createOrUpdateTop(objTop) {
     try {
         let response = null;
         let topBD = null;
-<<<<<<< HEAD
         // console.log(objTop.updatedDate);
-=======
-        console.log(objTop.updatedAt);
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         if (objTop.id) {
             topBD = await TopDTO.update({
                 titulo: objTop.titulo
@@ -25,11 +21,7 @@ async function createOrUpdateTop(objTop) {
                 , flagActive: true
                 , flagEliminate: false
                 , updatedBy: objTop.createdBy
-<<<<<<< HEAD
                 , updatedDate: objTop.updatedDate
-=======
-                , updatedAt: objTop.updatedAt
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             }, { where: { id: objTop.id } });
         } else {
             topBD = await TopDTO.create({
@@ -38,17 +30,10 @@ async function createOrUpdateTop(objTop) {
                 , flagActive: true
                 , flagEliminate: false
                 , createdBy: objTop.createdBy
-<<<<<<< HEAD
                 , createdDate: objTop.createdDate
                 , updatedDate: objTop.updatedDate
             }, {
                 fields: ['titulo', 'CategoriaId', 'flagActive', 'flagEliminate', 'createdBy', 'createdDate', 'updatedDate']
-=======
-                , createdAt: objTop.createdAt
-                , updatedAt: objTop.updatedAt
-            }, {
-                fields: ['titulo', 'CategoriaId', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt']
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
         }
         if (topBD) {
@@ -63,11 +48,6 @@ async function createOrUpdateTop(objTop) {
         throw error;
     }
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
 async function updateOrderItems(objTop) {
     try {
         let response = null;
@@ -75,13 +55,8 @@ async function updateOrderItems(objTop) {
         if (objTop.id) {
             topBD = await TopDTO.update({
                 orderItems: objTop.orderItems
-<<<<<<< HEAD
-                , updatedBy: objTop.createdBy
-                , updatedAt: objTop.updatedAt
-=======
                 , updatedBy: objTop.updatedBy
                 , updatedDate: objTop.updatedDate
->>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
             }, { where: { id: objTop.id } });
         }
         if (topBD) {
@@ -95,10 +70,7 @@ async function updateOrderItems(objTop) {
         throw error;
     }
 }
-<<<<<<< HEAD
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
-=======
->>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
+
 async function listarTopPorUsuario(objParams) {
     try {
         let response = null;
@@ -114,28 +86,16 @@ async function listarTopPorUsuario(objParams) {
 
         let queryObject = {
             where: whereConditions
-<<<<<<< HEAD
             , attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedDate', 'updatedDateStr', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr']
-=======
-            , attributes: ['id', 'titulo', 'CategoriaId', 'createdBy', 'updatedAt', 'updatedAtStr', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr']
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             , include: [{
                 model: models.Categoria
                 , as: 'Categoria'
                 , where: { flagActive: true }
-<<<<<<< HEAD
                 , attributes: ['name', 'nroOrden']
             }]
             , order: [
                 ['fechaPublicado', 'DESC'],
                 ['updatedDate', 'DESC'],
-=======
-                , attributes: ['name']
-            }]
-            , order: [
-                ['fechaPublicado', 'DESC'],
-                ['updatedAt', 'DESC'],
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             ]
 
         };
@@ -169,23 +129,14 @@ async function listarTopPorUsuario(objParams) {
         throw error;
     }
 }
-<<<<<<< HEAD
 async function publicarTop(id, updatedDate, createdBy, flagPublicado) {
-=======
-async function publicarTop(id, updatedAt, createdBy, flagPublicado) {
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     try {
         let response = null;
         if (id) {
             await TopDTO.update({
                 flagPublicado: flagPublicado
-<<<<<<< HEAD
                 , fechaPublicado: updatedDate
                 , updatedDate: updatedDate
-=======
-                , fechaPublicado: updatedAt
-                , updatedAt: updatedAt
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             }, { where: { id, createdBy } });
             response = buildContainer(true, '', null, null);
         }
@@ -197,22 +148,14 @@ async function publicarTop(id, updatedAt, createdBy, flagPublicado) {
         throw error;
     }
 }
-<<<<<<< HEAD
 async function eliminarTop(id, updatedDate, createdBy) {
-=======
-async function eliminarTop(id, updatedAt, createdBy) {
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     try {
         let response = null;
         if (id) {
             let topBd = await TopDTO.update({
                 flagActive: false
                 , flagEliminate: true
-<<<<<<< HEAD
                 , updatedDate
-=======
-                , updatedAt
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
                 , updatedBy: createdBy
             }, {
                 where: {
@@ -276,19 +219,11 @@ async function listarTopPublicadoPorUsuario(objParams) {
 
         let queryObject = {
             where: whereConditions
-<<<<<<< HEAD
             , attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr']
             , include: [{
                 model: TopDTO
                 , where: whereConditionsTop
                 , attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedDate']
-=======
-            , attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedAt', 'updatedAtStr']
-            , include: [{
-                model: TopDTO
-                , where: whereConditionsTop
-                , attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt']
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
                 , include: [{
                     required: true
                     , model: models.Categoria
@@ -310,11 +245,7 @@ async function listarTopPublicadoPorUsuario(objParams) {
                 model: TopItemLikeDTO,
                 attributes: ['id', 'UsuarioId']
             }]
-<<<<<<< HEAD
             , order: [['updatedDate', 'DESC']]
-=======
-            , order: [['updatedAt', 'DESC']]
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         };
 
         // if (pageNumber && pageSize) {
@@ -356,11 +287,7 @@ async function listarTopItemByTop(objParams) {
 
         let queryObject = {
             where: whereConditions
-<<<<<<< HEAD
             , attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedDate', 'updatedDateStr', 'LugarId']
-=======
-            , attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedAt', 'updatedAtStr', 'LugarId']
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             , include: [{
                 model: TopItemDetalleDTO,
                 required: false,
@@ -369,7 +296,6 @@ async function listarTopItemByTop(objParams) {
             }, {
                 model: models.Lugar,
                 attributes: ['id', 'name', 'address', 'latitude', 'longitude']
-<<<<<<< HEAD
             }, {
                 required: false,
                 where: { flagActive: true },
@@ -377,10 +303,6 @@ async function listarTopItemByTop(objParams) {
                 attributes: ['id', 'UsuarioId']
             }]
             , order: [['updatedDate', 'DESC']]
-=======
-            }]
-            , order: [['updatedAt', 'DESC']]
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         };
 
         if (pageNumber && pageSize) {
@@ -413,26 +335,18 @@ async function listarTopItemByTop(objParams) {
 }
 async function listarTopItemByLugar(lugarId, { pageNumber, pageSize }) {
     try {
-<<<<<<< HEAD
         console.log("listarTopItemByLugar");
-=======
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         let response = null;
         let topItemBD = null;
         let queryObject = {
             where: { flagActive: true, LugarId: lugarId, TopId: { [Op.ne]: null } }
-<<<<<<< HEAD
             , attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedDate', 'updatedDateStr', 'flagActive']
-=======
-            , attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedAt', 'updatedAtStr']
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             , include: [{
                 model: TopDTO,
                 attributes: [],
                 where: { flagActive: true, flagPublicado: true },
                 required: true,
                 as: 'Top'
-<<<<<<< HEAD
             }, {
                 model: TopItemDetalleDTO,
                 required: false,
@@ -440,16 +354,6 @@ async function listarTopItemByLugar(lugarId, { pageNumber, pageSize }) {
                 where: { flagActive: true }
             }]
             , order: [['updatedDate', 'DESC']]
-=======
-            }]
-            , include: [{
-                model: TopItemDetalleDTO,
-                required: false,
-                attributes: ['id', 'rutaImagen', 'flagImagenDefaultTop'],
-                where: { flagActive: true }
-            }]
-            , order: [['updatedAt', 'DESC']]
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         };
 
         if (pageNumber && pageSize) {
@@ -480,22 +384,14 @@ async function listarTopItemByLugar(lugarId, { pageNumber, pageSize }) {
     }
 }
 
-<<<<<<< HEAD
 async function eliminarTopItem(id, updatedDate, createdBy) {
-=======
-async function eliminarTopItem(id, updatedAt, createdBy) {
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     try {
         let response = null;
         if (id) {
             let topBd = await TopItemDTO.update({
                 flagActive: false
                 , flagEliminate: true
-<<<<<<< HEAD
                 , updatedDate: updatedDate
-=======
-                , updatedAt: updatedAt
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
                 , updatedBy: createdBy
             }, {
                 where: {
@@ -518,11 +414,7 @@ async function eliminarTopItem(id, updatedAt, createdBy) {
     }
 }
 
-<<<<<<< HEAD
 async function likesTopItem(TopItemId = 0, updatedDate, createdBy, flagLike = false) {
-=======
-async function likesTopItem(TopItemId = 0, updatedAt, createdBy, flagLike = false) {
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     try {
         let response = null;
         if (TopItemId > 0) {
@@ -532,11 +424,7 @@ async function likesTopItem(TopItemId = 0, updatedAt, createdBy, flagLike = fals
             });
             if (TopItemLikeBd) {
                 let queryObject = {
-<<<<<<< HEAD
                     updatedDate
-=======
-                    updatedAt
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
                 };
                 if (flagLike) {
                     queryObject.flagActive = true;
@@ -555,17 +443,10 @@ async function likesTopItem(TopItemId = 0, updatedAt, createdBy, flagLike = fals
                     flagEliminate: false,
                     TopItemId,
                     UsuarioId: createdBy,
-<<<<<<< HEAD
                     createdDate: updatedDate,
                     updatedDate
                 }, {
                     fields: ['flagActive', 'flagEliminate', 'TopItemId', 'UsuarioId', 'createdDate', 'updatedDate']
-=======
-                    createdAt: updatedAt,
-                    updatedAt
-                }, {
-                    fields: ['flagActive', 'flagEliminate', 'TopItemId', 'UsuarioId', 'createdAt', 'updatedAt']
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
                 });
 
             }
@@ -587,19 +468,11 @@ async function uploadFileTopItemDetalle(topItemDetalle, files) {
         let response = null;
         let bucketName = "its-top5-bucket-client";
         if (files) {
-<<<<<<< HEAD
             let { id, path, nameImageDefault = "", updatedDate, createdBy } = topItemDetalle;
             let TopItemId = id;
 
             // eliminar imagenes anteriores
             let response_1 = await eliminarTopItemDetalleByTopItem(TopItemId, updatedDate, createdBy);
-=======
-            let { id, path, nameImageDefault = "", updatedAt, createdBy } = topItemDetalle;
-            let TopItemId = id;
-
-            // eliminar imagenes anteriores
-            let response_1 = await eliminarTopItemDetalleByTopItem(TopItemId, updatedAt, createdBy);
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
             if (response_1.ok) {
                 for (const file of files) {
@@ -610,15 +483,9 @@ async function uploadFileTopItemDetalle(topItemDetalle, files) {
                     let TopItemDetalle = {
                         rutaImagen: Location,
                         flagImagenDefaultTop: false,
-<<<<<<< HEAD
                         updatedDate,
                         createdBy,
                         createdDate: updatedDate,
-=======
-                        updatedAt,
-                        createdBy,
-                        createdAt: updatedAt,
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
                         TopItemId
                     };
 
@@ -647,16 +514,11 @@ async function createOrUpdateTopItemDetalle(TopItemDetalle) {
             , flagImagenDefaultTop: TopItemDetalle.flagImagenDefaultTop
             , flagActive: true
             , flagEliminate: false
-<<<<<<< HEAD
             , updatedDate: TopItemDetalle.updatedDate
-=======
-            , updatedAt: TopItemDetalle.updatedAt
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         };
 
         if (TopItemDetalle.id) {
             queryObject.updatedBy = TopItemDetalle.createdBy;
-<<<<<<< HEAD
             await TopItemDetalleDTO.update(queryObject, { where: { id: TopItemDetalle.id } });
             var dataValues = TopItemDetalle;
         } else {
@@ -666,16 +528,6 @@ async function createOrUpdateTopItemDetalle(TopItemDetalle) {
 
             var { dataValues } = await TopItemDetalleDTO.create(queryObject, {
                 fields: ['rutaImagen', 'flagImagenDefaultTop', 'flagActive', 'flagEliminate', 'createdBy', 'createdDate', 'updatedDate', 'TopItemId']
-=======
-            var { dataValues } = await TopItemDetalleDTO.update(queryObject, { where: { id: TopItemDetalle.id } });
-        } else {
-            queryObject.createdBy = TopItemDetalle.createdBy;
-            queryObject.createdAt = TopItemDetalle.createdAt;
-            queryObject.TopItemId = TopItemDetalle.TopItemId;
-
-            var { dataValues } = await TopItemDetalleDTO.create(queryObject, {
-                fields: ['rutaImagen', 'flagImagenDefaultTop', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt', 'TopItemId']
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
         }
         return buildContainer(true, '', dataValues, null);
@@ -683,22 +535,14 @@ async function createOrUpdateTopItemDetalle(TopItemDetalle) {
         throw error;
     }
 }
-<<<<<<< HEAD
 async function eliminarTopItemDetalleByTopItem(TopItemId, updatedDate, createdBy) {
-=======
-async function eliminarTopItemDetalleByTopItem(TopItemId, updatedAt, createdBy) {
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     try {
         let response = null;
         if (TopItemId) {
             await TopItemDetalleDTO.update({
                 flagActive: false
                 , flagEliminate: true
-<<<<<<< HEAD
                 , updatedDate: updatedDate
-=======
-                , updatedAt: updatedAt
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
                 , updatedBy: createdBy
             }, { where: { TopItemId, flagActive: true } });
             response = buildContainer(true, '', null, null);
@@ -749,19 +593,11 @@ async function listarTopItemAutocomplete(objParams) {
                 console.log(listTopItemBD);
                 let queryObject = {
                     where: { flagActive: true, id: listTopItemBD }
-<<<<<<< HEAD
                     , attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr']
                     , include: [{
                         model: TopDTO
                         , where: { flagActive: true, flagPublicado: true }
                         , attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedDate']
-=======
-                    , attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedAt', 'updatedAtStr']
-                    , include: [{
-                        model: TopDTO
-                        , where: { flagActive: true, flagPublicado: true }
-                        , attributes: ['id', 'titulo', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt']
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
                         , include: [{
                             required: true
                             , model: models.Categoria
@@ -783,11 +619,7 @@ async function listarTopItemAutocomplete(objParams) {
                         model: TopItemLikeDTO,
                         attributes: ['id', 'UsuarioId']
                     }]
-<<<<<<< HEAD
                     , order: [['updatedDate', 'DESC']]
-=======
-                    , order: [['updatedAt', 'DESC']]
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
                 };
 
                 queryObject.offset = ((pageNumber - 1) * pageSize);
@@ -877,24 +709,14 @@ async function getOneTop(id, createdBy) {
         let topBD = null;
         topBD = await TopDTO.findOne({
             where: { id, createdBy, flagActive: true }
-<<<<<<< HEAD
             , attributes: ['id', 'titulo', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr', 'updatedDate', 'updatedDateStr']
-=======
-            , attributes: ['id', 'titulo', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr', 'updatedAt', 'updatedAtStr']
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             , include: [{
                 model: models.Categoria
                 , as: 'Categoria'
                 , where: { flagActive: true }
-<<<<<<< HEAD
                 , attributes: ['id', 'name', 'updatedDate']
             }]
             , order: [['fechaPublicado', 'DESC'], ['updatedDate', 'DESC']]
-=======
-                , attributes: ['id', 'name', 'updatedAt']
-            }]
-            , order: [['fechaPublicado', 'DESC'], ['updatedAt', 'DESC']]
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         });
         if (topBD) {
             response = buildContainer(true, '', topBD, null);
@@ -912,11 +734,7 @@ async function getOneTopItem(id, createdBy) {
         let topBD = null;
         topBD = await TopItemDTO.findOne({
             where: { id, createdBy, flagActive: true }
-<<<<<<< HEAD
             , attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr']
-=======
-            , attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedAt', 'updatedAtStr']
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             , include: [{
                 model: TopItemDetalleDTO
                 , where: { flagActive: true }
@@ -943,11 +761,7 @@ async function createdOrUpdatedTopItem(objTopItem) {
             , TopId: objTopItem.TopId
             , flagActive: true
             , flagEliminate: false
-<<<<<<< HEAD
             , updatedDate: objTopItem.updatedDate
-=======
-            , updatedAt: objTopItem.updatedAt
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         };
 
         if (objTopItem.id) {
@@ -957,17 +771,10 @@ async function createdOrUpdatedTopItem(objTopItem) {
 
         } else {
             queryObject.createdBy = objTopItem.createdBy;
-<<<<<<< HEAD
             queryObject.createdDate = objTopItem.createdDate;
 
             var { dataValues } = await TopItemDTO.create(queryObject, {
                 fields: ['descripcion', 'valoracion', 'LugarId', 'TopId', 'flagActive', 'flagEliminate', 'updatedDate', 'createdBy', 'createdDate']
-=======
-            queryObject.createdAt = objTopItem.createdAt;
-
-            var { dataValues } = await TopItemDTO.create(queryObject, {
-                fields: ['descripcion', 'valoracion', 'LugarId', 'TopId', 'flagActive', 'flagEliminate', 'updatedAt', 'createdBy', 'createdAt']
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
         }
         return buildContainer(true, '', dataValues, null);
@@ -975,19 +782,11 @@ async function createdOrUpdatedTopItem(objTopItem) {
         throw error;
     }
 }
-<<<<<<< HEAD
 async function eliminatedAndcreateOrUpdateTopItemDetalle(TopId, createdBy, updatedDate, objListTopItemDetalle, files, idsEliminar, transact) {
     try {
         let response = null;
         if (objListTopItemDetalle) {
             let responseEliminarTopItemDetalle = await eliminarTopItemDetalle(updatedDate, idsEliminar, transact);
-=======
-async function eliminatedAndcreateOrUpdateTopItemDetalle(TopId, createdBy, updatedAt, objListTopItemDetalle, files, idsEliminar, transact) {
-    try {
-        let response = null;
-        if (objListTopItemDetalle) {
-            let responseEliminarTopItemDetalle = await eliminarTopItemDetalle(updatedAt, idsEliminar, transact);
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             if (responseEliminarTopItemDetalle.ok) {
                 for (const element of objListTopItemDetalle) {
                     let topItemDetalleBD = null;
@@ -1005,11 +804,7 @@ async function eliminatedAndcreateOrUpdateTopItemDetalle(TopId, createdBy, updat
                             , flagActive: true
                             , flagEliminate: false
                             , updatedBy: createdBy
-<<<<<<< HEAD
                             , updatedDate: updatedDate
-=======
-                            , updatedAt: updatedAt
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
                         };
                         queryObject.where = { id, TopId };
                         if (transact) {
@@ -1024,17 +819,10 @@ async function eliminatedAndcreateOrUpdateTopItemDetalle(TopId, createdBy, updat
                             , flagActive: true
                             , flagEliminate: false
                             , createdBy: element.createdBy
-<<<<<<< HEAD
                             , createdDate: updatedDate
                             , updatedDate: updatedDate
                         };
                         queryObject.fields = ['rutaImagen', 'flagImagenDefaultTop', 'flagActive', 'flagEliminate', 'createdBy', 'createdDate', 'updatedDate'];
-=======
-                            , createdAt: updatedAt
-                            , updatedAt: updatedAt
-                        };
-                        queryObject.fields = ['rutaImagen', 'flagImagenDefaultTop', 'flagActive', 'flagEliminate', 'createdBy', 'createdAt', 'updatedAt'];
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
                         if (transact) {
                             queryObject.transaction = transact;
                         }
@@ -1055,11 +843,7 @@ async function eliminatedAndcreateOrUpdateTopItemDetalle(TopId, createdBy, updat
         throw error;
     }
 }
-<<<<<<< HEAD
 async function eliminarTopItemDetalle(updatedDate, idsEliminar, transact) {
-=======
-async function eliminarTopItemDetalle(updatedAt, idsEliminar, transact) {
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     try {
         let response = null;
 
@@ -1067,11 +851,7 @@ async function eliminarTopItemDetalle(updatedAt, idsEliminar, transact) {
             flagActive: false
             , flagEliminate: true
             , flagImagenDefaultTop: false
-<<<<<<< HEAD
             , updatedDate: updatedDate
-=======
-            , updatedAt: updatedAt
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         };
         queryObject.where = { id: { [Op.in]: [idsEliminar] } };
         if (transact) {
@@ -1090,11 +870,7 @@ async function eliminarTopItemDetalle(updatedAt, idsEliminar, transact) {
         throw error;
     }
 }
-<<<<<<< HEAD
 // async function eliminarTopItem(id, updatedDate, createdBy) {
-=======
-// async function eliminarTopItem(id, updatedAt, createdBy) {
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 //     try {
 //         let response = null;
 //         let TopBd = null;
@@ -1102,11 +878,7 @@ async function eliminarTopItemDetalle(updatedAt, idsEliminar, transact) {
 //             await TopBd.update({
 //                 flagActive: false
 //                 , flagEliminate: true
-<<<<<<< HEAD
 //                 , updatedDate
-=======
-//                 , updatedAt
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 //             }, {
 //                 where: {
 //                     id, createdBy
@@ -1155,11 +927,7 @@ async function listarTopItemPorUsuario(createdBy, cantidad) {
                     , where: { flagImagenDefaultTop: true }
                 }]
             }]
-<<<<<<< HEAD
             , order: [['updatedDate', 'DESC']]
-=======
-            , order: [['updatedAt', 'DESC']]
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         });
         // }
         response = buildContainer(true, '', topBD, null);
@@ -1213,11 +981,7 @@ async function listarTopGeneral(categoriaId, cantidad) {
                         , where: { flagImagenDefaultTop: true }
                     }]
                 }]
-<<<<<<< HEAD
                 , order: [['updatedDate', 'DESC']]
-=======
-                , order: [['updatedAt', 'DESC']]
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             });
         }
         response = buildContainer(true, '', topBD, null);
@@ -1236,11 +1000,7 @@ async function listarTopByLugarByCategoria(LugarId, categoriaId) {
                 categoriaId,
                 flagActive: true
             }
-<<<<<<< HEAD
             , attributes: ['id', 'LugarId', 'categoriaId', 'titulo', 'updatedDate']
-=======
-            , attributes: ['id', 'LugarId', 'categoriaId', 'titulo', 'updatedAt']
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             , include: [{
                 model: TopItemDTO
                 , where: { flagActive: true }
@@ -1251,11 +1011,7 @@ async function listarTopByLugarByCategoria(LugarId, categoriaId) {
                 }]
                 , attributes: ['id', 'descripcion', 'flagPublicado', 'valoracion']
             }]
-<<<<<<< HEAD
             , order: [['updatedDate', 'DESC']]
-=======
-            , order: [['updatedAt', 'DESC']]
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         });
         response = buildContainer(true, '', topBD, null);
         return response;
@@ -1271,11 +1027,7 @@ async function listarTopPorUsuarioPorCategoria(categoriaId, createdBy) {
                 createdBy,
                 categoriaId,
                 flagActive: true
-<<<<<<< HEAD
             }, order: [['updatedDate', 'DESC']]
-=======
-            }, order: [['updatedAt', 'DESC']]
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         });
         // TODO obtener foto default
         response = buildContainer(true, '', topBDListado, null);
@@ -1300,11 +1052,7 @@ async function listarTopPorUsuarioPorFiltro(filtro, createdBy) {
                     [Op.or]: [{ Descripcion: { [Op.like]: filtro } }]
                 }
             }]
-<<<<<<< HEAD
             , order: [['updatedDate', 'DESC']]
-=======
-            , order: [['updatedAt', 'DESC']]
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         });
         // TODO obtener foto default
         response = buildContainer(true, '', topItemBDListado, null);
@@ -1320,11 +1068,7 @@ async function listarTopDetallePorTopItem(id) {
             where: {
                 TopItemId: id,
                 flagActive: true
-<<<<<<< HEAD
             }, order: [['updatedDate', 'DESC']]
-=======
-            }, order: [['updatedAt', 'DESC']]
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
         });
         response = buildContainer(true, '', topItemDetalleBD, null);
         return response;
@@ -1332,22 +1076,14 @@ async function listarTopDetallePorTopItem(id) {
         throw error;
     }
 }
-<<<<<<< HEAD
 async function eliminarTopDetallePorTopId(id, updatedDate) {
-=======
-async function eliminarTopDetallePorTopId(id, updatedAt) {
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     try {
         let response = null;
         if (id) {
             await TopItemDetalleDTO.update({
                 flagActive: false
                 , flagEliminate: true
-<<<<<<< HEAD
                 , updatedDate: updatedDate
-=======
-                , updatedAt: updatedAt
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             }, {
                 where: {
                     TopItemId: id
@@ -1383,14 +1119,7 @@ async function createOrUpdateTopItemIgnore({ objLugar, objTopItem, objListTopIte
 
 module.exports = {
     createOrUpdateTop,
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     updateOrderItems,
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
-=======
-    updateOrderItems,
->>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
     listarTopPorUsuario,
     listarTopDetallePorTopItem,
     eliminarTop,
