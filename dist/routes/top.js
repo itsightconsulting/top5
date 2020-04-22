@@ -10,6 +10,7 @@ var _require = require('../security/AuthService'),
     existeToken = _require.existeToken;
 
 router.post('/', existeToken, _top["default"].createOrUpdateTop);
+router.post('/orderItems', existeToken, _top["default"].updateOrderItems);
 router.post('/list/byUsuario', existeToken, _top["default"].listarTopPorUsuario);
 router.post('/publish', existeToken, _top["default"].publicarTop);
 router.post('/invalidate', existeToken, _top["default"].eliminarTop);
