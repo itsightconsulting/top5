@@ -191,12 +191,8 @@ function _validarEmail() {
   _validarEmail = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee5(req, res) {
-<<<<<<< HEAD
     var _req$body$data, correoElectronico, id, response;
 
-=======
-    var correoElectronico, response;
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
     return regeneratorRuntime.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
@@ -204,15 +200,9 @@ function _validarEmail() {
             _context5.prev = 0;
             (0, _common.existeJsonData)(req, res); // let { data } = req.body;
 
-<<<<<<< HEAD
             _req$body$data = req.body.data, correoElectronico = _req$body$data.correoElectronico, id = _req$body$data.id;
             _context5.next = 5;
             return _usuario["default"].validarEmail(correoElectronico, id);
-=======
-            correoElectronico = req.body.data.correoElectronico;
-            _context5.next = 5;
-            return _usuario["default"].validarEmail(correoElectronico);
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
           case 5:
             response = _context5.sent;
@@ -327,11 +317,7 @@ function _updateUsuario() {
   _updateUsuario = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee8(req, res) {
-<<<<<<< HEAD
     var id, _req$body$data2, correoElectronico, nombreCompleto, response;
-=======
-    var id, _req$body$data, correoElectronico, nombreCompleto, response;
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
     return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
@@ -340,11 +326,7 @@ function _updateUsuario() {
             _context8.prev = 0;
             id = req.params.id;
             (0, _common.existeJsonData)(req, res);
-<<<<<<< HEAD
             _req$body$data2 = req.body.data, correoElectronico = _req$body$data2.correoElectronico, nombreCompleto = _req$body$data2.nombreCompleto; // let data = { id, correoElectronico: req.body.data.correoElectronico, nombreCompleto: req.body.data.nombreCompleto }
-=======
-            _req$body$data = req.body.data, correoElectronico = _req$body$data.correoElectronico, nombreCompleto = _req$body$data.nombreCompleto; // let data = { id, correoElectronico: req.body.data.correoElectronico, nombreCompleto: req.body.data.nombreCompleto }
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
             // let files = [];
             // if (req.files) {
             //     files = [].concat(req.files.image);

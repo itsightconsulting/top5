@@ -7,15 +7,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var jwt = require('jsonwebtoken');
 
 var secret = process.env.jwtsecret || 's3cr3t'; //Never set up in static files as it but process.env.secret
-<<<<<<< HEAD
 
 var _expiresIn = '20d'; // 60 * 60 * 1; //expires in 1 hours
-// const _expiresIn = '20d';
-=======
-// const _expiresIn = '7d';// 60 * 60 * 1; //expires in 1 hours
-
-var _expiresIn = '20d';
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
 function generateToken(_x) {
   return _generateToken.apply(this, arguments);
@@ -95,11 +88,7 @@ function _existeToken() {
           case 0:
             _context3.prev = 0;
 
-<<<<<<< HEAD
             if (!(process.env.NODE_ENV == "production" || process.env.NODE_ENV == "test")) {
-=======
-            if (!(process.env.NODE_ENV == "production")) {
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
               _context3.next = 16;
               break;
             }
@@ -137,13 +126,9 @@ function _existeToken() {
             break;
 
           case 16:
-<<<<<<< HEAD
             if (process.env.NODE_ENV == "development") {
               next();
             }
-=======
-            next();
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 
           case 17:
             _context3.next = 22;
@@ -159,20 +144,12 @@ function _existeToken() {
               token: null
             }));
 
-<<<<<<< HEAD
           case 22:
-=======
-          case 18:
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
           case "end":
             return _context3.stop();
         }
       }
-<<<<<<< HEAD
     }, _callee3, null, [[0, 19]]);
-=======
-    }, _callee3, null, [[0, 15]]);
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
   }));
   return _existeToken.apply(this, arguments);
 }

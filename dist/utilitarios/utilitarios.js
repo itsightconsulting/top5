@@ -31,7 +31,6 @@ function agregarCamposBaseAuditoria(object, DataTypes) {
     type: DataTypes.INTEGER,
     allowNull: true
   };
-<<<<<<< HEAD
   object.createdDate = {
     type: DataTypes.DATE,
     allowNull: true
@@ -44,12 +43,6 @@ function agregarCamposBaseAuditoria(object, DataTypes) {
     type: DataTypes.VIRTUAL,
     get: function get() {
       var date = new Date(this.updatedDate);
-=======
-  object.updatedAtStr = {
-    type: DataTypes.VIRTUAL,
-    get: function get() {
-      var date = new Date(this.updatedAt);
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
       var dateStr = "";
 
       if (date) {
@@ -60,19 +53,7 @@ function agregarCamposBaseAuditoria(object, DataTypes) {
 
       return dateStr;
     }
-<<<<<<< HEAD
   };
-=======
-  }; // object.createdHourAt = {
-  //     type: DataTypes.DATE,
-  //     allowNull: false,
-  // };    
-  // object.updatedHourAt = {
-  //     type: DataTypes.DATE,
-  //     allowNull: true,
-  // };
-
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
   return object;
 }
 
@@ -87,7 +68,6 @@ function agregarCamposBase(object, DataTypes) {
     allowNull: false,
     defaultValue: false
   };
-<<<<<<< HEAD
   object.createdDate = {
     type: DataTypes.DATE,
     allowNull: true
@@ -96,8 +76,6 @@ function agregarCamposBase(object, DataTypes) {
     type: DataTypes.DATE,
     allowNull: true
   };
-=======
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
   return object;
 }
 
@@ -189,23 +167,6 @@ function formatoPublicacion() {
   }
 }
 
-<<<<<<< HEAD
-=======
-function formatoMeEncanta() {
-  var cant = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-  var formatoMeEncantaStr = "";
-  var millon = 10e5;
-
-  if (cant < millon) {
-    formatoMeEncantaStr = cant;
-  } else if (cant >= millon) {
-    formatoMeEncantaStr = cant / millon + " millones";
-  }
-
-  return formatoMeEncantaStr = formatoMeEncantaStr + " me encanta";
-}
-
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
 function alwaysParseString() {
   var word = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
 
@@ -232,12 +193,6 @@ module.exports = {
   get_Date: get_Date,
   monthNamefromDate: monthNamefromDate,
   formatAMPM: formatAMPM,
-<<<<<<< HEAD
   alwaysParseString: alwaysParseString,
-=======
-  formatoPublicacion: formatoPublicacion,
-  alwaysParseString: alwaysParseString,
-  formatoMeEncanta: formatoMeEncanta,
->>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
   formatoFechaStr: formatoFechaStr
 };
