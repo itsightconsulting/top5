@@ -709,7 +709,7 @@ async function getOneTop(id, createdBy) {
         let topBD = null;
         topBD = await TopDTO.findOne({
             where: { id, createdBy, flagActive: true }
-            , attributes: ['id', 'titulo', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr', 'updatedDate', 'updatedDateStr']
+            , attributes: ['id', 'titulo', 'flagPublicado', 'fechaPublicado', 'fechaPublicadoStr', 'updatedDate', 'updatedDateStr', 'orderItems']
             , include: [{
                 model: models.Categoria
                 , as: 'Categoria'
