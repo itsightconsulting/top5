@@ -24,7 +24,10 @@ async function createOrUpdateTop(req, res) {
     }
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
 async function updateOrderItems(req, res) {
     try {
         existeJsonData(req, res);
@@ -36,7 +39,10 @@ async function updateOrderItems(req, res) {
         res.status(500).send(buildContainer(false, error.message, null, null));
     }
 }
+<<<<<<< HEAD
 >>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
+=======
+>>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
 async function listarTopPorUsuario(req, res) {
     try {
         existeJsonData(req, res);
@@ -299,9 +305,13 @@ async function listarTopGeneral(req, res) {
 module.exports = {
     createOrUpdateTop,
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     updateOrderItems,
 >>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
+=======
+    updateOrderItems,
+>>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
     listarTopPorUsuario,
     listarTopDetallePorTop,
     eliminarTop,

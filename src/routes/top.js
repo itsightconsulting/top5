@@ -5,9 +5,13 @@ import routes from '../controller/top.routes';
 
 router.post('/', existeToken, routes.createOrUpdateTop);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 router.post('/orderItems', existeToken, routes.updateOrderItems);
 >>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
+=======
+router.post('/orderItems', existeToken, routes.updateOrderItems);
+>>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
 router.post('/list/byUsuario', existeToken, routes.listarTopPorUsuario);
 router.post('/publish', existeToken, routes.publicarTop);
 router.post('/invalidate', existeToken, routes.eliminarTop);

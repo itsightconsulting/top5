@@ -64,7 +64,10 @@ async function createOrUpdateTop(objTop) {
     }
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
 async function updateOrderItems(objTop) {
     try {
         let response = null;
@@ -72,8 +75,13 @@ async function updateOrderItems(objTop) {
         if (objTop.id) {
             topBD = await TopDTO.update({
                 orderItems: objTop.orderItems
+<<<<<<< HEAD
                 , updatedBy: objTop.createdBy
                 , updatedAt: objTop.updatedAt
+=======
+                , updatedBy: objTop.updatedBy
+                , updatedDate: objTop.updatedDate
+>>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
             }, { where: { id: objTop.id } });
         }
         if (topBD) {
@@ -87,7 +95,10 @@ async function updateOrderItems(objTop) {
         throw error;
     }
 }
+<<<<<<< HEAD
 >>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
+=======
+>>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
 async function listarTopPorUsuario(objParams) {
     try {
         let response = null;
@@ -1373,9 +1384,13 @@ async function createOrUpdateTopItemIgnore({ objLugar, objTopItem, objListTopIte
 module.exports = {
     createOrUpdateTop,
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     updateOrderItems,
 >>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
+=======
+    updateOrderItems,
+>>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
     listarTopPorUsuario,
     listarTopDetallePorTopItem,
     eliminarTop,

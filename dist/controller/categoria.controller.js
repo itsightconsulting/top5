@@ -33,7 +33,7 @@ function _listarCategoria() {
                 flagActive: true,
                 flagEliminate: false
               },
-              attributes: ['id', 'name', 'rutaImagenPrincipal'],
+              attributes: ['id', 'name', 'rutaImagenPrincipal', 'nroOrden'],
               order: [['nroOrden', 'ASC']]
             });
 

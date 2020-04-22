@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const enviroment = {
     development: {
         username: "postgres",
@@ -33,7 +34,49 @@ if (process.env.NODE_ENV == "test") {
     database = enviroment.test;
 } else if (process.env.NODE_ENV == "production") {
     database = enviroment.production;
+=======
+
+const development = {
+    username: "",
+    password: "",
+    database: "",
+    host: "",
+    port: "",
+    dialect: "",
+    logging: false
+};
+
+const test = {
+    username: "",
+    password: "",
+    database: "",
+    host: "",
+    port: "",
+    dialect: "",
+    logging: false
+};
+
+const production = {
+    username: "",
+    password: "",
+    database: "",
+    host: "",
+    port: "",
+    dialect: "",
+    logging: false
+};
+
+var database = development;
+if (process.env.NODE_ENV == "test") {
+    database = test;
+} else if (process.env.NODE_ENV == "production") {
+    database = production;
+>>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
 }
 module.exports = {
     database
 }
+<<<<<<< HEAD
+=======
+// export const database = test;
+>>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42

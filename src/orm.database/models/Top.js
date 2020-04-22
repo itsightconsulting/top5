@@ -10,21 +10,28 @@ function CreateFieldObj(_dataTypes) {
             allowNull: false,
         },
 <<<<<<< HEAD
+<<<<<<< HEAD
         // rutaImagen: {
         //     type: _dataTypes.STRING(500),
         //     allowNull: true,
         // },
 =======
+=======
+>>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
         orderItems: {
             type: _dataTypes.STRING(200),
             allowNull: true
         },
+<<<<<<< HEAD
 >>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
+=======
+>>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
         flagPublicado: {
             type: _dataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false
         },
+<<<<<<< HEAD
 <<<<<<< HEAD
         // valoracion: {
         //     type: _dataTypes.INTEGER,
@@ -32,6 +39,8 @@ function CreateFieldObj(_dataTypes) {
         // },
 =======
 >>>>>>> 4e23dc55017b6acda1fe6fa103bac8993f49b840
+=======
+>>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
         fechaPublicado: {
             type: _dataTypes.DATE,
             allowNull: true

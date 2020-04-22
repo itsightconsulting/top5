@@ -1,7 +1,11 @@
 const jwt = require('jsonwebtoken');
 const secret = process.env.jwtsecret || 's3cr3t'; //Never set up in static files as it but process.env.secret
 <<<<<<< HEAD
+<<<<<<< HEAD
 const _expiresIn = '7d';// 60 * 60 * 1; //expires in 1 hours
+=======
+const _expiresIn = '20d';// 60 * 60 * 1; //expires in 1 hours
+>>>>>>> 9146d82c96a3be7f6058b84a736c299879787d42
 // const _expiresIn = '20d';
 =======
 // const _expiresIn = '7d';// 60 * 60 * 1; //expires in 1 hours
