@@ -131,7 +131,7 @@ function _updateOrderItems() {
             topBD = null;
 
             if (!objTop.id) {
-              _context2.next = 33;
+              _context2.next = 34;
               break;
             }
 
@@ -204,31 +204,38 @@ function _updateOrderItems() {
             return _context2.finish(25);
 
           case 33:
+            topBD = true; // topBD = await TopDTO.update({
+            //     orderItems: objTop.orderItems
+            //     , updatedBy: objTop.updatedBy
+            //     , updatedDate: objTop.updatedDate
+            // }, { where: { id: nroOrden } });
+
+          case 34:
             if (topBD) {
               response = (0, _common.buildContainer)(true, '', topBD, null);
             }
 
             if (!(response === null)) {
-              _context2.next = 36;
+              _context2.next = 37;
               break;
             }
 
             throw new Error('No se pudo actualizar el orden de items del top');
 
-          case 36:
+          case 37:
             return _context2.abrupt("return", response);
 
-          case 39:
-            _context2.prev = 39;
+          case 40:
+            _context2.prev = 40;
             _context2.t1 = _context2["catch"](0);
             throw _context2.t1;
 
-          case 42:
+          case 43:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[0, 39], [9, 21, 25, 33], [26,, 28, 32]]);
+    }, _callee2, null, [[0, 40], [9, 21, 25, 33], [26,, 28, 32]]);
   }));
   return _updateOrderItems.apply(this, arguments);
 }

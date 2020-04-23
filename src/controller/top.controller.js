@@ -63,7 +63,7 @@ async function updateOrderItems(objTop) {
                 }, { where: { id: idTopItem } });
                 nroOrder++;
             }
-
+            topBD = true;
             // topBD = await TopDTO.update({
             //     orderItems: objTop.orderItems
             //     , updatedBy: objTop.updatedBy
