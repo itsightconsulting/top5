@@ -583,7 +583,7 @@ function _listarTopPublicadoPorUsuario() {
             if (CategoriaId) whereConditionsTop.CategoriaId = CategoriaId;
             queryObject = {
               where: whereConditions,
-              attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr'],
+              attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr', 'nroOrder'],
               include: [{
                 model: TopDTO,
                 where: whereConditionsTop,
@@ -613,7 +613,7 @@ function _listarTopPublicadoPorUsuario() {
                 model: TopItemLikeDTO,
                 attributes: ['id', 'UsuarioId']
               }],
-              order: [['updatedDate', 'DESC']]
+              order: [['nroOrder', 'ASC']]
             }; // if (pageNumber && pageSize) {
 
             queryObject.offset = (pageNumber - 1) * pageSize;
@@ -757,7 +757,7 @@ function _listarTopItemByTop() {
             if (TopId) whereConditions.TopId = TopId;
             queryObject = {
               where: whereConditions,
-              attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedDate', 'updatedDateStr', 'LugarId'],
+              attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedDate', 'updatedDateStr', 'LugarId', 'nroOrder'],
               include: [{
                 model: TopItemDetalleDTO,
                 required: false,
@@ -776,7 +776,7 @@ function _listarTopItemByTop() {
                 model: TopItemLikeDTO,
                 attributes: ['id', 'UsuarioId']
               }],
-              order: [['updatedDate', 'DESC']]
+              order: [['nroOrder', 'ASC']]
             };
 
             if (pageNumber && pageSize) {
@@ -1554,7 +1554,7 @@ function _listarTopItemAutocomplete() {
             pageNumber = objParams.pageNumber, pageSize = objParams.pageSize, keyword = objParams.keyword;
 
             if (!(keyword != "")) {
-              _context15.next = 58;
+              _context15.next = 57;
               break;
             }
 
@@ -1574,17 +1574,17 @@ function _listarTopItemAutocomplete() {
             listTopItemBD = _context15.sent;
 
             if (!(listTopItemBD.length > 0)) {
-              _context15.next = 55;
+              _context15.next = 54;
               break;
             }
 
-            console.log(listTopItemBD);
+            // console.log(listTopItemBD);
             queryObject = {
               where: {
                 flagActive: true,
                 id: listTopItemBD
               },
-              attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr'],
+              attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr', 'nroOrder'],
               include: [{
                 model: TopDTO,
                 where: {
@@ -1619,38 +1619,38 @@ function _listarTopItemAutocomplete() {
                 model: TopItemLikeDTO,
                 attributes: ['id', 'UsuarioId']
               }],
-              order: [['updatedDate', 'DESC']]
+              order: [['nroOrder', 'ASC']]
             };
             queryObject.offset = (pageNumber - 1) * pageSize;
             queryObject.limit = pageSize; // console.log(queryObject);
 
-            _context15.next = 17;
+            _context15.next = 16;
             return TopItemDTO.findAll(queryObject);
 
-          case 17:
+          case 16:
             topItemBD = _context15.sent;
             totalRows = topItemBD.length || 0;
 
             if (!totalRows) {
-              _context15.next = 52;
+              _context15.next = 51;
               break;
             }
 
             _iteratorNormalCompletion6 = true;
             _didIteratorError6 = false;
             _iteratorError6 = undefined;
-            _context15.prev = 23;
+            _context15.prev = 22;
             _iterator6 = topItemBD[Symbol.iterator]();
 
-          case 25:
+          case 24:
             if (_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done) {
-              _context15.next = 35;
+              _context15.next = 34;
               break;
             }
 
             element = _step6.value;
             top = element.dataValues;
-            _context15.next = 30;
+            _context15.next = 29;
             return _index["default"].Usuario.findOne({
               where: {
                 id: top.createdBy,
@@ -1659,100 +1659,100 @@ function _listarTopItemAutocomplete() {
               attributes: ['id', 'nombreCompleto', 'rutaImagenPerfil']
             });
 
-          case 30:
+          case 29:
             UsuarioBd = _context15.sent;
 
             if (UsuarioBd) {
               top.Usuarios = UsuarioBd.dataValues;
             }
 
-          case 32:
+          case 31:
             _iteratorNormalCompletion6 = true;
-            _context15.next = 25;
+            _context15.next = 24;
             break;
 
-          case 35:
-            _context15.next = 41;
+          case 34:
+            _context15.next = 40;
             break;
 
-          case 37:
-            _context15.prev = 37;
-            _context15.t0 = _context15["catch"](23);
+          case 36:
+            _context15.prev = 36;
+            _context15.t0 = _context15["catch"](22);
             _didIteratorError6 = true;
             _iteratorError6 = _context15.t0;
 
-          case 41:
+          case 40:
+            _context15.prev = 40;
             _context15.prev = 41;
-            _context15.prev = 42;
 
             if (!_iteratorNormalCompletion6 && _iterator6["return"] != null) {
               _iterator6["return"]();
             }
 
-          case 44:
-            _context15.prev = 44;
+          case 43:
+            _context15.prev = 43;
 
             if (!_didIteratorError6) {
-              _context15.next = 47;
+              _context15.next = 46;
               break;
             }
 
             throw _iteratorError6;
 
+          case 46:
+            return _context15.finish(43);
+
           case 47:
-            return _context15.finish(44);
+            return _context15.finish(40);
 
           case 48:
-            return _context15.finish(41);
-
-          case 49:
             response = (0, _common.buildContainer)(true, '', {
               dataValues: topItemBD,
               totalRows: totalRows
             }, null);
-            _context15.next = 53;
+            _context15.next = 52;
             break;
+
+          case 51:
+            response = (0, _common.buildContainer)(true, '', {
+              dataValues: [],
+              totalRows: 0
+            }, null);
 
           case 52:
+            _context15.next = 55;
+            break;
+
+          case 54:
             response = (0, _common.buildContainer)(true, '', {
               dataValues: [],
               totalRows: 0
             }, null);
-
-          case 53:
-            _context15.next = 56;
-            break;
 
           case 55:
-            response = (0, _common.buildContainer)(true, '', {
-              dataValues: [],
-              totalRows: 0
-            }, null);
-
-          case 56:
-            _context15.next = 59;
+            _context15.next = 58;
             break;
 
-          case 58:
+          case 57:
             response = (0, _common.buildContainer)(true, '', {
               dataValues: [],
               totalRows: 0
             }, null);
 
-          case 59:
+          case 58:
             return _context15.abrupt("return", response);
 
-          case 62:
-            _context15.prev = 62;
+          case 61:
+            _context15.prev = 61;
             _context15.t1 = _context15["catch"](0);
             throw _context15.t1;
 
-          case 65:
+          case 64:
           case "end":
             return _context15.stop();
         }
       }
-    }, _callee15, null, [[0, 62], [23, 37, 41, 49], [42,, 44, 48]]);
+    }, _callee15, null, [[0, 61], [22, 36, 40, 48], [41,, 43, 47]]);
   }));
   return _listarTopItemAutocomplete.apply(this, arguments);
 }
