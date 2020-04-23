@@ -219,7 +219,7 @@ async function listarTopPublicadoPorUsuario(objParams) {
 
         let queryObject = {
             where: whereConditions
-            , attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr']
+            , attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr', 'nroOrder']
             , include: [{
                 model: TopDTO
                 , where: whereConditionsTop
@@ -245,7 +245,7 @@ async function listarTopPublicadoPorUsuario(objParams) {
                 model: TopItemLikeDTO,
                 attributes: ['id', 'UsuarioId']
             }]
-            , order: [['updatedDate', 'DESC']]
+            , order: [['nroOrder', 'ASC']]
         };
 
         // if (pageNumber && pageSize) {
@@ -287,7 +287,7 @@ async function listarTopItemByTop(objParams) {
 
         let queryObject = {
             where: whereConditions
-            , attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedDate', 'updatedDateStr', 'LugarId']
+            , attributes: ['id', 'TopId', 'descripcion', 'valoracion', 'createdBy', 'updatedDate', 'updatedDateStr', 'LugarId', 'nroOrder']
             , include: [{
                 model: TopItemDetalleDTO,
                 required: false,
@@ -302,7 +302,7 @@ async function listarTopItemByTop(objParams) {
                 model: TopItemLikeDTO,
                 attributes: ['id', 'UsuarioId']
             }]
-            , order: [['updatedDate', 'DESC']]
+            , order: [['nroOrder', 'ASC']]
         };
 
         if (pageNumber && pageSize) {
@@ -590,10 +590,10 @@ async function listarTopItemAutocomplete(objParams) {
             listTopItemBD = await listTopItemBD.map(x => x.id);
 
             if (listTopItemBD.length > 0) {
-                console.log(listTopItemBD);
+                // console.log(listTopItemBD);
                 let queryObject = {
                     where: { flagActive: true, id: listTopItemBD }
-                    , attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr']
+                    , attributes: ['id', 'descripcion', 'valoracion', 'LugarId', 'createdBy', 'updatedDate', 'updatedDateStr', 'nroOrder']
                     , include: [{
                         model: TopDTO
                         , where: { flagActive: true, flagPublicado: true }
@@ -619,7 +619,7 @@ async function listarTopItemAutocomplete(objParams) {
                         model: TopItemLikeDTO,
                         attributes: ['id', 'UsuarioId']
                     }]
-                    , order: [['updatedDate', 'DESC']]
+                    , order: [['nroOrder', 'ASC']]
                 };
 
                 queryObject.offset = ((pageNumber - 1) * pageSize);

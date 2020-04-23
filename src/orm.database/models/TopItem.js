@@ -9,6 +9,10 @@ function CreateFieldObj(_dataTypes) {
             type: _dataTypes.INTEGER,
             allowNull: true,
         },
+        nroOrder: {
+            type: _dataTypes.INTEGER,
+            allowNull: true
+        }
         // flagPublicado: {
         //     type: _dataTypes.BOOLEAN,
         //     allowNull: false,
