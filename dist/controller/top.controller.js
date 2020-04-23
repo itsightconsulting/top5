@@ -120,7 +120,8 @@ function _updateOrderItems() {
   _updateOrderItems = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee2(objTop) {
-    var response, topBD;
+    var response, topBD, arrItemId, nroOrder, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, idTopItem;
+
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -130,50 +131,104 @@ function _updateOrderItems() {
             topBD = null;
 
             if (!objTop.id) {
-              _context2.next = 7;
+              _context2.next = 33;
               break;
             }
 
-            _context2.next = 6;
-            return TopDTO.update({
-              orderItems: objTop.orderItems,
+            arrItemId = objTop.orderItems.split("|");
+            nroOrder = 1;
+            _iteratorNormalCompletion = true;
+            _didIteratorError = false;
+            _iteratorError = undefined;
+            _context2.prev = 9;
+            _iterator = arrItemId[Symbol.iterator]();
+
+          case 11:
+            if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+              _context2.next = 19;
+              break;
+            }
+
+            idTopItem = _step.value;
+            _context2.next = 15;
+            return TopItemDTO.update({
+              nroOrder: nroOrder,
               updatedBy: objTop.updatedBy,
               updatedDate: objTop.updatedDate
             }, {
               where: {
-                id: objTop.id
+                id: idTopItem
               }
             });
 
-          case 6:
-            topBD = _context2.sent;
+          case 15:
+            nroOrder++;
 
-          case 7:
+          case 16:
+            _iteratorNormalCompletion = true;
+            _context2.next = 11;
+            break;
+
+          case 19:
+            _context2.next = 25;
+            break;
+
+          case 21:
+            _context2.prev = 21;
+            _context2.t0 = _context2["catch"](9);
+            _didIteratorError = true;
+            _iteratorError = _context2.t0;
+
+          case 25:
+            _context2.prev = 25;
+            _context2.prev = 26;
+
+            if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+              _iterator["return"]();
+            }
+
+          case 28:
+            _context2.prev = 28;
+
+            if (!_didIteratorError) {
+              _context2.next = 31;
+              break;
+            }
+
+            throw _iteratorError;
+
+          case 31:
+            return _context2.finish(28);
+
+          case 32:
+            return _context2.finish(25);
+
+          case 33:
             if (topBD) {
               response = (0, _common.buildContainer)(true, '', topBD, null);
             }
 
             if (!(response === null)) {
-              _context2.next = 10;
+              _context2.next = 36;
               break;
             }
 
             throw new Error('No se pudo actualizar el orden de items del top');
 
-          case 10:
+          case 36:
             return _context2.abrupt("return", response);
 
-          case 13:
-            _context2.prev = 13;
-            _context2.t0 = _context2["catch"](0);
-            throw _context2.t0;
+          case 39:
+            _context2.prev = 39;
+            _context2.t1 = _context2["catch"](0);
+            throw _context2.t1;
 
-          case 16:
+          case 42:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[0, 13]]);
+    }, _callee2, null, [[0, 39], [9, 21, 25, 33], [26,, 28, 32]]);
   }));
   return _updateOrderItems.apply(this, arguments);
 }
@@ -186,7 +241,7 @@ function _listarTopPorUsuario() {
   _listarTopPorUsuario = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee3(objParams) {
-    var response, topBD, createdBy, pageNumber, pageSize, CategoriaId, flagPublicado, whereConditions, queryObject, totalRows, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, element, top, UsuarioBd;
+    var response, topBD, createdBy, pageNumber, pageSize, CategoriaId, flagPublicado, whereConditions, queryObject, totalRows, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, element, top, UsuarioBd;
 
     return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
@@ -242,19 +297,19 @@ function _listarTopPorUsuario() {
               break;
             }
 
-            _iteratorNormalCompletion = true;
-            _didIteratorError = false;
-            _iteratorError = undefined;
+            _iteratorNormalCompletion2 = true;
+            _didIteratorError2 = false;
+            _iteratorError2 = undefined;
             _context3.prev = 18;
-            _iterator = topBD[Symbol.iterator]();
+            _iterator2 = topBD[Symbol.iterator]();
 
           case 20:
-            if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+            if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
               _context3.next = 30;
               break;
             }
 
-            element = _step.value;
+            element = _step2.value;
             top = element.dataValues;
             _context3.next = 25;
             return _index["default"].Usuario.findOne({
@@ -273,7 +328,7 @@ function _listarTopPorUsuario() {
             }
 
           case 27:
-            _iteratorNormalCompletion = true;
+            _iteratorNormalCompletion2 = true;
             _context3.next = 20;
             break;
 
@@ -284,26 +339,26 @@ function _listarTopPorUsuario() {
           case 32:
             _context3.prev = 32;
             _context3.t0 = _context3["catch"](18);
-            _didIteratorError = true;
-            _iteratorError = _context3.t0;
+            _didIteratorError2 = true;
+            _iteratorError2 = _context3.t0;
 
           case 36:
             _context3.prev = 36;
             _context3.prev = 37;
 
-            if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-              _iterator["return"]();
+            if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+              _iterator2["return"]();
             }
 
           case 39:
             _context3.prev = 39;
 
-            if (!_didIteratorError) {
+            if (!_didIteratorError2) {
               _context3.next = 42;
               break;
             }
 
-            throw _iteratorError;
+            throw _iteratorError2;
 
           case 42:
             return _context3.finish(39);
@@ -550,7 +605,7 @@ function _listarTopPublicadoPorUsuario() {
   _listarTopPublicadoPorUsuario = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee7(objParams) {
-    var response, topItemBD, createdBy, pageNumber, pageSize, CategoriaId, flagPublicado, whereConditions, whereConditionsTop, whereConditionsCategoria, queryObject, totalRows, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, element, top, UsuarioBd;
+    var response, topItemBD, createdBy, pageNumber, pageSize, CategoriaId, flagPublicado, whereConditions, whereConditionsTop, whereConditionsCategoria, queryObject, totalRows, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, element, top, UsuarioBd;
 
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
@@ -631,19 +686,19 @@ function _listarTopPublicadoPorUsuario() {
               break;
             }
 
-            _iteratorNormalCompletion2 = true;
-            _didIteratorError2 = false;
-            _iteratorError2 = undefined;
+            _iteratorNormalCompletion3 = true;
+            _didIteratorError3 = false;
+            _iteratorError3 = undefined;
             _context7.prev = 21;
-            _iterator2 = topItemBD[Symbol.iterator]();
+            _iterator3 = topItemBD[Symbol.iterator]();
 
           case 23:
-            if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
+            if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
               _context7.next = 33;
               break;
             }
 
-            element = _step2.value;
+            element = _step3.value;
             top = element.dataValues;
             _context7.next = 28;
             return _index["default"].Usuario.findOne({
@@ -662,7 +717,7 @@ function _listarTopPublicadoPorUsuario() {
             }
 
           case 30:
-            _iteratorNormalCompletion2 = true;
+            _iteratorNormalCompletion3 = true;
             _context7.next = 23;
             break;
 
@@ -673,26 +728,26 @@ function _listarTopPublicadoPorUsuario() {
           case 35:
             _context7.prev = 35;
             _context7.t0 = _context7["catch"](21);
-            _didIteratorError2 = true;
-            _iteratorError2 = _context7.t0;
+            _didIteratorError3 = true;
+            _iteratorError3 = _context7.t0;
 
           case 39:
             _context7.prev = 39;
             _context7.prev = 40;
 
-            if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-              _iterator2["return"]();
+            if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
+              _iterator3["return"]();
             }
 
           case 42:
             _context7.prev = 42;
 
-            if (!_didIteratorError2) {
+            if (!_didIteratorError3) {
               _context7.next = 45;
               break;
             }
 
-            throw _iteratorError2;
+            throw _iteratorError3;
 
           case 45:
             return _context7.finish(42);
@@ -740,7 +795,7 @@ function _listarTopItemByTop() {
   _listarTopItemByTop = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee8(objParams) {
-    var response, topBD, TopId, createdBy, pageNumber, pageSize, flagPublicado, whereConditions, queryObject, totalRows, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, element, top, UsuarioBd;
+    var response, topBD, TopId, createdBy, pageNumber, pageSize, flagPublicado, whereConditions, queryObject, totalRows, _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, element, top, UsuarioBd;
 
     return regeneratorRuntime.wrap(function _callee8$(_context8) {
       while (1) {
@@ -801,19 +856,19 @@ function _listarTopItemByTop() {
               break;
             }
 
-            _iteratorNormalCompletion3 = true;
-            _didIteratorError3 = false;
-            _iteratorError3 = undefined;
+            _iteratorNormalCompletion4 = true;
+            _didIteratorError4 = false;
+            _iteratorError4 = undefined;
             _context8.prev = 18;
-            _iterator3 = topBD[Symbol.iterator]();
+            _iterator4 = topBD[Symbol.iterator]();
 
           case 20:
-            if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
+            if (_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done) {
               _context8.next = 30;
               break;
             }
 
-            element = _step3.value;
+            element = _step4.value;
             top = element.dataValues;
             _context8.next = 25;
             return _index["default"].Usuario.findOne({
@@ -832,7 +887,7 @@ function _listarTopItemByTop() {
             }
 
           case 27:
-            _iteratorNormalCompletion3 = true;
+            _iteratorNormalCompletion4 = true;
             _context8.next = 20;
             break;
 
@@ -843,26 +898,26 @@ function _listarTopItemByTop() {
           case 32:
             _context8.prev = 32;
             _context8.t0 = _context8["catch"](18);
-            _didIteratorError3 = true;
-            _iteratorError3 = _context8.t0;
+            _didIteratorError4 = true;
+            _iteratorError4 = _context8.t0;
 
           case 36:
             _context8.prev = 36;
             _context8.prev = 37;
 
-            if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
-              _iterator3["return"]();
+            if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
+              _iterator4["return"]();
             }
 
           case 39:
             _context8.prev = 39;
 
-            if (!_didIteratorError3) {
+            if (!_didIteratorError4) {
               _context8.next = 42;
               break;
             }
 
-            throw _iteratorError3;
+            throw _iteratorError4;
 
           case 42:
             return _context8.finish(39);
@@ -910,7 +965,7 @@ function _listarTopItemByLugar() {
   _listarTopItemByLugar = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee9(lugarId, _ref2) {
-    var pageNumber, pageSize, response, topItemBD, queryObject, totalRows, _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, element, topItem, UsuarioBd;
+    var pageNumber, pageSize, response, topItemBD, queryObject, totalRows, _iteratorNormalCompletion5, _didIteratorError5, _iteratorError5, _iterator5, _step5, element, topItem, UsuarioBd;
 
     return regeneratorRuntime.wrap(function _callee9$(_context9) {
       while (1) {
@@ -965,19 +1020,19 @@ function _listarTopItemByLugar() {
               break;
             }
 
-            _iteratorNormalCompletion4 = true;
-            _didIteratorError4 = false;
-            _iteratorError4 = undefined;
+            _iteratorNormalCompletion5 = true;
+            _didIteratorError5 = false;
+            _iteratorError5 = undefined;
             _context9.prev = 15;
-            _iterator4 = topItemBD[Symbol.iterator]();
+            _iterator5 = topItemBD[Symbol.iterator]();
 
           case 17:
-            if (_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done) {
+            if (_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done) {
               _context9.next = 27;
               break;
             }
 
-            element = _step4.value;
+            element = _step5.value;
             topItem = element.dataValues;
             _context9.next = 22;
             return _index["default"].Usuario.findOne({
@@ -996,7 +1051,7 @@ function _listarTopItemByLugar() {
             }
 
           case 24:
-            _iteratorNormalCompletion4 = true;
+            _iteratorNormalCompletion5 = true;
             _context9.next = 17;
             break;
 
@@ -1007,26 +1062,26 @@ function _listarTopItemByLugar() {
           case 29:
             _context9.prev = 29;
             _context9.t0 = _context9["catch"](15);
-            _didIteratorError4 = true;
-            _iteratorError4 = _context9.t0;
+            _didIteratorError5 = true;
+            _iteratorError5 = _context9.t0;
 
           case 33:
             _context9.prev = 33;
             _context9.prev = 34;
 
-            if (!_iteratorNormalCompletion4 && _iterator4["return"] != null) {
-              _iterator4["return"]();
+            if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
+              _iterator5["return"]();
             }
 
           case 36:
             _context9.prev = 36;
 
-            if (!_didIteratorError4) {
+            if (!_didIteratorError5) {
               _context9.next = 39;
               break;
             }
 
-            throw _iteratorError4;
+            throw _iteratorError5;
 
           case 39:
             return _context9.finish(36);
@@ -1272,7 +1327,7 @@ function _uploadFileTopItemDetalle() {
   _uploadFileTopItemDetalle = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee12(topItemDetalle, files) {
-    var response, bucketName, id, path, _topItemDetalle$nameI, nameImageDefault, updatedDate, createdBy, TopItemId, response_1, _iteratorNormalCompletion5, _didIteratorError5, _iteratorError5, _iterator5, _step5, file, name, size, mimetype, key, _ref4, Location, TopItemDetalle;
+    var response, bucketName, id, path, _topItemDetalle$nameI, nameImageDefault, updatedDate, createdBy, TopItemId, response_1, _iteratorNormalCompletion6, _didIteratorError6, _iteratorError6, _iterator6, _step6, file, name, size, mimetype, key, _ref4, Location, TopItemDetalle;
 
     return regeneratorRuntime.wrap(function _callee12$(_context12) {
       while (1) {
@@ -1301,19 +1356,19 @@ function _uploadFileTopItemDetalle() {
               break;
             }
 
-            _iteratorNormalCompletion5 = true;
-            _didIteratorError5 = false;
-            _iteratorError5 = undefined;
+            _iteratorNormalCompletion6 = true;
+            _didIteratorError6 = false;
+            _iteratorError6 = undefined;
             _context12.prev = 13;
-            _iterator5 = files[Symbol.iterator]();
+            _iterator6 = files[Symbol.iterator]();
 
           case 15:
-            if (_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done) {
+            if (_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done) {
               _context12.next = 29;
               break;
             }
 
-            file = _step5.value;
+            file = _step6.value;
             name = file.name, size = file.size, mimetype = file.mimetype;
             key = "topItem/".concat(TopItemId, "/").concat(path, "/").concat(name);
             _context12.next = 21;
@@ -1340,7 +1395,7 @@ function _uploadFileTopItemDetalle() {
             createOrUpdateTopItemDetalle(TopItemDetalle);
 
           case 26:
-            _iteratorNormalCompletion5 = true;
+            _iteratorNormalCompletion6 = true;
             _context12.next = 15;
             break;
 
@@ -1351,26 +1406,26 @@ function _uploadFileTopItemDetalle() {
           case 31:
             _context12.prev = 31;
             _context12.t0 = _context12["catch"](13);
-            _didIteratorError5 = true;
-            _iteratorError5 = _context12.t0;
+            _didIteratorError6 = true;
+            _iteratorError6 = _context12.t0;
 
           case 35:
             _context12.prev = 35;
             _context12.prev = 36;
 
-            if (!_iteratorNormalCompletion5 && _iterator5["return"] != null) {
-              _iterator5["return"]();
+            if (!_iteratorNormalCompletion6 && _iterator6["return"] != null) {
+              _iterator6["return"]();
             }
 
           case 38:
             _context12.prev = 38;
 
-            if (!_didIteratorError5) {
+            if (!_didIteratorError6) {
               _context12.next = 41;
               break;
             }
 
-            throw _iteratorError5;
+            throw _iteratorError6;
 
           case 41:
             return _context12.finish(38);
@@ -1542,7 +1597,7 @@ function _listarTopItemAutocomplete() {
   _listarTopItemAutocomplete = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee15(objParams) {
-    var response, topItemBD, pageNumber, pageSize, keyword, listTopItemBD, queryObject, totalRows, _iteratorNormalCompletion6, _didIteratorError6, _iteratorError6, _iterator6, _step6, element, top, UsuarioBd;
+    var response, topItemBD, pageNumber, pageSize, keyword, listTopItemBD, queryObject, totalRows, _iteratorNormalCompletion7, _didIteratorError7, _iteratorError7, _iterator7, _step7, element, top, UsuarioBd;
 
     return regeneratorRuntime.wrap(function _callee15$(_context15) {
       while (1) {
@@ -1636,19 +1691,19 @@ function _listarTopItemAutocomplete() {
               break;
             }
 
-            _iteratorNormalCompletion6 = true;
-            _didIteratorError6 = false;
-            _iteratorError6 = undefined;
+            _iteratorNormalCompletion7 = true;
+            _didIteratorError7 = false;
+            _iteratorError7 = undefined;
             _context15.prev = 22;
-            _iterator6 = topItemBD[Symbol.iterator]();
+            _iterator7 = topItemBD[Symbol.iterator]();
 
           case 24:
-            if (_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done) {
+            if (_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done) {
               _context15.next = 34;
               break;
             }
 
-            element = _step6.value;
+            element = _step7.value;
             top = element.dataValues;
             _context15.next = 29;
             return _index["default"].Usuario.findOne({
@@ -1667,7 +1722,7 @@ function _listarTopItemAutocomplete() {
             }
 
           case 31:
-            _iteratorNormalCompletion6 = true;
+            _iteratorNormalCompletion7 = true;
             _context15.next = 24;
             break;
 
@@ -1678,26 +1733,26 @@ function _listarTopItemAutocomplete() {
           case 36:
             _context15.prev = 36;
             _context15.t0 = _context15["catch"](22);
-            _didIteratorError6 = true;
-            _iteratorError6 = _context15.t0;
+            _didIteratorError7 = true;
+            _iteratorError7 = _context15.t0;
 
           case 40:
             _context15.prev = 40;
             _context15.prev = 41;
 
-            if (!_iteratorNormalCompletion6 && _iterator6["return"] != null) {
-              _iterator6["return"]();
+            if (!_iteratorNormalCompletion7 && _iterator7["return"] != null) {
+              _iterator7["return"]();
             }
 
           case 43:
             _context15.prev = 43;
 
-            if (!_didIteratorError6) {
+            if (!_didIteratorError7) {
               _context15.next = 46;
               break;
             }
 
-            throw _iteratorError6;
+            throw _iteratorError7;
 
           case 46:
             return _context15.finish(43);
@@ -2086,7 +2141,7 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
   _eliminatedAndcreateOrUpdateTopItemDetalle = _asyncToGenerator(
   /*#__PURE__*/
   regeneratorRuntime.mark(function _callee20(TopId, createdBy, updatedDate, objListTopItemDetalle, files, idsEliminar, transact) {
-    var response, responseEliminarTopItemDetalle, _iteratorNormalCompletion7, _didIteratorError7, _iteratorError7, _iterator7, _step7, element, topItemDetalleBD, rutaImagen, id, queryObject, _queryObject;
+    var response, responseEliminarTopItemDetalle, _iteratorNormalCompletion8, _didIteratorError8, _iteratorError8, _iterator8, _step8, element, topItemDetalleBD, rutaImagen, id, queryObject, _queryObject;
 
     return regeneratorRuntime.wrap(function _callee20$(_context20) {
       while (1) {
@@ -2111,19 +2166,19 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
               break;
             }
 
-            _iteratorNormalCompletion7 = true;
-            _didIteratorError7 = false;
-            _iteratorError7 = undefined;
+            _iteratorNormalCompletion8 = true;
+            _didIteratorError8 = false;
+            _iteratorError8 = undefined;
             _context20.prev = 10;
-            _iterator7 = objListTopItemDetalle[Symbol.iterator]();
+            _iterator8 = objListTopItemDetalle[Symbol.iterator]();
 
           case 12:
-            if (_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done) {
+            if (_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done) {
               _context20.next = 36;
               break;
             }
 
-            element = _step7.value;
+            element = _step8.value;
             topItemDetalleBD = null; // const { name, size, mimetype } = file;
             // let key = `user/${id}/${path}/${name}`;
             // const { Location } = await uploadToS3(file, bucketName, key);
@@ -2190,7 +2245,7 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
             }
 
           case 33:
-            _iteratorNormalCompletion7 = true;
+            _iteratorNormalCompletion8 = true;
             _context20.next = 12;
             break;
 
@@ -2201,26 +2256,26 @@ function _eliminatedAndcreateOrUpdateTopItemDetalle() {
           case 38:
             _context20.prev = 38;
             _context20.t0 = _context20["catch"](10);
-            _didIteratorError7 = true;
-            _iteratorError7 = _context20.t0;
+            _didIteratorError8 = true;
+            _iteratorError8 = _context20.t0;
 
           case 42:
             _context20.prev = 42;
             _context20.prev = 43;
 
-            if (!_iteratorNormalCompletion7 && _iterator7["return"] != null) {
-              _iterator7["return"]();
+            if (!_iteratorNormalCompletion8 && _iterator8["return"] != null) {
+              _iterator8["return"]();
             }
 
           case 45:
             _context20.prev = 45;
 
-            if (!_didIteratorError7) {
+            if (!_didIteratorError8) {
               _context20.next = 48;
               break;
             }
 
-            throw _iteratorError7;
+            throw _iteratorError8;
 
           case 48:
             return _context20.finish(45);

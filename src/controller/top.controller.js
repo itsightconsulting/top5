@@ -53,11 +53,22 @@ async function updateOrderItems(objTop) {
         let response = null;
         let topBD = null;
         if (objTop.id) {
-            topBD = await TopDTO.update({
-                orderItems: objTop.orderItems
-                , updatedBy: objTop.updatedBy
-                , updatedDate: objTop.updatedDate
-            }, { where: { id: objTop.id } });
+            let arrItemId = objTop.orderItems.split("|");
+            let nroOrder = 1;
+            for (const idTopItem of arrItemId) {
+                await TopItemDTO.update({
+                    nroOrder
+                    , updatedBy: objTop.updatedBy
+                    , updatedDate: objTop.updatedDate
+                }, { where: { id: idTopItem } });
+                nroOrder++;
+            }
+
+            // topBD = await TopDTO.update({
+            //     orderItems: objTop.orderItems
+            //     , updatedBy: objTop.updatedBy
+            //     , updatedDate: objTop.updatedDate
+            // }, { where: { id: nroOrden } });
         }
         if (topBD) {
             response = buildContainer(true, '', topBD, null);
