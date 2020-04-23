@@ -60,7 +60,7 @@ async function updateOrderItems(objTop) {
                     nroOrder
                     , updatedBy: objTop.updatedBy
                     , updatedDate: objTop.updatedDate
-                }, { where: { id: idTopItem } });
+                }, { where: { id: idTopItem, TopId: objTop.id } });
                 nroOrder++;
             }
             topBD = true;

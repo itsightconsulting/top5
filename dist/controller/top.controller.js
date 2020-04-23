@@ -157,7 +157,8 @@ function _updateOrderItems() {
               updatedDate: objTop.updatedDate
             }, {
               where: {
-                id: idTopItem
+                id: idTopItem,
+                TopId: objTop.id
               }
             });
 
