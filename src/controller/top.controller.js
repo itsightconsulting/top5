@@ -766,7 +766,8 @@ async function getOneTopItem(id, createdBy) {
 async function createdOrUpdatedTopItem(objTopItem) {
     try {
         let queryObject = {
-            descripcion: objTopItem.descripcion
+            nroOrder: objTopItem.nroOrder
+            , descripcion: objTopItem.descripcion
             , valoracion: objTopItem.valoracion
             , LugarId: objTopItem.LugarId
             , TopId: objTopItem.TopId

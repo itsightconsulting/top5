@@ -2076,6 +2076,7 @@ function _createdOrUpdatedTopItem() {
           case 0:
             _context19.prev = 0;
             queryObject = {
+              nroOrder: objTopItem.nroOrder,
               descripcion: objTopItem.descripcion,
               valoracion: objTopItem.valoracion,
               LugarId: objTopItem.LugarId,
