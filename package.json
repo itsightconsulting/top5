@@ -17,7 +17,7 @@
     "aws-sdk": "^2.535.0",
     "bcrypt": "^3.0.6",
     "cryptr": "^4.0.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-fileupload": "^1.1.6-alpha.5",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
